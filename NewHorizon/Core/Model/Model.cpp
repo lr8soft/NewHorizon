@@ -14,7 +14,7 @@ void Model::onModelInit()
 	loadModel(modelPath);
 }
 
-void Model::Draw(unsigned int shaderHandle)
+void Model::onModelRender(unsigned int shaderHandle)
 {
 	size_t meshSize = meshes.size();
 	for (unsigned int i = 0; i < meshSize; i++)

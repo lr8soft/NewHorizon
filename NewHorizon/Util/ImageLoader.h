@@ -24,7 +24,7 @@ namespace xc_ogl {
 		ImageLoader(GLenum type, GLuint itbo);
 		~ImageLoader();
 		void Release();
-		void loadTextureFromFile(const char* path);
+		void loadTextureFromFile(const char* path, bool filpUpsideDown = false);
 
 		int getTextureWidth();
 		int getTextureHeight();

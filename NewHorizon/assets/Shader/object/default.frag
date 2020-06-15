@@ -1,6 +1,9 @@
 #version 330 core
-uniform vec4 color;
-out vec4 render_color;
-void main(){
-    render_color = color;
+out vec4 FragColor;
+in vec2 TexCoords;
+uniform sampler2D texture_diffuse1;
+
+void main()
+{    
+    FragColor = texture(texture_diffuse1, TexCoords);
 }

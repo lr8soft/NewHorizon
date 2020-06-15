@@ -10,7 +10,7 @@ class Model
 public:
 	Model(const std::string& path);
 	void onModelInit();
-	void Draw(unsigned int shaderHandle);
+	void onModelRender(unsigned int shaderHandle);
 private:
 	bool gammaCorrection;
 	std::string modelPath;
