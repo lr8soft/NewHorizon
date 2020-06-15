@@ -8,12 +8,21 @@
     <Filter Include="Util">
       <UniqueIdentifier>{2a0a1190-9b27-4632-91ac-8675698a72c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{1e579e04-550e-4216-a1d4-662e409bc179}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty">
+      <UniqueIdentifier>{0f3d0f61-9496-4d40-9718-a8cae8b9a218}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Model">
+      <UniqueIdentifier>{3d6afbd9-a12d-43cf-a1a5-a2356e641af3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\json">
+      <UniqueIdentifier>{42ffedfa-dff5-440d-9848-e35f1e8e2437}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NewHorizon.cpp" />
-    <ClCompile Include="Util\gl3w.c">
-      <Filter>Util</Filter>
-    </ClCompile>
     <ClCompile Include="Util\ImageLoader.cpp">
       <Filter>Util</Filter>
     </ClCompile>
@@ -25,6 +34,30 @@
     </ClCompile>
     <ClCompile Include="HorizonFrame.cpp" />
     <ClCompile Include="FrameInfo.cpp" />
+    <ClCompile Include="Core\RenderManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\TaskManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\GameObject.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\gl3w.c">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\JsonLoader.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ShaderManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Model\Mesh.cpp">
+      <Filter>Core\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Model\Model.cpp">
+      <Filter>Core\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Util\ImageLoader.h">
@@ -41,5 +74,56 @@
     </ClInclude>
     <ClInclude Include="HorizonFrame.h" />
     <ClInclude Include="FrameInfo.h" />
+    <ClInclude Include="Core\TaskManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\RenderManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GameObject.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\JsonLoader.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ShaderManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Model\Mesh.h">
+      <Filter>Core\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Model\Model.h">
+      <Filter>Core\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\json\allocator.h">
+      <Filter>ThirdParty\json</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\json\assertions.h">
+      <Filter>ThirdParty\json</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\json\config.h">
+      <Filter>ThirdParty\json</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\json\forwards.h">
+      <Filter>ThirdParty\json</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\json\json.h">
+      <Filter>ThirdParty\json</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\json\json_features.h">
+      <Filter>ThirdParty\json</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\json\reader.h">
+      <Filter>ThirdParty\json</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\json\value.h">
+      <Filter>ThirdParty\json</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\json\version.h">
+      <Filter>ThirdParty\json</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\json\writer.h">
+      <Filter>ThirdParty\json</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

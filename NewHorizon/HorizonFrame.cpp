@@ -2,6 +2,8 @@
 #include <GL3/gl3w.h>
 #include "HorizonFrame.h"
 #include "FrameInfo.h"
+
+#include "Core/GameObject.h"
 HorizonFrame* HorizonFrame::pInstance = nullptr;
 
 HorizonFrame::HorizonFrame()
@@ -9,6 +11,15 @@ HorizonFrame::HorizonFrame()
 }
 void HorizonFrame::FrameInit()
 {
+	float smallSize = FrameInfo::ScreenWidth > FrameInfo::ScreenHeight ? FrameInfo::ScreenHeight : FrameInfo::ScreenWidth;
+	float absWidth = smallSize / (float)FrameInfo::ScreenWidth;
+	float absHeight = smallSize / (float)FrameInfo::ScreenHeight;
+
+	FrameInfo::FrameRight = absWidth;
+	FrameInfo::FrameLeft = -absWidth;
+	FrameInfo::FrameTop = absHeight;
+	FrameInfo::FrameBottom = -absHeight;
+
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -39,8 +50,17 @@ void HorizonFrame::FrameInit()
 
 void HorizonFrame::FrameLoop()
 {
+
+	GameObject* object = new GameObject("test");
+	object->onAssetsInit();
+	object->onRenderInit();
+
 	while (!glfwWindowShouldClose(pScreen)) {
+		glClear(GL_COLOR_BUFFER_BIT);
 		timer.Tick();
+
+		object->onUpdate();
+		object->onRender();
 
 		glfwSwapBuffers(pScreen);
 		glfwPollEvents();

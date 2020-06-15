@@ -36,7 +36,7 @@ void xc_ogl::ImageLoader::Release()
 	}		
 }
 
-void xc_ogl::ImageLoader::loadTextureFromFile(const char * path)
+void xc_ogl::ImageLoader::loadTextureFromFile(const char * path, bool filpUpsideDown)
 {	
 	std::map<std::string, ImageStruct>::iterator item = textureGroup.find(path);
 	if (item != textureGroup.end()) {
@@ -46,9 +46,15 @@ void xc_ogl::ImageLoader::loadTextureFromFile(const char * path)
 		channel = item->second.channel;
 	}
 	else {
-		stbi_set_flip_vertically_on_load(true);
+		stbi_set_flip_vertically_on_load(filpUpsideDown);
 		void* texture_ptr = stbi_load(path, &width, &height, &channel, STBI_rgb_alpha);
 		glBindTexture(texture_type, tbo);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
 		if (texture_ptr) {
 			if (channel == 1) {
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_ptr);//latter parameter is RGBA
@@ -83,6 +89,7 @@ void xc_ogl::ImageLoader::loadTextureFromFile(const char * path)
 		textureGroup.insert(std::make_pair(path, newImage));
 	}
 }
+
 
 int xc_ogl::ImageLoader::getTextureWidth()
 {

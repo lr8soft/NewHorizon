@@ -1,0 +1,4 @@
+{
+  "shader": "default", //assets\Shader\object\default
+  "model": "model.obj" // assets\Model\object\test.obj(fbx) ...
+}
