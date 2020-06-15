@@ -2,6 +2,8 @@
 #include <GL3/gl3w.h>
 #include "HorizonFrame.h"
 #include "FrameInfo.h"
+
+#include "Core/GameObject.h"
 HorizonFrame* HorizonFrame::pInstance = nullptr;
 
 HorizonFrame::HorizonFrame()
@@ -39,8 +41,12 @@ void HorizonFrame::FrameInit()
 
 void HorizonFrame::FrameLoop()
 {
+
+	GameObject* object = new GameObject("test");
+	object->onInit();
 	while (!glfwWindowShouldClose(pScreen)) {
 		timer.Tick();
+
 
 		glfwSwapBuffers(pScreen);
 		glfwPollEvents();

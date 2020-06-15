@@ -51,7 +51,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>glfw3.lib;freetype.lib;..\libs\x64\OpenAL32.lib;..\libs\x64\alut.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;freetype.lib;..\libs\OpenAL32.lib;..\libs\alut.lib;..\libs\jsoncpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -66,21 +66,39 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glfw3.lib;freetype.lib;..\libs\x64\OpenAL32.lib;..\libs\x64\alut.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;freetype.lib;..\libs\OpenAL32.lib;..\libs\alut.lib;..\libs\jsoncpp_release.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Core\GameObject.cpp" />
+    <ClCompile Include="Core\RenderManager.cpp" />
+    <ClCompile Include="Core\TaskManager.cpp" />
     <ClCompile Include="FrameInfo.cpp" />
     <ClCompile Include="HorizonFrame.cpp" />
     <ClCompile Include="NewHorizon.cpp" />
-    <ClCompile Include="Util\Timer.cpp" />
     <ClCompile Include="Util\gl3w.c" />
+    <ClCompile Include="Util\JsonLoader.cpp" />
+    <ClCompile Include="Util\Timer.cpp" />
     <ClCompile Include="Util\ImageLoader.cpp" />
     <ClCompile Include="Util\ShaderReader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\GameObject.h" />
+    <ClInclude Include="Core\RenderManager.h" />
     <ClInclude Include="FrameInfo.h" />
     <ClInclude Include="HorizonFrame.h" />
+    <ClInclude Include="Core\TaskManager.h" />
+    <ClInclude Include="ThirdParty\json\allocator.h" />
+    <ClInclude Include="ThirdParty\json\assertions.h" />
+    <ClInclude Include="ThirdParty\json\config.h" />
+    <ClInclude Include="ThirdParty\json\forwards.h" />
+    <ClInclude Include="ThirdParty\json\json.h" />
+    <ClInclude Include="ThirdParty\json\json_features.h" />
+    <ClInclude Include="ThirdParty\json\reader.h" />
+    <ClInclude Include="ThirdParty\json\value.h" />
+    <ClInclude Include="ThirdParty\json\version.h" />
+    <ClInclude Include="ThirdParty\json\writer.h" />
+    <ClInclude Include="Util\JsonLoader.h" />
     <ClInclude Include="Util\Timer.h" />
     <ClInclude Include="Util\ImageLoader.h" />
     <ClInclude Include="Util\ShaderReader.h" />

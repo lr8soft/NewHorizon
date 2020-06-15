@@ -1,0 +1,9 @@
+{
+  "shader": "default", //assets\Shader\object\default
+  "texture": { //Texture\object
+    "ambient": "null",
+    "diffuse": "null",
+    "specular": "null",
+    "shininess": 1.0
+  }
+}
