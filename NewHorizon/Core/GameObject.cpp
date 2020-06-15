@@ -1,14 +1,15 @@
 #include <fstream>
 #include <iostream>
 #include "GameObject.h"
+#include "ShaderManager.h"
 #include "../Util/JsonLoader.h"
-GameObject::GameObject(const std::string & objectName) : objectName(objectName)
+GameObject::GameObject(const std::string & assetName) : assetName(assetName)
 {
 }
 
-void GameObject::onInit()
+void GameObject::onAssetsInit()
 {
-	auto json = JsonLoader::getJsonFromFile("assets/Config/object/" + objectName + ".json");
+	auto json = JsonLoader::getJsonFromFile("assets/Config/object/" + assetName + ".json");
 
 	shaderName = (*json)["shader"].asString();
 
@@ -17,24 +18,24 @@ void GameObject::onInit()
 	std::string diffuseTex = textureInfo["diffuse"].asString();
 	std::string specularTex = textureInfo["specular"].asString();
 	float shininess = textureInfo["shininess"].asFloat();
+}
 
-	std::cout << "shader:"<<shaderName << " ambient:" << ambientTex << " diffuse:" << diffuseTex << " specular:" << specularTex << " shininess:" << shininess << std::endl;
+void GameObject::onRenderInit()
+{
 
-	/*xc_ogl::ShaderReader shader;
-	shader.loadFromFile(("assets/Shader/object/" + objectName + ".vert").c_str(), GL_VERTEX_SHADER);
-	shader.loadFromFile(("assets/Shader/object/" + objectName + ".frag").c_str(), GL_FRAGMENT_SHADER);
-	shader.linkAllShader();
-
-	shaderHandle = shader.getProgramHandle();*/
 }
 
 void GameObject::onRender()
 {
-}
+	ShaderManager::getInstance()->bindProgram("object", shaderName);
 
+
+
+}
 
 void GameObject::onUpdate()
 {
+
 }
 
 void GameObject::onRelease()

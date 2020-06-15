@@ -17,6 +17,9 @@
     <Filter Include="ThirdParty\json">
       <UniqueIdentifier>{4bfc6539-9d67-434e-a1b8-666fb25eb420}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Model">
+      <UniqueIdentifier>{3d6afbd9-a12d-43cf-a1a5-a2356e641af3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NewHorizon.cpp" />
@@ -45,6 +48,9 @@
     </ClCompile>
     <ClCompile Include="Util\JsonLoader.cpp">
       <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ShaderManager.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="Util\JsonLoader.h">
       <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ShaderManager.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

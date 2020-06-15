@@ -1,9 +1,10 @@
 {
   "shader": "default", //assets\Shader\object\default
   "texture": { //Texture\object
-    "ambient": "null",
-    "diffuse": "null",
-    "specular": "null",
+    "ambient": null,
+    "diffuse": null,
+    "specular": null,
     "shininess": 1.0
-  }
+  },
+  "model":  "test" // assets\Model\object\test.obj(fbx) ...
 }

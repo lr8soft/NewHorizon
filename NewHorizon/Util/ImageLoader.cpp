@@ -84,6 +84,7 @@ void xc_ogl::ImageLoader::loadTextureFromFile(const char * path)
 	}
 }
 
+
 int xc_ogl::ImageLoader::getTextureWidth()
 {
 	return width;

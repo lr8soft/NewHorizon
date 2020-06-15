@@ -41,9 +41,6 @@ void HorizonFrame::FrameInit()
 
 void HorizonFrame::FrameLoop()
 {
-
-	GameObject* object = new GameObject("test");
-	object->onInit();
 	while (!glfwWindowShouldClose(pScreen)) {
 		timer.Tick();
 

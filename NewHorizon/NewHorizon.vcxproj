@@ -51,7 +51,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>glfw3.lib;freetype.lib;..\libs\OpenAL32.lib;..\libs\alut.lib;..\libs\jsoncpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;freetype.lib;..\libs\OpenAL32.lib;..\libs\alut.lib;..\libs\jsoncpp.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -66,12 +66,13 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glfw3.lib;freetype.lib;..\libs\OpenAL32.lib;..\libs\alut.lib;..\libs\jsoncpp_release.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;freetype.lib;..\libs\OpenAL32.lib;..\libs\alut.lib;..\libs\jsoncpp_release.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Core\GameObject.cpp" />
     <ClCompile Include="Core\RenderManager.cpp" />
+    <ClCompile Include="Core\ShaderManager.cpp" />
     <ClCompile Include="Core\TaskManager.cpp" />
     <ClCompile Include="FrameInfo.cpp" />
     <ClCompile Include="HorizonFrame.cpp" />
@@ -85,6 +86,7 @@
   <ItemGroup>
     <ClInclude Include="Core\GameObject.h" />
     <ClInclude Include="Core\RenderManager.h" />
+    <ClInclude Include="Core\ShaderManager.h" />
     <ClInclude Include="FrameInfo.h" />
     <ClInclude Include="HorizonFrame.h" />
     <ClInclude Include="Core\TaskManager.h" />
