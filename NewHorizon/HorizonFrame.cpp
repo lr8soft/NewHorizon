@@ -55,8 +55,13 @@ void HorizonFrame::FrameLoop()
 	object->onAssetsInit();
 	object->onRenderInit();
 
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LEQUAL);
+
 	while (!glfwWindowShouldClose(pScreen)) {
 		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_DEPTH_BUFFER_BIT);
+		glClearDepth(1.0);
 		timer.Tick();
 
 		object->onUpdate();

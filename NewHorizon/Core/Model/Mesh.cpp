@@ -85,5 +85,12 @@ void Mesh::onMeshRender(unsigned int shaderHandle)
 	glActiveTexture(GL_TEXTURE0);
 }
 
+void Mesh::onMeshRelease()
+{
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
+}
+
 
 

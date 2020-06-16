@@ -20,6 +20,9 @@
     <Filter Include="ThirdParty\json">
       <UniqueIdentifier>{42ffedfa-dff5-440d-9848-e35f1e8e2437}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Component">
+      <UniqueIdentifier>{f1972f65-2912-4592-a1a9-7dae26acd251}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NewHorizon.cpp" />
@@ -37,9 +40,6 @@
     <ClCompile Include="Core\RenderManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Core\TaskManager.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="Core\GameObject.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -49,14 +49,17 @@
     <ClCompile Include="Util\JsonLoader.cpp">
       <Filter>Util</Filter>
     </ClCompile>
-    <ClCompile Include="Core\ShaderManager.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Model\Mesh.cpp">
       <Filter>Core\Model</Filter>
     </ClCompile>
     <ClCompile Include="Core\Model\Model.cpp">
       <Filter>Core\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ShaderHelper.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\TaskManager.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -85,9 +88,6 @@
     </ClInclude>
     <ClInclude Include="Util\JsonLoader.h">
       <Filter>Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\ShaderManager.h">
-      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Core\Model\Mesh.h">
       <Filter>Core\Model</Filter>
@@ -124,6 +124,15 @@
     </ClInclude>
     <ClInclude Include="ThirdParty\json\writer.h">
       <Filter>ThirdParty\json</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\LogUtil.hpp">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ShaderHelper.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Component\IComponent.h">
+      <Filter>Core\Component</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
