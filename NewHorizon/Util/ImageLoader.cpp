@@ -1,7 +1,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "ImageLoader.h"
 #include <GL3/gl3w.h>
-#include <iostream>
+#include "LogUtil.hpp"
 #include <string>
 std::map<std::string, xc_ogl::ImageStruct> xc_ogl::ImageLoader::textureGroup;
 xc_ogl::ImageLoader::ImageLoader()
@@ -56,22 +56,29 @@ void xc_ogl::ImageLoader::loadTextureFromFile(const char * path, bool filpUpside
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		if (texture_ptr) {
+			char infoFormat[256];
 			if (channel == 1) {
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_ptr);//latter parameter is RGBA
-				std::cout << "[INFO] Load image from " << path << " format:GREY" << std::endl;
+				sprintf_s(infoFormat, sizeof(infoFormat), "Load image from %s format:%s", path, "GREY");
+				//LogUtil::printInfo( ("Load image from" + path + "format:GREY") );
+				//std::cout << "[INFO] Load image from " << path << " format:GREY" << std::endl;
 			}
 			else if (channel == 2) {
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_ptr);//latter parameter is RGBA
-				std::cout << "[INFO] Load image from " << path << " format:GREY ALPHA" << std::endl;
+				sprintf_s(infoFormat, sizeof(infoFormat), "Load image from %s format:%s", path, "GREY ALPHA");
+				//std::cout << "[INFO] Load image from " << path << " format:GREY ALPHA" << std::endl;
 			}
 			else if (channel == 3) {//RGB -> jpeg
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_ptr);//latter parameter is RGBA
-				std::cout << "[INFO] Load image from " << path << " format:RGB" << std::endl;
+				sprintf_s(infoFormat, sizeof(infoFormat), "Load image from %s format:%s", path, "RGB");
+				//std::cout << "[INFO] Load image from " << path << " format:RGB" << std::endl;
 			}
 			else if (channel == 4) {//rgba -> png
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_ptr);//both parameter are RGBA
-				std::cout << "[INFO] Load image from " << path << " format:RGBA" << std::endl;
+				sprintf_s(infoFormat, sizeof(infoFormat), "Load image from %s format:%s", path, "RGBA");
+				//std::cout << "[INFO] Load image from " << path << " format:RGBA" << std::endl;
 			}
+			LogUtil::printInfo(infoFormat);
 			glGenerateMipmap(texture_type);
 			have_release = false;
 		}

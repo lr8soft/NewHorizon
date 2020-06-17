@@ -1,10 +1,10 @@
-#include "ShaderManager.h"
+#include "ShaderHelper.h"
 #include <GL3/gl3w.h>
 #include "../Util/ShaderReader.h"
 
-ShaderManager* ShaderManager::pInstance = nullptr;
-ShaderManager::ShaderManager(){}
-GLuint ShaderManager::bindProgram(const std::string& folderName, const std::string & programName)
+ShaderHelper* ShaderHelper::pInstance = nullptr;
+ShaderHelper::ShaderHelper(){}
+GLuint ShaderHelper::bindProgram(const std::string& folderName, const std::string & programName)
 {
 	auto programRealName = folderName + "." + programName;
 	GLuint programHandle = 0;
@@ -27,7 +27,7 @@ GLuint ShaderManager::bindProgram(const std::string& folderName, const std::stri
 	return programHandle;
 }
 
-bool ShaderManager::deleteProgram(const std::string& folderName, const std::string & programName)
+bool ShaderHelper::deleteProgram(const std::string& folderName, const std::string & programName)
 {
 	std::string programRealName = folderName + "." + programName;
 	auto targetIter = shaderGroup.find(programRealName);
@@ -40,16 +40,16 @@ bool ShaderManager::deleteProgram(const std::string& folderName, const std::stri
 	return false;
 }
 
-ShaderManager * ShaderManager::getInstance()
+ShaderHelper * ShaderHelper::getInstance()
 {
 	if (pInstance == nullptr)
 	{
-		pInstance = new ShaderManager;
+		pInstance = new ShaderHelper;
 	}
 	return pInstance;
 }
 
-ShaderManager::~ShaderManager()
+ShaderHelper::~ShaderHelper()
 {
 	for (auto iter = shaderGroup.begin(); iter != shaderGroup.end(); ++iter)
 	{

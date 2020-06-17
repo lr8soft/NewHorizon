@@ -28,15 +28,10 @@ void Timer::Tick()
 			nowFrame = glfwGetTime();
 			deltaFrame = 0;
 			lastTime = nowFrame;
-			lastFpsUpdate = lastTime;
+
 			FirstRun = false;
 		}
-		frameCounter++;
-		if (lastTime - lastFpsUpdate >= 1) {
-			lastFpsUpdate = lastTime;
-			fpsNow = frameCounter;
-			frameCounter = 0;
-		}
+
 		accumulateTime += deltaFrame;
 	}
 }
@@ -61,15 +56,9 @@ void Timer::Tick(float update_nowFrame)
 			nowFrame = update_nowFrame;
 			deltaFrame = 0;
 			lastTime = nowFrame;
-			lastFpsUpdate = lastTime;
 			FirstRun = false;
 		}
-		frameCounter++;
-		if (lastTime - lastFpsUpdate >= 1) {
-			lastFpsUpdate = lastTime;
-			fpsNow = frameCounter;
-			frameCounter = 0;
-		}
+
 		accumulateTime += deltaFrame;
 	}
 }
@@ -77,12 +66,9 @@ void Timer::Tick(float update_nowFrame)
 
 void Timer::Clear()
 {
-	fpsNow = 0.0f;
-	frameCounter = 0.0f;
 	nowFrame = 0.0f;
 	deltaFrame = 0.0f;
 	lastTime = 0.0f;
-	lastFpsUpdate = 0.0f;
 	accumulateTime = 0.0;
 	FirstRun = true;
 }
@@ -116,11 +102,6 @@ float Timer::getDeltaFrame()
 float Timer::getLastFrame()
 {
 	return lastTime;
-}
-
-float Timer::getFramePerSecond()
-{
-	return fpsNow;
 }
 
 long double Timer::getAccumlateTime()

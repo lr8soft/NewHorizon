@@ -1,0 +1,4 @@
+{
+  "model": "cube.obj", // assets\Model\object\test.obj(fbx) ...
+  "shader": "default"//assets\Shader\object\default
+}

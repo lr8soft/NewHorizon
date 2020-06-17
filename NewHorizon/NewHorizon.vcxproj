@@ -64,6 +64,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -75,9 +76,8 @@
     <ClCompile Include="Core\GameObject.cpp" />
     <ClCompile Include="Core\Model\Mesh.cpp" />
     <ClCompile Include="Core\Model\Model.cpp" />
-    <ClCompile Include="Core\RenderManager.cpp" />
-    <ClCompile Include="Core\ShaderManager.cpp" />
-    <ClCompile Include="Core\TaskManager.cpp" />
+    <ClCompile Include="Core\ShaderHelper.cpp" />
+    <ClCompile Include="Core\GameObjectManager.cpp" />
     <ClCompile Include="FrameInfo.cpp" />
     <ClCompile Include="HorizonFrame.cpp" />
     <ClCompile Include="NewHorizon.cpp" />
@@ -91,11 +91,11 @@
     <ClInclude Include="Core\GameObject.h" />
     <ClInclude Include="Core\Model\Mesh.h" />
     <ClInclude Include="Core\Model\Model.h" />
-    <ClInclude Include="Core\RenderManager.h" />
-    <ClInclude Include="Core\ShaderManager.h" />
+    <ClInclude Include="Core\ShaderHelper.h" />
     <ClInclude Include="FrameInfo.h" />
     <ClInclude Include="HorizonFrame.h" />
-    <ClInclude Include="Core\TaskManager.h" />
+    <ClInclude Include="Core\GameObjectManager.h" />
+    <ClInclude Include="Core\Component\IComponent.h" />
     <ClInclude Include="ThirdParty\json\allocator.h" />
     <ClInclude Include="ThirdParty\json\assertions.h" />
     <ClInclude Include="ThirdParty\json\config.h" />
@@ -107,6 +107,8 @@
     <ClInclude Include="ThirdParty\json\version.h" />
     <ClInclude Include="ThirdParty\json\writer.h" />
     <ClInclude Include="Util\JsonLoader.h" />
+    <ClInclude Include="Util\LogUtil.hpp" />
+    <ClInclude Include="Util\ThreadSafeQueue.hpp" />
     <ClInclude Include="Util\Timer.h" />
     <ClInclude Include="Util\ImageLoader.h" />
     <ClInclude Include="Util\ShaderReader.h" />

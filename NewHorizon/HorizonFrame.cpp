@@ -1,9 +1,10 @@
 #include <iostream>
+#include <thread>
 #include <GL3/gl3w.h>
 #include "HorizonFrame.h"
 #include "FrameInfo.h"
 
-#include "Core/GameObject.h"
+#include "Core/GameObjectManager.h"
 HorizonFrame* HorizonFrame::pInstance = nullptr;
 
 HorizonFrame::HorizonFrame()
@@ -50,21 +51,26 @@ void HorizonFrame::FrameInit()
 
 void HorizonFrame::FrameLoop()
 {
+	GameObjectManager* instance = GameObjectManager::getInstance();
+	
+	std::thread logicalThread(&GameObjectManager::onLogicalWork, instance);
+	logicalThread.detach();
 
-	GameObject* object = new GameObject("test");
-	object->onAssetsInit();
-	object->onRenderInit();
 
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LEQUAL);
 	while (!glfwWindowShouldClose(pScreen)) {
 		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_DEPTH_BUFFER_BIT);
+		glClearDepth(1.0);
 		timer.Tick();
 
-		object->onUpdate();
-		object->onRender();
+		instance->onRenderWork();
 
 		glfwSwapBuffers(pScreen);
 		glfwPollEvents();
 	}
+	isFrameTerminate = true;
 
 	glfwDestroyWindow(pScreen);
 	glfwDestroyWindow(tScreen);
@@ -74,6 +80,7 @@ void HorizonFrame::FrameLoop()
 void HorizonFrame::FrameFinalize()
 {
 	delete pInstance;
+	pInstance = nullptr;
 }
 
 
@@ -98,6 +105,11 @@ void HorizonFrame::FrameResize(GLFWwindow * screen, int w, int h)
 
 void HorizonFrame::FramePos(GLFWwindow * screen, int x, int y)
 {
+}
+
+bool HorizonFrame::getFrameTerminate()
+{
+	return isFrameTerminate;
 }
 
 HorizonFrame * HorizonFrame::getInstance()

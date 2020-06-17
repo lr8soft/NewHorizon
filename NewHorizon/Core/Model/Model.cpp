@@ -23,6 +23,15 @@ void Model::onModelRender(unsigned int shaderHandle)
 	}
 }
 
+void Model::onModelRelease()
+{
+	size_t meshSize = meshes.size();
+	for (unsigned int i = 0; i < meshSize; i++)
+	{
+		meshes[i].onMeshRelease();
+	}
+}
+
 void Model::loadModel(std::string path)
 {
 	Assimp::Importer importer;

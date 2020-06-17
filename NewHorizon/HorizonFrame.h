@@ -4,6 +4,7 @@
 
 #include <GLFW/glfw3.h>
 #include "Util/Timer.h"
+#include <atomic>
 class HorizonFrame 
 {
 private:
@@ -13,6 +14,7 @@ private:
 	static void FramePos(GLFWwindow* screen, int x, int y);
 
 	GLFWwindow *pScreen = nullptr, *tScreen = nullptr;
+	std::atomic_bool isFrameTerminate = false;
 	bool isFullScreen = false;
 
 	Timer timer;
@@ -20,7 +22,7 @@ private:
 
 public:
 	static HorizonFrame* getInstance();
-
+	bool getFrameTerminate();
 	GLFWwindow* getScreen();
 
 	void FrameInit();

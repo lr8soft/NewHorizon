@@ -11,6 +11,7 @@ public:
 	Model(const std::string& path);
 	void onModelInit();
 	void onModelRender(unsigned int shaderHandle);
+	void onModelRelease();
 private:
 	bool gammaCorrection;
 	std::string modelPath;

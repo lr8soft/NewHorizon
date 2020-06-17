@@ -1,6 +1,7 @@
 #include<iostream>
 #include "ShaderReader.h"
 #include<string>
+#include "LogUtil.hpp"
 #include<fstream>
 #include<sstream>
 #include <glfw/glfw3.h>
@@ -14,14 +15,16 @@ void xc_ogl::ShaderReader::show_failed_info(GLuint temp_shader,string sre,int ty
 		glGetShaderiv(temp_shader, GL_INFO_LOG_LENGTH, &len);
 		log = new GLchar[len + 1];
 		glGetShaderInfoLog(temp_shader, len, &len, log);
-		MessageBox(NULL, log, "ERROR", MB_ICONERROR);
+		LogUtil::printError(sre + ":\n" + log);
+		//MessageBox(NULL, log, "ERROR", MB_ICONERROR);
 		delete[] log;
 		break;
 	case GL_LINK_STATUS:
 		glGetProgramiv(temp_shader, GL_INFO_LOG_LENGTH, &len);
 		log = new GLchar[1024];
 		glGetProgramInfoLog(temp_shader, 1024, &len, log);
-		MessageBox(NULL, log, "ERROR", MB_ICONERROR);
+		LogUtil::printError(sre + ":\n" + log);
+		//MessageBox(NULL, log, "ERROR", MB_ICONERROR);
 		delete[] log;
 		break;
 	}
@@ -33,7 +36,8 @@ const GLchar * xc_ogl::ShaderReader::read_from_file(const char* path)
 	if (!io) {
 		char *log = new char[256];
 		sprintf_s(log,256,"[ERROR]Unable to open file %s",path);
-		MessageBox(NULL, log, "ERROR", MB_OKCANCEL | MB_ICONERROR);
+		//MessageBox(NULL, log, "ERROR", MB_OKCANCEL | MB_ICONERROR);
+		LogUtil::printError(log);
 		delete[] log;
 	}
 	else {

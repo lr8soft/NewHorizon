@@ -1,7 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include "GameObject.h"
-#include "ShaderManager.h"
+#include "ShaderHelper.h"
 #include "../Util/JsonLoader.h"
 #include "../FrameInfo.h"
 
@@ -9,45 +9,64 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+#include "../Util/LogUtil.hpp"
 GameObject::GameObject(const std::string & assetName) : assetName(assetName)
 {
 }
 
-void GameObject::onAssetsInit()
+
+GameObject* GameObject::getInstanceClone()
 {
-	auto json = JsonLoader::getJsonFromFile("assets/Config/object/" + assetName + ".json");
-
-	shaderName = (*json)["shader"].asString();
-	modelName = (*json)["model"].asString();
-
-	objectModel = new Model("assets/Model/object/" + modelName);
+	GameObject* clone = new GameObject(assetName);
+	clone->modelName = modelName;
+	clone->shaderName = shaderName;
+	return clone;
 }
 
 void GameObject::onRenderInit()
 {
-	objectModel->onModelInit();
+	if (!haveRenderInit && objectModel != nullptr)
+	{
+		objectModel->onModelInit();
+		haveRenderInit = true;
+	}
 }
 
 void GameObject::onRender()
 {
-	GLuint shader = ShaderManager::getInstance()->bindProgram("object", shaderName);
+	if (objectModel != nullptr)
+	{
+		GLuint shader = ShaderHelper::getInstance()->bindProgram("object", shaderName);
 
-	glm::mat4 matrix;
-	matrix = glm::translate(matrix, glm::vec3(0.0f));
-	matrix = glm::scale(matrix, glm::vec3(0.01f) * glm::vec3(FrameInfo::FrameRight, FrameInfo::FrameTop, 1.0f));
-	matrix = glm::rotate(matrix, (float)objectTimer.getAccumlateTime(), glm::vec3(0, 1, 0));
-	glUniformMatrix4fv(glGetUniformLocation(shader, "modelViewProjection"), 1, false ,glm::value_ptr(matrix));
-	objectModel->onModelRender(shader);
+		glm::mat4 matrix;
+		matrix = glm::translate(matrix, transform.position);
+		matrix = glm::scale(matrix, transform.scale * glm::vec3(FrameInfo::FrameRight, FrameInfo::FrameTop, 1.0f));
+		if(transform.rotation.x != 0)
+			matrix = glm::rotate(matrix, transform.rotation.x, glm::vec3(1, 0, 0));
+		if(transform.rotation.y != 0)
+			matrix = glm::rotate(matrix, transform.rotation.y, glm::vec3(0, 1, 0));
+		if (transform.rotation.z != 0)
+			matrix = glm::rotate(matrix, transform.rotation.z, glm::vec3(0, 0, 1));
+		glUniformMatrix4fv(glGetUniformLocation(shader, "modelViewProjection"), 1, false, glm::value_ptr(matrix));
 
+		objectModel->onModelRender(shader);
+	}
+	
 }
 
 void GameObject::onUpdate()
 {
 	objectTimer.Tick();
+	transform.rotation.x = objectTimer.getAccumlateTime();
 }
 
 void GameObject::onRelease()
 {
+	if (objectModel != nullptr)
+	{
+		objectModel->onModelRelease();
+	}
 }
 
 
