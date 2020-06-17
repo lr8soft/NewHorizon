@@ -26,9 +26,10 @@ GameObject* GameObject::getInstanceClone()
 
 void GameObject::onRenderInit()
 {
-	if (objectModel != nullptr)
+	if (!haveRenderInit && objectModel != nullptr)
 	{
 		objectModel->onModelInit();
+		haveRenderInit = true;
 	}
 }
 
@@ -51,14 +52,13 @@ void GameObject::onRender()
 
 		objectModel->onModelRender(shader);
 	}
-	LogUtil::printInfo(std::to_string(objectModel != nullptr));
+	
 }
 
 void GameObject::onUpdate()
 {
 	objectTimer.Tick();
-	transform.rotation.y = objectTimer.getAccumlateTime();
-	//transform.rotation.x = objectTimer.getAccumlateTime() * 0.5;
+	transform.rotation.x = objectTimer.getAccumlateTime();
 }
 
 void GameObject::onRelease()

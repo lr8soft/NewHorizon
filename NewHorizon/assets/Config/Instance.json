@@ -14,19 +14,11 @@
   "objectInstance": {
     "test": [ //the instances of test object type
       {
-        "tagName": "1", //the instance name "1"
+        "tagName": "0", //the instance name "1"
         "transform": {//world info
           "position": [ 0.0, 0.0, 0.0 ],
-          "scale": [ 0.01, 0.01, 0.01 ],
+          "scale": [ 0.005, 0.005, 0.005 ],
           "rotation": [ 0.0, 0.0, 0.0 ]
-        }
-      },
-      {
-        "tagName": "2",
-        "transform": {
-          "position": [ 0.5, 0.0, 0.0 ],
-          "scale": [ 0.02, 0.02, 0.02 ],
-          "rotation": [ 30.0, 0.0, 0.0 ]
         }
       }
     ],
@@ -35,9 +27,18 @@
       {
         "tagName": "1", //tagNameÎª1µÄÊµÀý
         "transform": {
-          "position": [ 0.0, 0.0, 0.0 ],
-          "scale": [ 0.01, 0.01, 0.01 ],
-          "rotation": [ 0.0, 0.0, 0.0 ]
+          "position": [ -0.5, 0.0, 0.0 ],
+          "scale": [ 0.02, 0.02, 0.02 ],
+          "rotation": [ 45.0, 45.0, 0.0 ]
+        }
+      },
+
+      {
+        "tagName": "2",
+        "transform": {
+          "position": [ 0.5, 0.0, 0.0 ],
+          "scale": [ 0.02, 0.02, 0.02 ],
+          "rotation": [ 45.0, 0.0, 45.0 ]
         }
       }
     ]

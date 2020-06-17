@@ -1,20 +1,23 @@
-#include "LogicalManager.h"
+#include "GameObjectManager.h"
 #include "../Util/JsonLoader.h"
 #include "../Util/LogUtil.hpp"
-using namespace std;
-LogicalManager* LogicalManager::pInstance = nullptr;
+#include "../HorizonFrame.h"
+#include <thread>
 
-LogicalManager::LogicalManager(){}
-LogicalManager * LogicalManager::getInstance()
+using namespace std;
+GameObjectManager* GameObjectManager::pInstance = nullptr;
+
+GameObjectManager::GameObjectManager(){}
+GameObjectManager * GameObjectManager::getInstance()
 {
 	if (pInstance == nullptr)
 	{
-		pInstance = new LogicalManager;
+		pInstance = new GameObjectManager;
 	}
 	return pInstance;
 }
 
-void LogicalManager::onLogicalInit()
+void GameObjectManager::onLogicalInit()
 {
 	auto configJson = JsonLoader::getJsonFromFile("assets/Config/Instance.json");
 	auto objectDeclareValue = (*configJson)["objectDeclare"]["object"];
@@ -53,9 +56,10 @@ void LogicalManager::onLogicalInit()
 			//Load transform info from json
 			string tagName = curentInstance["tagName"].asString();
 			auto transformValue = curentInstance["transform"];
-			auto positionValue = curentInstance["position"];
-			auto scaleValue = curentInstance["scale"];
-			auto rotationValue = curentInstance["rotation"];
+			auto positionValue = transformValue["position"];
+			auto scaleValue = transformValue["scale"];
+			auto rotationValue = transformValue["rotation"];
+
 
 			newInstance->transform.position = glm::vec3(positionValue[0].asFloat(), positionValue[1].asFloat(), positionValue[2].asFloat());
 			newInstance->transform.rotation = glm::vec3(rotationValue[0].asFloat(), rotationValue[1].asFloat(), rotationValue[2].asFloat());
@@ -68,20 +72,42 @@ void LogicalManager::onLogicalInit()
 			//newInstance->onRenderInit();
 			gameInstanceGroup.insert(std::make_pair(tagName, newInstance));
 		}
+		
 	}
 }
 
-void LogicalManager::onLogicalWork()
+void GameObjectManager::onLogicalWork()
 {
+	onLogicalInit();
+	while (!HorizonFrame::getInstance()->getFrameTerminate())
+	{
+		for (auto iter = gameInstanceGroup.begin(); iter != gameInstanceGroup.end(); iter++)
+		{
+			std::unique_lock<mutex> lock(instanceMutex);
+			iter->second->onUpdate();
+		}
+	}
+	onLogicalFinish();
+}
 
+void GameObjectManager::onRenderWork()
+{
 	for (auto iter = gameInstanceGroup.begin(); iter != gameInstanceGroup.end(); iter++)
 	{
-		iter->second->onUpdate();
-		iter->second->onRender();
+		std::unique_lock<mutex> lock(instanceMutex);
+		GameObject* object = iter->second;
+		if (!object->haveRenderInit) {
+			object->onRenderInit();
+		}
+		if (!object->isDead){
+			iter->second->onRender();
+		}
+		
 	}
 }
 
-void LogicalManager::onLogicalFinish()
+void GameObjectManager::onLogicalFinish()
 {
+
 }
 
