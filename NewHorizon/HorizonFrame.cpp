@@ -3,7 +3,7 @@
 #include "HorizonFrame.h"
 #include "FrameInfo.h"
 
-#include "Core/GameObject.h"
+#include "Core/LogicalManager.h"
 HorizonFrame* HorizonFrame::pInstance = nullptr;
 
 HorizonFrame::HorizonFrame()
@@ -50,11 +50,8 @@ void HorizonFrame::FrameInit()
 
 void HorizonFrame::FrameLoop()
 {
-
-	GameObject* object = new GameObject("test");
-	object->onAssetsInit();
-	object->onRenderInit();
-
+	LogicalManager* instance = LogicalManager::getInstance();
+	instance->onLogicalInit();
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 
@@ -64,8 +61,7 @@ void HorizonFrame::FrameLoop()
 		glClearDepth(1.0);
 		timer.Tick();
 
-		object->onUpdate();
-		object->onRender();
+		instance->onLogicalWork();
 
 		glfwSwapBuffers(pScreen);
 		glfwPollEvents();

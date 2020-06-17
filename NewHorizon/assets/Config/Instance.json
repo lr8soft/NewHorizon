@@ -1,0 +1,45 @@
+{
+  "objectDeclare": {
+    "object": [
+      { //declare object type test
+        "objectName": "test",
+        "objectJson": "assets/Config/object/test.json"
+      },
+      { //declare object type cube
+        "objectName": "cube",
+        "objectJson": "assets/Config/object/cube.json"
+      }
+    ]
+  },
+  "objectInstance": {
+    "test": [ //the instances of test object type
+      {
+        "tagName": "1", //the instance name "1"
+        "transform": {//world info
+          "position": [ 0.0, 0.0, 0.0 ],
+          "scale": [ 0.01, 0.01, 0.01 ],
+          "rotation": [ 0.0, 0.0, 0.0 ]
+        }
+      },
+      {
+        "tagName": "2",
+        "transform": {
+          "position": [ 0.5, 0.0, 0.0 ],
+          "scale": [ 0.02, 0.02, 0.02 ],
+          "rotation": [ 30.0, 0.0, 0.0 ]
+        }
+      }
+    ],
+
+    "cube": [ //object/cube.json
+      {
+        "tagName": "1", //tagNameÎª1µÄÊµÀý
+        "transform": {
+          "position": [ 0.0, 0.0, 0.0 ],
+          "scale": [ 0.01, 0.01, 0.01 ],
+          "rotation": [ 0.0, 0.0, 0.0 ]
+        }
+      }
+    ]
+  }
+}

@@ -1,9 +1,4 @@
 {
   "model": "model.obj", // assets\Model\object\test.obj(fbx) ...
-  "shader": "default", //assets\Shader\object\default
-  "transform": {
-    "position": [ 0.0, 0.0, 0.0 ],
-    "scale": [ 0.01, 0.01, 0.01 ],
-    "rotation": [ 0.0, 0.0, 0.0 ]
-  }
+  "shader": "default" //assets\Shader\object\default
 }

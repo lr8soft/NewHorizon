@@ -14,24 +14,28 @@ struct Transform {
 	glm::vec3 scale = glm::vec3(1.0);
 	glm::vec3 rotation = glm::vec3(0.0);
 };
+class LogicalManager;
 class GameObject {
 protected:
 	std::map<std::string, IComponent*> componentMap;// component group
 	std::string assetName, shaderName, modelName;
+	std::string tagName;//unique name
 	GLuint shaderHandle;
 
 	Timer objectTimer;
 	Model* objectModel;
-
-	Transform transform;
+	
 public:
 	GameObject(const std::string& assetName);
-	virtual void onAssetsInit();
+	virtual GameObject* getInstanceClone();
+	Transform transform;
 	virtual void onRenderInit();
 
 	virtual void onUpdate();
 	virtual void onRender();
 	virtual void onRelease();
+
+	friend class LogicalManager;
 };
 
 #endif

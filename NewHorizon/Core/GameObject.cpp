@@ -15,28 +15,13 @@ GameObject::GameObject(const std::string & assetName) : assetName(assetName)
 {
 }
 
-void GameObject::onAssetsInit()
+
+GameObject* GameObject::getInstanceClone()
 {
-	auto json = JsonLoader::getJsonFromFile("assets/Config/object/" + assetName + ".json");
-
-	shaderName = (*json)["shader"].asString();
-	modelName = (*json)["model"].asString();
-
-
-	//Load transform info from json
-	auto transformValue = (*json)["transform"];
-	auto positionValue = transformValue["position"];
-	auto scaleValue = transformValue["scale"];
-	auto rotationValue = transformValue["rotation"];
-
-	transform.position = glm::vec3(positionValue[0].asFloat(), positionValue[1].asFloat(), positionValue[2].asFloat());
-	transform.rotation = glm::vec3(rotationValue[0].asFloat(), rotationValue[1].asFloat(), rotationValue[2].asFloat());
-	transform.scale = glm::vec3(scaleValue[0].asFloat(), scaleValue[1].asFloat(), scaleValue[2].asFloat());
-
-	if (modelName.length() > 0)
-	{
-		objectModel = new Model("assets/Model/object/" + modelName);
-	}
+	GameObject* clone = new GameObject(assetName);
+	clone->modelName = modelName;
+	clone->shaderName = shaderName;
+	return clone;
 }
 
 void GameObject::onRenderInit()
@@ -66,12 +51,14 @@ void GameObject::onRender()
 
 		objectModel->onModelRender(shader);
 	}
+	LogUtil::printInfo(std::to_string(objectModel != nullptr));
 }
 
 void GameObject::onUpdate()
 {
 	objectTimer.Tick();
 	transform.rotation.y = objectTimer.getAccumlateTime();
+	//transform.rotation.x = objectTimer.getAccumlateTime() * 0.5;
 }
 
 void GameObject::onRelease()

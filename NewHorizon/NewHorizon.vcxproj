@@ -78,7 +78,7 @@
     <ClCompile Include="Core\Model\Model.cpp" />
     <ClCompile Include="Core\RenderManager.cpp" />
     <ClCompile Include="Core\ShaderHelper.cpp" />
-    <ClCompile Include="Core\TaskManager.cpp" />
+    <ClCompile Include="Core\LogicalManager.cpp" />
     <ClCompile Include="FrameInfo.cpp" />
     <ClCompile Include="HorizonFrame.cpp" />
     <ClCompile Include="NewHorizon.cpp" />
@@ -96,7 +96,7 @@
     <ClInclude Include="Core\ShaderHelper.h" />
     <ClInclude Include="FrameInfo.h" />
     <ClInclude Include="HorizonFrame.h" />
-    <ClInclude Include="Core\TaskManager.h" />
+    <ClInclude Include="Core\LogicalManager.h" />
     <ClInclude Include="Core\Component\IComponent.h" />
     <ClInclude Include="ThirdParty\json\allocator.h" />
     <ClInclude Include="ThirdParty\json\assertions.h" />

@@ -58,7 +58,7 @@
     <ClCompile Include="Core\ShaderHelper.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Core\TaskManager.cpp">
+    <ClCompile Include="Core\LogicalManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,9 +77,6 @@
     </ClInclude>
     <ClInclude Include="HorizonFrame.h" />
     <ClInclude Include="FrameInfo.h" />
-    <ClInclude Include="Core\TaskManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Core\RenderManager.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -133,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="Core\Component\IComponent.h">
       <Filter>Core\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\LogicalManager.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
