@@ -23,6 +23,9 @@
     <Filter Include="Core\Component">
       <UniqueIdentifier>{f1972f65-2912-4592-a1a9-7dae26acd251}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ThirdParty\lua">
+      <UniqueIdentifier>{0b809ff8-432b-45b4-b506-b7b247870c6a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NewHorizon.cpp" />
@@ -57,6 +60,9 @@
     </ClCompile>
     <ClCompile Include="Core\GameObjectManager.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\LuaUtil.cpp">
+      <Filter>Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -125,11 +131,26 @@
     <ClInclude Include="Core\Component\IComponent.h">
       <Filter>Core\Component</Filter>
     </ClInclude>
-    <ClInclude Include="Util\ThreadSafeQueue.hpp">
-      <Filter>Util</Filter>
-    </ClInclude>
     <ClInclude Include="Core\GameObjectManager.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\lua\lauxlib.h">
+      <Filter>ThirdParty\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\lua\lua.h">
+      <Filter>ThirdParty\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\lua\lua.hpp">
+      <Filter>ThirdParty\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\lua\luaconf.h">
+      <Filter>ThirdParty\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\lua\lualib.h">
+      <Filter>ThirdParty\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\LuaUtil.h">
+      <Filter>Util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

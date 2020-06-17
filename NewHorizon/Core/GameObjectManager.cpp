@@ -4,6 +4,7 @@
 #include "../HorizonFrame.h"
 #include <thread>
 
+#include "../Util/LuaUtil.h"
 using namespace std;
 GameObjectManager* GameObjectManager::pInstance = nullptr;
 
@@ -79,6 +80,55 @@ void GameObjectManager::onLogicalInit()
 void GameObjectManager::onLogicalWork()
 {
 	onLogicalInit();
+
+	lua_State* luaState = LuaUtil::luaEnvironmentInit();
+	
+	int status = luaL_loadfile(luaState, "assets/Script/test.lua");
+	{//call add(1, 233.0)
+		lua_pcall(luaState, 0, LUA_MULTRET, 0);
+
+		lua_getglobal(luaState, "add");
+		lua_pushnumber(luaState, 1);
+		lua_pushnumber(luaState, 233.0);
+
+		lua_call(luaState, 2, 1);//2 parameter, 1 return
+		float sum = lua_tonumber(luaState, -1);// get return from -1 (top of stack)
+		lua_pop(luaState, 1);//pop the return value
+
+		LogUtil::printInfo(std::to_string(sum));
+	}
+	{//globalTestValue = "LT_lrsoft"
+		lua_pushstring(luaState, "LT_lrsoft");
+		lua_setglobal(luaState, "globalTestValue");
+	}
+	{//read from globalTestValue
+		lua_getglobal(luaState, "globalTestValue");
+		string str = lua_tostring(luaState, -1);
+		lua_pop(luaState, 1);
+		LogUtil::printInfo(str);
+	}
+	{
+		lua_createtable(luaState, 2, 0);
+		lua_pushnumber(luaState, 1);
+		lua_pushnumber(luaState, 233);
+
+		lua_rawset(luaState, -3);
+		lua_pushnumber(luaState, 2);
+		lua_pushstring(luaState, "testtesttest");
+
+		lua_rawset(luaState, -3);
+		lua_pushnumber(luaState, 3);
+		lua_pushstring(luaState, "lualualua");
+
+		lua_rawset(luaState, -3);
+		lua_pushnumber(luaState, 3);
+		lua_pushstring(luaState, "aaaaaa");
+
+		lua_rawset(luaState, -3);
+		lua_setglobal(luaState, "arg");
+		luaL_dofile(luaState, "assets/Script/test.lua");
+	}
+
 	while (!HorizonFrame::getInstance()->getFrameTerminate())
 	{
 		for (auto iter = gameInstanceGroup.begin(); iter != gameInstanceGroup.end(); iter++)
@@ -88,6 +138,8 @@ void GameObjectManager::onLogicalWork()
 		}
 	}
 	onLogicalFinish();
+
+	LuaUtil::luaEnvironmentRelease(luaState);
 }
 
 void GameObjectManager::onRenderWork()

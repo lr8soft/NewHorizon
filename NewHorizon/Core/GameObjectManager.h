@@ -17,6 +17,8 @@ private:
 	
 	void onLogicalInit();
 	void onLogicalFinish();
+
+
 	
 	GameObjectManager();
 public:
