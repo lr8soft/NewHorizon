@@ -5,6 +5,8 @@
 #include <thread>
 
 #include "../Util/LuaUtil.h"
+#include "../ThirdParty/lua/lua.hpp"
+#include "GameObjectBinder.h"
 using namespace std;
 GameObjectManager* GameObjectManager::pInstance = nullptr;
 
@@ -42,6 +44,7 @@ void GameObjectManager::onLogicalInit()
 
 		gameOriginObject->shaderName = (*json)["shader"].asString();
 		gameOriginObject->modelName = (*json)["model"].asString();
+		gameOriginObject->scriptName = (*json)["script"].asString();
 
 		gameObjectGroup.insert(std::make_pair(iter->first, gameOriginObject));
 	}
@@ -66,75 +69,43 @@ void GameObjectManager::onLogicalInit()
 			newInstance->transform.rotation = glm::vec3(rotationValue[0].asFloat(), rotationValue[1].asFloat(), rotationValue[2].asFloat());
 			newInstance->transform.scale = glm::vec3(scaleValue[0].asFloat(), scaleValue[1].asFloat(), scaleValue[2].asFloat());
 			newInstance->tagName = tagName;
-			if (newInstance->modelName.length() > 0)
+			if (newInstance->modelName.length() > 0)//load 
 			{
 				newInstance->objectModel = new Model("assets/Model/object/" + newInstance->modelName);
 			}
-			//newInstance->onRenderInit();
+
+			if (newInstance->scriptName.length() > 0) {//load lua script
+				int status = luaL_loadfile(luaState, ("assets/Script/object/" + newInstance->scriptName).c_str());
+				if (status == LUA_OK)
+				{
+					lua_pcall(luaState, 0, LUA_MULTRET, 0);
+					LogUtil::printInfo("Load script " + newInstance->scriptName);
+				}
+				else
+				{
+					LogUtil::printError("Fail to load script " + newInstance->scriptName);
+				}
+			}
 			gameInstanceGroup.insert(std::make_pair(tagName, newInstance));
 		}
 		
 	}
 }
 
+
 void GameObjectManager::onLogicalWork()
 {
+
+	luaState = LuaUtil::luaEnvironmentInit();
 	onLogicalInit();
-
-	lua_State* luaState = LuaUtil::luaEnvironmentInit();
-	
-	int status = luaL_loadfile(luaState, "assets/Script/test.lua");
-	{//call add(1, 233.0)
-		lua_pcall(luaState, 0, LUA_MULTRET, 0);
-
-		lua_getglobal(luaState, "add");
-		lua_pushnumber(luaState, 1);
-		lua_pushnumber(luaState, 233.0);
-
-		lua_call(luaState, 2, 1);//2 parameter, 1 return
-		float sum = lua_tonumber(luaState, -1);// get return from -1 (top of stack)
-		lua_pop(luaState, 1);//pop the return value
-
-		LogUtil::printInfo(std::to_string(sum));
-	}
-	{//globalTestValue = "LT_lrsoft"
-		lua_pushstring(luaState, "LT_lrsoft");
-		lua_setglobal(luaState, "globalTestValue");
-	}
-	{//read from globalTestValue
-		lua_getglobal(luaState, "globalTestValue");
-		string str = lua_tostring(luaState, -1);
-		lua_pop(luaState, 1);
-		LogUtil::printInfo(str);
-	}
-	{
-		lua_createtable(luaState, 2, 0);
-		lua_pushnumber(luaState, 1);
-		lua_pushnumber(luaState, 233);
-
-		lua_rawset(luaState, -3);
-		lua_pushnumber(luaState, 2);
-		lua_pushstring(luaState, "testtesttest");
-
-		lua_rawset(luaState, -3);
-		lua_pushnumber(luaState, 3);
-		lua_pushstring(luaState, "lualualua");
-
-		lua_rawset(luaState, -3);
-		lua_pushnumber(luaState, 3);
-		lua_pushstring(luaState, "aaaaaa");
-
-		lua_rawset(luaState, -3);
-		lua_setglobal(luaState, "arg");
-		luaL_dofile(luaState, "assets/Script/test.lua");
-	}
-
 	while (!HorizonFrame::getInstance()->getFrameTerminate())
 	{
 		for (auto iter = gameInstanceGroup.begin(); iter != gameInstanceGroup.end(); iter++)
 		{
 			std::unique_lock<mutex> lock(instanceMutex);
-			iter->second->onUpdate();
+
+			GameObjectBinder::setCurrentInstance(iter->second);
+			iter->second->onUpdate(luaState);
 		}
 	}
 	onLogicalFinish();

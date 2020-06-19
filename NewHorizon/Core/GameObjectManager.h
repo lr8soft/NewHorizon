@@ -6,6 +6,7 @@
 #include <string>
 #include <mutex>
 #include "GameObject.h"
+#include "../ThirdParty/lua/lua.hpp"
 class GameObjectManager {
 private:
 	static GameObjectManager* pInstance;
@@ -18,7 +19,7 @@ private:
 	void onLogicalInit();
 	void onLogicalFinish();
 
-
+	lua_State* luaState;
 	
 	GameObjectManager();
 public:

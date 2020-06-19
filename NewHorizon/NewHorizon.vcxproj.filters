@@ -64,6 +64,9 @@
     <ClCompile Include="Util\LuaUtil.cpp">
       <Filter>Util</Filter>
     </ClCompile>
+    <ClCompile Include="Core\GameObjectBinder.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Util\ImageLoader.h">
@@ -151,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="Util\LuaUtil.h">
       <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GameObjectBinder.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
