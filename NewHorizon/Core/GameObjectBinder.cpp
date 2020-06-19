@@ -81,12 +81,48 @@ int GameObjectBinder::luaGetRotation(lua_State * luaState)
 	GameObject **object = (GameObject**)luaL_checkudata(luaState, 1, "NewHorizon.GameObject");
 	luaL_argcheck(luaState, object != NULL, 1, "invalid GameObject data");
 
-	glm::vec3 position = (*object)->getTransform().rotation;
+	glm::vec3 rotation = (*object)->getTransform().rotation;
 	lua_settop(luaState, 0);
-	lua_pushnumber(luaState, position.x);
-	lua_pushnumber(luaState, position.y);
-	lua_pushnumber(luaState, position.z);
+	lua_pushnumber(luaState, rotation.x);
+	lua_pushnumber(luaState, rotation.y);
+	lua_pushnumber(luaState, rotation.z);
 	return 3;
+}
+
+int GameObjectBinder::luaSetScale(lua_State * luaState)
+{
+	GameObject **object = (GameObject**)luaL_checkudata(luaState, 1, "NewHorizon.GameObject");
+	luaL_argcheck(luaState, object != NULL, 1, "invalid GameObject data");
+
+	luaL_checktype(luaState, -1, LUA_TNUMBER);
+	float z = lua_tonumber(luaState, -1);
+	//lua_pop(luaState, -1);
+
+	luaL_checktype(luaState, -2, LUA_TNUMBER);
+	float y = lua_tonumber(luaState, -2);
+	//lua_pop(luaState, -1);
+
+	luaL_checktype(luaState, -3, LUA_TNUMBER);
+	float x = lua_tonumber(luaState, -3);
+	//lua_pop(luaState, -1);
+	Transform transform = (*object)->getTransform();
+	transform.scale = glm::vec3(x, y, z);
+	(*object)->setTransform(transform);
+
+	return 0;
+}
+
+int GameObjectBinder::luaGetScale(lua_State * luaState)
+{
+	GameObject **object = (GameObject**)luaL_checkudata(luaState, 1, "NewHorizon.GameObject");
+	luaL_argcheck(luaState, object != NULL, 1, "invalid GameObject data");
+
+	glm::vec3 scale = (*object)->getTransform().scale;
+	lua_settop(luaState, 0);
+	lua_pushnumber(luaState, scale.x);
+	lua_pushnumber(luaState, scale.y);
+	lua_pushnumber(luaState, scale.z);
+	return 0;
 }
 
 int GameObjectBinder::luaGetDeltaTime(lua_State * luaState)

@@ -58,9 +58,11 @@ void GameObject::onRender()
 void GameObject::onUpdate(lua_State* luaState)
 {
 	objectTimer.Tick();
-	
-	lua_getglobal(luaState, ("onUpdate" + assetName).c_str());
-	lua_call(luaState, 0, 0);
+
+	lua_getglobal(luaState, assetName.c_str());//get the table of lua (assestName={})
+	lua_pushstring(luaState, "onFixedUpdate");//push string "onFixedUpdate" to the vstack
+	lua_gettable(luaState, -2);//get the object "onFixedUpdate" to the top of vstack
+	lua_call(luaState, 0, 0);//call the function, 0 parameter 0 return
 
 }
 

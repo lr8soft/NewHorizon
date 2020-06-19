@@ -2,17 +2,17 @@
   "objectDeclare": {
     "object": [
       { //declare object type test
-        "objectName": "test",
+        "objectName": "Test",
         "objectJson": "assets/Config/object/test.json"
       },
       { //declare object type cube
-        "objectName": "cube",
+        "objectName": "Cube",
         "objectJson": "assets/Config/object/cube.json"
       }
     ]
   },
   "objectInstance": {
-    "test": [ //the instances of test object type
+    "Test": [ //the instances of test object type
       {
         "tagName": "0", //the instance name "1"
         "transform": {//world info
@@ -23,7 +23,7 @@
       }
     ],
 
-    "cube": [ //object/cube.json
+    "Cube": [ //object/cube.json
       {
         "tagName": "1", //tagNameÎª1µÄÊµÀý
         "transform": {
@@ -39,6 +39,15 @@
           "position": [ 0.5, 0.0, 0.0 ],
           "scale": [ 0.02, 0.02, 0.02 ],
           "rotation": [ 45.0, 0.0, 45.0 ]
+        }
+      },
+
+      {
+        "tagName": "3",
+        "transform": {
+          "position": [ 0.0, 0.0, 0.0 ],
+          "scale": [ 0.02, 0.02, 0.02 ],
+          "rotation": [ 0.0, 45.0, 45.0 ]
         }
       }
     ]

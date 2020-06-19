@@ -6,6 +6,7 @@
 #include <string>
 #include <mutex>
 #include "GameObject.h"
+#include "../Util/Timer.h"
 #include "../ThirdParty/lua/lua.hpp"
 class GameObjectManager {
 private:
@@ -18,6 +19,9 @@ private:
 	
 	void onLogicalInit();
 	void onLogicalFinish();
+
+	Timer timer;
+	float lastUpdateTime = 0.0f;
 
 	lua_State* luaState;
 	
