@@ -4,6 +4,9 @@
 #include "../HorizonFrame.h"
 #include <thread>
 
+#include "../Util/LuaUtil.h"
+#include "../ThirdParty/lua/lua.hpp"
+#include "GameObjectBinder.h"
 using namespace std;
 GameObjectManager* GameObjectManager::pInstance = nullptr;
 
@@ -41,6 +44,7 @@ void GameObjectManager::onLogicalInit()
 
 		gameOriginObject->shaderName = (*json)["shader"].asString();
 		gameOriginObject->modelName = (*json)["model"].asString();
+		gameOriginObject->scriptName = (*json)["script"].asString();
 
 		gameObjectGroup.insert(std::make_pair(iter->first, gameOriginObject));
 	}
@@ -65,29 +69,48 @@ void GameObjectManager::onLogicalInit()
 			newInstance->transform.rotation = glm::vec3(rotationValue[0].asFloat(), rotationValue[1].asFloat(), rotationValue[2].asFloat());
 			newInstance->transform.scale = glm::vec3(scaleValue[0].asFloat(), scaleValue[1].asFloat(), scaleValue[2].asFloat());
 			newInstance->tagName = tagName;
-			if (newInstance->modelName.length() > 0)
+			if (newInstance->modelName.length() > 0)//load 
 			{
 				newInstance->objectModel = new Model("assets/Model/object/" + newInstance->modelName);
 			}
-			//newInstance->onRenderInit();
+
+			if (newInstance->scriptName.length() > 0) {//load lua script
+				int status = luaL_loadfile(luaState, ("assets/Script/object/" + newInstance->scriptName).c_str());
+				if (status == LUA_OK)
+				{
+					lua_pcall(luaState, 0, LUA_MULTRET, 0);
+					LogUtil::printInfo("Load script " + newInstance->scriptName);
+				}
+				else
+				{
+					LogUtil::printError("Fail to load script " + newInstance->scriptName);
+				}
+			}
 			gameInstanceGroup.insert(std::make_pair(tagName, newInstance));
 		}
 		
 	}
 }
 
+
 void GameObjectManager::onLogicalWork()
 {
+
+	luaState = LuaUtil::luaEnvironmentInit();
 	onLogicalInit();
 	while (!HorizonFrame::getInstance()->getFrameTerminate())
 	{
 		for (auto iter = gameInstanceGroup.begin(); iter != gameInstanceGroup.end(); iter++)
 		{
 			std::unique_lock<mutex> lock(instanceMutex);
-			iter->second->onUpdate();
+
+			GameObjectBinder::setCurrentInstance(iter->second);
+			iter->second->onUpdate(luaState);
 		}
 	}
 	onLogicalFinish();
+
+	LuaUtil::luaEnvironmentRelease(luaState);
 }
 
 void GameObjectManager::onRenderWork()

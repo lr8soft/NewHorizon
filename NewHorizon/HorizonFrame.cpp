@@ -47,6 +47,8 @@ void HorizonFrame::FrameInit()
 	glfwSetFramebufferSizeCallback(pScreen, FrameResize);
 	glfwSetWindowPosCallback(pScreen, FramePos);
 	gl3wInit();
+
+
 }
 
 void HorizonFrame::FrameLoop()

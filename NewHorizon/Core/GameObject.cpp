@@ -9,7 +9,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
 #include "../Util/LogUtil.hpp"
 GameObject::GameObject(const std::string & assetName) : assetName(assetName)
 {
@@ -21,6 +20,7 @@ GameObject* GameObject::getInstanceClone()
 	GameObject* clone = new GameObject(assetName);
 	clone->modelName = modelName;
 	clone->shaderName = shaderName;
+	clone->scriptName = scriptName;
 	return clone;
 }
 
@@ -55,10 +55,13 @@ void GameObject::onRender()
 	
 }
 
-void GameObject::onUpdate()
+void GameObject::onUpdate(lua_State* luaState)
 {
 	objectTimer.Tick();
-	transform.rotation.x = objectTimer.getAccumlateTime();
+	
+	lua_getglobal(luaState, ("onUpdate" + assetName).c_str());
+	lua_call(luaState, 0, 0);
+
 }
 
 void GameObject::onRelease()
@@ -67,6 +70,34 @@ void GameObject::onRelease()
 	{
 		objectModel->onModelRelease();
 	}
+}
+
+bool GameObject::getIsRenderInit()
+{
+	return haveRenderInit;
+}
+
+
+void GameObject::setTransform(Transform transform)
+{
+	lastTransform = this->transform;
+	this->transform = transform;
+	
+}
+
+Transform GameObject::getTransform()
+{
+	return transform;
+}
+
+float GameObject::getDeltaTime()
+{
+	return objectTimer.getDeltaFrame();
+}
+
+long double GameObject::getAccmulateTime()
+{
+	return objectTimer.getAccumlateTime();
 }
 
 
