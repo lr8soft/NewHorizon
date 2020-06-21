@@ -111,9 +111,23 @@ void GameObjectManager::onLogicalWork()
 			for (auto iter = gameInstanceGroup.begin(); iter != gameInstanceGroup.end(); iter++)
 			{
 				std::unique_lock<mutex> lock(instanceMutex);
+				GameObject* currentGameObject = iter->second;
+				if (!currentGameObject->isDead)
+				{
+					GameObjectBinder::setCurrentInstance(iter->second);
+					iter->second->onUpdate(luaState);
+				}
 
-				GameObjectBinder::setCurrentInstance(iter->second);
-				iter->second->onUpdate(luaState);
+			}
+
+			if (!asyncInstanceGroup.empty())//add to logical group
+			{
+				for (auto asyncIter = asyncInstanceGroup.begin(); asyncIter != asyncInstanceGroup.end(); asyncIter++)
+				{
+					std::unique_lock<mutex> lock(instanceMutex);
+					gameInstanceGroup.insert(std::make_pair(asyncIter->first, asyncIter->second));
+				}
+				gameInstanceGroup.clear();
 			}
 
 			lastUpdateTime = timer.getAccumlateTime();
@@ -136,8 +150,49 @@ void GameObjectManager::onRenderWork()
 		if (!object->isDead){
 			iter->second->onRender();
 		}
+
+		if (object->isDead)
+		{
+			object->onRenderRelease();
+			if (std::next(iter) == gameInstanceGroup.end())
+			{
+				gameInstanceGroup.erase(iter);
+				break;
+			}
+			else {
+				gameInstanceGroup.erase(iter++);
+			}
+			delete object;
+		}
 		
 	}
+}
+
+GameObject * GameObjectManager::addGameObjectInstance(const std::string & originObjectName, const std::string & tagName)
+{
+	auto originObjectIter = gameObjectGroup.find(originObjectName);
+	if(originObjectIter != gameObjectGroup.end())
+	{
+		auto testInstanceIter = gameInstanceGroup.find(tagName);
+		if (testInstanceIter == gameInstanceGroup.end())//if tagName existed
+		{
+			GameObject* newInstance = originObjectIter->second->getInstanceClone();
+
+			newInstance->tagName = tagName;
+			if (newInstance->modelName.length() > 0)//add model object
+			{
+				newInstance->objectModel = new Model("assets/Model/object/" + newInstance->modelName);
+			}
+			gameInstanceGroup.insert(std::make_pair(tagName, newInstance));
+
+			return newInstance;
+		}
+		else {
+			return testInstanceIter->second;
+		}
+	}
+	LogUtil::printError("Unexisted origin object " + originObjectName);
+	return nullptr;
 }
 
 void GameObjectManager::onLogicalFinish()

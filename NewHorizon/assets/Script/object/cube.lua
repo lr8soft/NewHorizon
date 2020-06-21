@@ -8,8 +8,6 @@ function onUpdateFunc()
     ry = -gameObject:getAccmulateTime()
     gameObject:setRotation(rx, ry, rz)
 
-    print("Position:", x, y, z)
-
 end
 
 --wrapper

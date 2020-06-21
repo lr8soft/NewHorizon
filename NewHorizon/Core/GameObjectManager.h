@@ -15,6 +15,8 @@ private:
 	std::map<std::string, GameObject*> gameInstanceGroup;//tagName, instance
 	std::map<std::string, GameObject*> gameObjectGroup;//objectName, originInstance
 
+	std::map<std::string, GameObject*> asyncInstanceGroup;//tagName, instance, will add to gameInstanceGroup next tick
+
 	std::mutex instanceMutex;
 	
 	void onLogicalInit();
@@ -31,5 +33,6 @@ public:
 	void onLogicalWork();
 	void onRenderWork();
 	
+	GameObject* addGameObjectInstance(const std::string& originObjectName, const std::string& tagName);
 };
 #endif
