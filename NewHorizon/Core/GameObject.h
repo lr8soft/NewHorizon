@@ -37,12 +37,14 @@ public:
 	virtual void onUpdate(lua_State* luaState);
 	
 	virtual void onRender();
-	virtual void onRelease();
+	virtual void onRenderRelease();
 
 	bool getIsRenderInit();
 
+	void setDead(bool isDead);
 	void setTransform(Transform transform);
 	Transform getTransform();
+	std::string getTagName();
 	float getDeltaTime();
 	long double getAccmulateTime();
 };

@@ -6,6 +6,7 @@
 #include <string>
 #include <mutex>
 #include "GameObject.h"
+#include "../Util/Timer.h"
 #include "../ThirdParty/lua/lua.hpp"
 class GameObjectManager {
 private:
@@ -14,10 +15,15 @@ private:
 	std::map<std::string, GameObject*> gameInstanceGroup;//tagName, instance
 	std::map<std::string, GameObject*> gameObjectGroup;//objectName, originInstance
 
+	std::map<std::string, GameObject*> asyncInstanceGroup;//tagName, instance, will add to gameInstanceGroup next tick
+
 	std::mutex instanceMutex;
 	
 	void onLogicalInit();
 	void onLogicalFinish();
+
+	Timer timer;
+	float lastUpdateTime = 0.0f;
 
 	lua_State* luaState;
 	
@@ -27,5 +33,6 @@ public:
 	void onLogicalWork();
 	void onRenderWork();
 	
+	GameObject* addGameObjectInstance(const std::string& originObjectName, const std::string& tagName);
 };
 #endif

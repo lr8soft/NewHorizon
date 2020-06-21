@@ -17,7 +17,6 @@ private:
 	std::atomic_bool isFrameTerminate = false;
 	bool isFullScreen = false;
 
-	Timer timer;
 	HorizonFrame();
 
 public:

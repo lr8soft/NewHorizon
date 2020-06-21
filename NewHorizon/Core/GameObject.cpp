@@ -58,13 +58,15 @@ void GameObject::onRender()
 void GameObject::onUpdate(lua_State* luaState)
 {
 	objectTimer.Tick();
-	
-	lua_getglobal(luaState, ("onUpdate" + assetName).c_str());
-	lua_call(luaState, 0, 0);
+
+	lua_getglobal(luaState, assetName.c_str());//get the table of lua (assestName={})
+	lua_pushstring(luaState, "onFixedUpdate");//push string "onFixedUpdate" to the vstack
+	lua_gettable(luaState, -2);//get the object "onFixedUpdate" to the top of vstack
+	lua_call(luaState, 0, 0);//call the function, 0 parameter 0 return
 
 }
 
-void GameObject::onRelease()
+void GameObject::onRenderRelease()
 {
 	if (objectModel != nullptr)
 	{
@@ -78,6 +80,11 @@ bool GameObject::getIsRenderInit()
 }
 
 
+void GameObject::setDead(bool isDead)
+{
+	this->isDead = isDead;
+}
+
 void GameObject::setTransform(Transform transform)
 {
 	lastTransform = this->transform;
@@ -88,6 +95,11 @@ void GameObject::setTransform(Transform transform)
 Transform GameObject::getTransform()
 {
 	return transform;
+}
+
+std::string GameObject::getTagName()
+{
+	return tagName;
 }
 
 float GameObject::getDeltaTime()
