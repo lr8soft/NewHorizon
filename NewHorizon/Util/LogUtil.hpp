@@ -5,7 +5,7 @@
 #include <iostream>
 #include <string>
 
-#ifndef WIN32
+#ifndef _WIN64
 #define LOG_RED "\033[31m"     /* Red */
 #define LOG_WHITE "\033[37m"      /* White */
 
@@ -16,7 +16,7 @@ class LogUtil {
 public:
 	static void printInfo(const std::string& str)
 	{
-#ifndef WIN32
+#ifndef _WIN64
 		std::cout << LOG_WHITE << "[INFO]" << str << std::endl;
 #else
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
@@ -26,7 +26,7 @@ public:
 
 	static void printError(const std::string& str)
 	{
-#ifndef WIN32
+#ifndef _WIN64
 		std::cout << LOG_RED << "[ERROR]" << str << std::endl;
 #else
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);

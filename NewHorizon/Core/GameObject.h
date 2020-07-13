@@ -6,7 +6,7 @@
 #include "../Util/Timer.h"
 #include "Component/IComponent.h"
 #include "Model/Model.h"
-#include <map>
+
 #include <glm/glm.hpp>
 #include "../ThirdParty/lua/lua.hpp"
 struct Transform {
@@ -18,7 +18,6 @@ struct Transform {
 class GameObjectManager;
 class GameObject {
 protected:
-	std::map<std::string, IComponent*> componentMap;// component group
 	std::string assetName, shaderName, modelName, scriptName;
 	std::string tagName;//unique name
 	GLuint shaderHandle;

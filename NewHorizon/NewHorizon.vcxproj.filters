@@ -67,6 +67,9 @@
     <ClCompile Include="Core\GameObjectBinder.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Camera.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Util\ImageLoader.h">
@@ -156,6 +159,9 @@
       <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="Core\GameObjectBinder.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Camera.h">
       <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>

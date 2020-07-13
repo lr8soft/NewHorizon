@@ -5,7 +5,7 @@
 
 class LuaUtil {
 public:
-	static lua_State* luaEnvironmentInit();
+	static lua_State* getNewGameObjectEvon();
 	static void luaEnvironmentRelease(lua_State* pState);
 
 };

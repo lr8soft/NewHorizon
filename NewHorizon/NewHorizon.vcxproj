@@ -74,6 +74,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Camera.cpp" />
     <ClCompile Include="Core\GameObject.cpp" />
     <ClCompile Include="Core\GameObjectBinder.cpp" />
     <ClCompile Include="Core\Model\Mesh.cpp" />
@@ -91,6 +92,7 @@
     <ClCompile Include="Util\ShaderReader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\Camera.h" />
     <ClInclude Include="Core\GameObject.h" />
     <ClInclude Include="Core\GameObjectBinder.h" />
     <ClInclude Include="Core\Model\Mesh.h" />

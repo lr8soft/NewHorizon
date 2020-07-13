@@ -10,6 +10,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "../Util/LogUtil.hpp"
+#include "GameObjectManager.h"
 GameObject::GameObject(const std::string & assetName) : assetName(assetName)
 {
 }
@@ -48,7 +49,10 @@ void GameObject::onRender()
 			matrix = glm::rotate(matrix, transform.rotation.y, glm::vec3(0, 1, 0));
 		if (transform.rotation.z != 0)
 			matrix = glm::rotate(matrix, transform.rotation.z, glm::vec3(0, 0, 1));
-		glUniformMatrix4fv(glGetUniformLocation(shader, "modelViewProjection"), 1, false, glm::value_ptr(matrix));
+		glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, false, glm::value_ptr(matrix));
+		glUniformMatrix4fv(glGetUniformLocation(shader, "view"), 1, false, glm::value_ptr(GameObjectManager::getInstance()->getCamera()->getViewMatrix()));
+
+
 
 		objectModel->onModelRender(shader);
 	}
