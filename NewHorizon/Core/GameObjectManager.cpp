@@ -129,7 +129,7 @@ void GameObjectManager::onLogicalWork()
 				}
 				gameInstanceGroup.clear();
 			}
-			gameCamera.processInput(timer.getDeltaFrame());
+			gameCamera.processInput((currentTime - lastUpdateTime));//return real delta time
 			lastUpdateTime = timer.getAccumlateTime();
 		}
 	}
@@ -166,6 +166,16 @@ void GameObjectManager::onRenderWork()
 		}
 		
 	}
+}
+
+void GameObjectManager::onMouseUpdate(double x, double y)
+{
+	gameCamera.processMouse(x, y);
+}
+
+void GameObjectManager::onScrollUpdate(double x, double y)
+{
+	gameCamera.processScroll(y);
 }
 
 Camera * GameObjectManager::getCamera()

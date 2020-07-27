@@ -6,8 +6,7 @@ function onUpdateFunc()
 
     rx, ry, rz = gameObject:getRotation()
     ry = -gameObject:getAccmulateTime()
-    gameObject:setRotation(rx, ry, rz)
-
+    gameObject:setRotation(rx, ry, rz)        
 end
 
 --wrapper

@@ -36,6 +36,9 @@ public:
 	void onLogicalWork();
 	void onRenderWork();
 
+	void onMouseUpdate(double x, double y);
+	void onScrollUpdate(double x, double y);
+
 	Camera* getCamera();
 	
 	GameObject* addGameObjectInstance(const std::string& originObjectName, const std::string& tagName);

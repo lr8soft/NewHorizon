@@ -23,7 +23,7 @@ function onUpdateFunc()
         newGameObject:setScale(sx, sy, sz)
 
         print("Create new instance")
-    end
+    end        
 end
 
 --wrapper

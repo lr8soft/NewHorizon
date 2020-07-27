@@ -4,6 +4,7 @@
 #include "HorizonFrame.h"
 #include "FrameInfo.h"
 
+#include "Util/LogUtil.hpp"
 #include "Core/GameObjectManager.h"
 HorizonFrame* HorizonFrame::pInstance = nullptr;
 
@@ -34,7 +35,7 @@ void HorizonFrame::FrameInit()
 	glfwWindowHint(GLFW_VISIBLE, GL_TRUE);
 	pScreen = glfwCreateWindow(FrameInfo::ScreenWidth, FrameInfo::ScreenHeight, "NewHorizon", primaryMonitor, tScreen);
 	glfwMakeContextCurrent(pScreen);
-
+	glfwSetInputMode(pScreen, GLFW_CURSOR, GLFW_CURSOR_DISABLED);//capture cursor
 	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
 	const GLFWvidmode* mode = glfwGetVideoMode(monitor);
 	glfwSetWindowPos(pScreen, (mode->width - FrameInfo::ScreenWidth) / 2, (mode->height - FrameInfo::ScreenHeight) / 2);
@@ -46,6 +47,10 @@ void HorizonFrame::FrameInit()
 	glfwSwapInterval(1);
 	glfwSetFramebufferSizeCallback(pScreen, FrameResize);
 	glfwSetWindowPosCallback(pScreen, FramePos);
+
+	glfwSetCursorPosCallback(pScreen, FrameCurseUpdate);
+	glfwSetScrollCallback(pScreen, FrameScrollUpdate);
+
 	gl3wInit();
 
 
@@ -106,6 +111,19 @@ void HorizonFrame::FrameResize(GLFWwindow * screen, int w, int h)
 
 void HorizonFrame::FramePos(GLFWwindow * screen, int x, int y)
 {
+}
+
+void HorizonFrame::FrameCurseUpdate(GLFWwindow * screen, double x, double y)
+{
+	GameObjectManager* instance = GameObjectManager::getInstance();
+	instance->onMouseUpdate(x, y);
+}
+
+
+void HorizonFrame::FrameScrollUpdate(GLFWwindow * screen, double x, double y)
+{
+	GameObjectManager* instance = GameObjectManager::getInstance();
+	instance->onScrollUpdate(x, y);
 }
 
 bool HorizonFrame::getFrameTerminate()
