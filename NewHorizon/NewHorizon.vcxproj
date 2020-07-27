@@ -14,7 +14,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{4422941F-CE57-4A07-A44B-70DF239D8E9B}</ProjectGuid>
     <RootNamespace>NewHorizon</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -85,6 +85,7 @@
     <ClCompile Include="HorizonFrame.cpp" />
     <ClCompile Include="NewHorizon.cpp" />
     <ClCompile Include="Util\gl3w.c" />
+    <ClCompile Include="Util\HttpConnect.cpp" />
     <ClCompile Include="Util\JsonLoader.cpp" />
     <ClCompile Include="Util\LuaUtil.cpp" />
     <ClCompile Include="Util\Timer.cpp" />
@@ -117,6 +118,7 @@
     <ClInclude Include="ThirdParty\lua\lua.hpp" />
     <ClInclude Include="ThirdParty\lua\luaconf.h" />
     <ClInclude Include="ThirdParty\lua\lualib.h" />
+    <ClInclude Include="Util\HttpConnect.h" />
     <ClInclude Include="Util\JsonLoader.h" />
     <ClInclude Include="Util\LogUtil.hpp" />
     <ClInclude Include="Util\LuaUtil.h" />
