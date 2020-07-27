@@ -100,7 +100,7 @@ void GameObjectManager::onLogicalInit()
 
 void GameObjectManager::onLogicalWork()
 {
-	luaState = LuaUtil::luaEnvironmentInit();
+	luaState = LuaUtil::getNewGameObjectEvon();
 	onLogicalInit();
 	while (!HorizonFrame::getInstance()->getFrameTerminate())
 	{
@@ -129,7 +129,7 @@ void GameObjectManager::onLogicalWork()
 				}
 				gameInstanceGroup.clear();
 			}
-
+			gameCamera.processInput((currentTime - lastUpdateTime));//return real delta time
 			lastUpdateTime = timer.getAccumlateTime();
 		}
 	}
@@ -166,6 +166,21 @@ void GameObjectManager::onRenderWork()
 		}
 		
 	}
+}
+
+void GameObjectManager::onMouseUpdate(double x, double y)
+{
+	gameCamera.processMouse(x, y);
+}
+
+void GameObjectManager::onScrollUpdate(double x, double y)
+{
+	gameCamera.processScroll(y);
+}
+
+Camera * GameObjectManager::getCamera()
+{
+	return &gameCamera;
 }
 
 GameObject * GameObjectManager::addGameObjectInstance(const std::string & originObjectName, const std::string & tagName)

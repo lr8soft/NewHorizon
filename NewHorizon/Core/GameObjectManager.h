@@ -6,6 +6,7 @@
 #include <string>
 #include <mutex>
 #include "GameObject.h"
+#include "Camera.h"
 #include "../Util/Timer.h"
 #include "../ThirdParty/lua/lua.hpp"
 class GameObjectManager {
@@ -16,6 +17,8 @@ private:
 	std::map<std::string, GameObject*> gameObjectGroup;//objectName, originInstance
 
 	std::map<std::string, GameObject*> asyncInstanceGroup;//tagName, instance, will add to gameInstanceGroup next tick
+
+	Camera gameCamera;
 
 	std::mutex instanceMutex;
 	
@@ -32,6 +35,11 @@ public:
 	static GameObjectManager* getInstance();
 	void onLogicalWork();
 	void onRenderWork();
+
+	void onMouseUpdate(double x, double y);
+	void onScrollUpdate(double x, double y);
+
+	Camera* getCamera();
 	
 	GameObject* addGameObjectInstance(const std::string& originObjectName, const std::string& tagName);
 };

@@ -2,7 +2,7 @@
 #include "LogUtil.hpp"
 
 #include "../Core/GameObjectBinder.h"
-lua_State* LuaUtil::luaEnvironmentInit()
+lua_State* LuaUtil::getNewGameObjectEvon()
 {
 	lua_State* luaState = luaL_newstate();
 	static const luaL_Reg lualibs[] = {
@@ -30,7 +30,7 @@ void LuaUtil::luaEnvironmentRelease(lua_State* pState)
 
 
 /*
-	lua_State* luaState = LuaUtil::luaEnvironmentInit();
+	lua_State* luaState = LuaUtil::getNewGameObjectEvon();
 
 	int status = luaL_loadfile(luaState, "assets/Script/test.lua");
 	{//call add(1, 233.0)

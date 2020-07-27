@@ -67,6 +67,12 @@
     <ClCompile Include="Core\GameObjectBinder.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Camera.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\HttpConnect.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Util\ImageLoader.h">
@@ -157,6 +163,12 @@
     </ClInclude>
     <ClInclude Include="Core\GameObjectBinder.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Camera.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\HttpConnect.h">
+      <Filter>Util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

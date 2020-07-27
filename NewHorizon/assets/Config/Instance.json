@@ -27,7 +27,7 @@
       {
         "tagName": "1", //tagNameÎª1µÄÊµÀý
         "transform": {
-          "position": [ -0.5, 0.0, 0.0 ],
+          "position": [ -1.0, 0.0, 0.0 ],
           "scale": [ 0.02, 0.02, 0.02 ],
           "rotation": [ 45.0, 45.0, 0.0 ]
         }
@@ -36,7 +36,7 @@
       {
         "tagName": "2",
         "transform": {
-          "position": [ 0.5, 0.0, 0.0 ],
+          "position": [ 1.0, 0.0, 0.0 ],
           "scale": [ 0.02, 0.02, 0.02 ],
           "rotation": [ 45.0, 0.0, 45.0 ]
         }

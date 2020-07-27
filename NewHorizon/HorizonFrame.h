@@ -12,6 +12,8 @@ private:
 	static HorizonFrame *pInstance;
 	static void FrameResize(GLFWwindow* screen, int w, int h);
 	static void FramePos(GLFWwindow* screen, int x, int y);
+	static void FrameCurseUpdate(GLFWwindow* screen, double x, double y);
+	static void FrameScrollUpdate(GLFWwindow* screen, double x, double y);
 
 	GLFWwindow *pScreen = nullptr, *tScreen = nullptr;
 	std::atomic_bool isFrameTerminate = false;
