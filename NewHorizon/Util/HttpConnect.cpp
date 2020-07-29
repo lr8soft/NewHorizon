@@ -1,103 +1,57 @@
 #include "HttpConnect.h"
-#include <iostream>
-#include <string>
+#include "LogUtil.hpp"
+#include <sstream>
+#include <curl/curl.h>
+bool HttpConnect::haveGlobalInit = false;
+void HttpConnect::releaseGlobalEnov()
+{
+	if (haveGlobalInit)
+	{
+		curl_global_cleanup();
+		haveGlobalInit = false;
+	}
 
-#ifdef _WIN64
-#pragma comment(lib,"ws2_32.lib")
-#include <Windows.h>
-#endif
+}
+std::string HttpConnect::readFromUrl(const std::string url)
+{
 
+	CURL* curlHandle = curl_easy_init();
+	if (curlHandle == nullptr)
+	{
+		LogUtil::printError("Fail to create curl handle.");
+	}
+
+	std::stringstream out;
+	curl_easy_setopt(curlHandle, CURLOPT_URL, url.c_str());
+	curl_easy_setopt(curlHandle, CURLOPT_WRITEFUNCTION, &writeData);
+
+	//bind data output
+	curl_easy_setopt(curlHandle, CURLOPT_WRITEDATA, &out);
+
+	//start request
+	curl_easy_perform(curlHandle);
+
+	//clean curl
+	curl_easy_cleanup(curlHandle);
+	return out.str();
+}
 HttpConnect::HttpConnect()
 {
-#ifdef _WIN64
-	//此处一定要初始化一下，否则gethostbyname返回一直为空
-	WSADATA wsa = { 0 };
-	WSAStartup(MAKEWORD(2, 2), &wsa);
-#endif
-}
-
-HttpConnect::~HttpConnect()
-{
-
-}
-void HttpConnect::socketHttp(std::string host, std::string request)
-{
-	int sockfd;
-	struct sockaddr_in address;
-	struct hostent *server;
-
-	sockfd = socket(AF_INET, SOCK_STREAM, 0);
-	address.sin_family = AF_INET;
-	address.sin_port = htons(80);
-	server = gethostbyname(host.c_str());
-	memcpy((char *)&address.sin_addr.s_addr, (char*)server->h_addr, server->h_length);
-
-	if (-1 == connect(sockfd, (struct sockaddr *)&address, sizeof(address))) {
-		DBG << "connection error!" << std::endl;
-		return;
-	}
-
-	DBG << request << std::endl;
-#ifdef _WIN64
-	send(sockfd, request.c_str(), request.size(), 0);
-#else
-	write(sockfd, request.c_str(), request.size());
-#endif
-	char buf[1024 * 1024] = { 0 };
-
-
-	int offset = 0;
-	int rc;
-
-#ifdef _WIN64
-	while (rc = recv(sockfd, buf + offset, 1024, 0))
-#else
-	while (rc = read(sockfd, buf + offset, 1024))
-#endif
+	if (!haveGlobalInit)
 	{
-		offset += rc;
-	}
-
 #ifdef _WIN64
-	closesocket(sockfd);
+		curl_global_init(CURL_GLOBAL_WIN32);
 #else
-	close(sockfd);
+		curl_global_init(CURL_GLOBAL_SSL);
 #endif
-	buf[offset] = 0;
-	DBG << buf << std::endl;
-
+		haveGlobalInit = true;
+	}
 }
 
-void HttpConnect::postData(std::string host, std::string path, std::string post_content)
+size_t HttpConnect::writeData(void* buffer, size_t size, size_t nmemb, void* userp)
 {
-	//POST请求方式
-	std::stringstream stream;
-	stream << "POST " << path;
-	stream << " HTTP/1.0\r\n";
-	stream << "Host: " << host << "\r\n";
-	stream << "User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3\r\n";
-	stream << "Content-Type:application/x-www-form-urlencoded\r\n";
-	stream << "Content-Length:" << post_content.length() << "\r\n";
-	stream << "Connection:close\r\n\r\n";
-	stream << post_content.c_str();
-
-	socketHttp(host, stream.str());
-}
-
-void HttpConnect::getData(std::string host, std::string path, std::string get_content)
-{
-	//GET请求方式
-	std::stringstream stream;
-	stream << "GET " << path << "?" << get_content;
-	stream << " HTTP/1.0\r\n";
-	stream << "Host: " << host << "\r\n";
-	stream << "User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3\r\n";
-	stream << "Connection:close\r\n\r\n";
-
-	socketHttp(host, stream.str());
-}
-
-std::stringstream & HttpConnect::getDebugInfo()
-{
-	return DBG;
+	//convert void* to char* and read length
+	std::string data((char*)buffer, size * nmemb);
+	*((std::stringstream*) userp) << data << std::endl;
+	return  size * nmemb;
 }

@@ -29,6 +29,8 @@ void HorizonFrame::FrameInit()
 	glfwWindowHint(GLFW_RESIZABLE, false);
 	glfwWindowHint(GLFW_SCALE_TO_MONITOR, false);//Auto change size
 
+	glfwWindowHint(GLFW_SAMPLES, 4);//4x MSAA
+
 	GLFWmonitor* primaryMonitor = isFullScreen ? glfwGetPrimaryMonitor() : nullptr;
 	glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
 	tScreen = glfwCreateWindow(1, 1, "ThreadInitHelper", nullptr, nullptr);

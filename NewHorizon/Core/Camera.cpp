@@ -62,6 +62,16 @@ void Camera::processScroll(float yoffset)
 		Zoom = 45.0f;
 }
 
+glm::vec3 Camera::getFront()
+{
+	return Front;
+}
+
+glm::vec3 Camera::getPostion()
+{
+	return Position;
+}
+
 glm::mat4 Camera::getViewMatrix()
 {
 	return glm::lookAt(Position, Position + Front, Up);
