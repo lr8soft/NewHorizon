@@ -5,13 +5,21 @@ layout (location = 2) in vec2 aTexCoords;
 layout (location = 3) in vec3 aTangent;
 layout (location = 4) in vec3 aBitangent;
 
-out vec2 TexCoords;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
 
+uniform vec3 lightPos;
+
+out vec2 TexCoords;
+out vec3 FragNormal;
+out vec3 FragPos;
+
 void main()
 {
-    TexCoords = aTexCoords;    
     gl_Position = projection * view * model * vec4(aPos, 1.0);
+    FragPos = vec3(model * vec4(aPos, 1.0f));
+    TexCoords = aTexCoords;    
+    FragNormal = aNormal;
+    
 }

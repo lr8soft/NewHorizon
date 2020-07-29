@@ -33,7 +33,7 @@ void GameObject::onRenderInit()
 		haveRenderInit = true;
 	}
 }
-
+glm::vec3 GameObject::lightPos = glm::vec3(1.2f, 1.0f, 1.0f);
 void GameObject::onRender()
 {
 	if (objectModel != nullptr)
@@ -54,6 +54,10 @@ void GameObject::onRender()
 		glUniformMatrix4fv(glGetUniformLocation(shader, "view"), 1, false, glm::value_ptr(GameObjectManager::getInstance()->getCamera()->getViewMatrix()));
 		glUniformMatrix4fv(glGetUniformLocation(shader, "projection"), 1, false, glm::value_ptr(GameObjectManager::getInstance()->getCamera()->getProjectionMatrix()));
 
+		//light info
+		glUniform3fv(glGetUniformLocation(shader, "ambientColor"), 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
+		glUniform3fv(glGetUniformLocation(shader, "lightPos"), 1, glm::value_ptr(glm::vec3(2.0f, 2.0f, 2.0f)));//a lightpot in (2, 2, 2)
+		glUniform3fv(glGetUniformLocation(shader, "lightColor"), 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));//
 
 		objectModel->onModelRender(shader);
 	}

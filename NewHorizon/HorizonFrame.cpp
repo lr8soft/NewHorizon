@@ -35,7 +35,7 @@ void HorizonFrame::FrameInit()
 	glfwWindowHint(GLFW_VISIBLE, GL_TRUE);
 	pScreen = glfwCreateWindow(FrameInfo::ScreenWidth, FrameInfo::ScreenHeight, "NewHorizon", primaryMonitor, tScreen);
 	glfwMakeContextCurrent(pScreen);
-	glfwSetInputMode(pScreen, GLFW_CURSOR, GLFW_CURSOR_DISABLED);//capture cursor
+	//glfwSetInputMode(pScreen, GLFW_CURSOR, GLFW_CURSOR_DISABLED);//capture cursor
 	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
 	const GLFWvidmode* mode = glfwGetVideoMode(monitor);
 	glfwSetWindowPos(pScreen, (mode->width - FrameInfo::ScreenWidth) / 2, (mode->height - FrameInfo::ScreenHeight) / 2);

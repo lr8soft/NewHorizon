@@ -18,6 +18,8 @@ struct Transform {
 class GameObjectManager;
 class GameObject {
 protected:
+	static glm::vec3 lightPos; //test
+
 	std::string assetName, shaderName, modelName, scriptName;
 	std::string tagName;//unique name
 	GLuint shaderHandle;
