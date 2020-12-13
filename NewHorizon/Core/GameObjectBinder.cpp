@@ -56,6 +56,7 @@ int GameObjectBinder::luaSetPosition(lua_State * luaState)
 	luaL_checktype(luaState, -3, LUA_TNUMBER);
 	float x = lua_tonumber(luaState, -3);
 	//lua_pop(luaState, -1);
+
 	Transform transform = (*object)->getTransform();
 	transform.position = glm::vec3(x, y, z);
 	(*object)->setTransform(transform);

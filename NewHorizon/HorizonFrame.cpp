@@ -29,7 +29,9 @@ void HorizonFrame::FrameInit()
 	glfwWindowHint(GLFW_RESIZABLE, false);
 	glfwWindowHint(GLFW_SCALE_TO_MONITOR, false);//Auto change size
 
+#ifndef _DEBUG
 	glfwWindowHint(GLFW_SAMPLES, 4);//4x MSAA
+#endif
 
 	GLFWmonitor* primaryMonitor = isFullScreen ? glfwGetPrimaryMonitor() : nullptr;
 	glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
@@ -37,7 +39,10 @@ void HorizonFrame::FrameInit()
 	glfwWindowHint(GLFW_VISIBLE, GL_TRUE);
 	pScreen = glfwCreateWindow(FrameInfo::ScreenWidth, FrameInfo::ScreenHeight, "NewHorizon", primaryMonitor, tScreen);
 	glfwMakeContextCurrent(pScreen);
+
+#ifndef _DEBUG
 	glfwSetInputMode(pScreen, GLFW_CURSOR, GLFW_CURSOR_DISABLED);//capture cursor
+#endif
 	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
 	const GLFWvidmode* mode = glfwGetVideoMode(monitor);
 	glfwSetWindowPos(pScreen, (mode->width - FrameInfo::ScreenWidth) / 2, (mode->height - FrameInfo::ScreenHeight) / 2);

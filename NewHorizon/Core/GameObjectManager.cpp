@@ -87,6 +87,9 @@ void GameObjectManager::onLogicalInit()
 			newInstance->transform.rotation = glm::vec3(rotationValue[0].asFloat(), rotationValue[1].asFloat(), rotationValue[2].asFloat());
 			newInstance->transform.scale = glm::vec3(scaleValue[0].asFloat(), scaleValue[1].asFloat(), scaleValue[2].asFloat());
 			newInstance->tagName = tagName;
+
+			LogUtil::printInfo(std::to_string(newInstance->transform.position.x) + " " + std::to_string(newInstance->transform.position.y) + " "
+				+ std::to_string(newInstance->transform.position.z));
 			if (newInstance->modelName.length() > 0)//add model object
 			{
 				newInstance->objectModel = new Model("assets/Model/object/" + newInstance->modelName);
@@ -110,7 +113,7 @@ void GameObjectManager::onLogicalWork()
 		{
 			for (auto iter = gameInstanceGroup.begin(); iter != gameInstanceGroup.end(); iter++)
 			{
-				std::unique_lock<mutex> lock(instanceMutex);
+				//std::unique_lock<mutex> lock(instanceMutex);
 				GameObject* currentGameObject = iter->second;
 				if (!currentGameObject->isDead)
 				{
@@ -124,7 +127,7 @@ void GameObjectManager::onLogicalWork()
 			{
 				for (auto asyncIter = asyncInstanceGroup.begin(); asyncIter != asyncInstanceGroup.end(); asyncIter++)
 				{
-					std::unique_lock<mutex> lock(instanceMutex);
+					//std::unique_lock<mutex> lock(instanceMutex);
 					gameInstanceGroup.insert(std::make_pair(asyncIter->first, asyncIter->second));
 				}
 				gameInstanceGroup.clear();
@@ -142,7 +145,7 @@ void GameObjectManager::onRenderWork()
 {
 	for (auto iter = gameInstanceGroup.begin(); iter != gameInstanceGroup.end(); iter++)
 	{
-		std::unique_lock<mutex> lock(instanceMutex);
+		//std::unique_lock<mutex> lock(instanceMutex);
 		GameObject* object = iter->second;
 		if (!object->haveRenderInit) {
 			object->onRenderInit();

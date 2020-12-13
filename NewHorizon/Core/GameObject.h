@@ -6,7 +6,7 @@
 #include "../Util/Timer.h"
 #include "Component/IComponent.h"
 #include "Model/Model.h"
-
+#include <mutex>
 #include <glm/glm.hpp>
 #include "../ThirdParty/lua/lua.hpp"
 struct Transform {
@@ -23,6 +23,8 @@ protected:
 	std::string assetName, shaderName, modelName, scriptName;
 	std::string tagName;//unique name
 	GLuint shaderHandle;
+
+	std::mutex gameObjectMutex;
 
 	Timer objectTimer;//Tick by logical thread
 	Model* objectModel;

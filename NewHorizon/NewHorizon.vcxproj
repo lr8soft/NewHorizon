@@ -85,7 +85,6 @@
     <ClCompile Include="HorizonFrame.cpp" />
     <ClCompile Include="NewHorizon.cpp" />
     <ClCompile Include="Util\gl3w.c" />
-    <ClCompile Include="Util\HttpConnect.cpp" />
     <ClCompile Include="Util\JsonLoader.cpp" />
     <ClCompile Include="Util\LuaUtil.cpp" />
     <ClCompile Include="Util\Timer.cpp" />
@@ -118,7 +117,6 @@
     <ClInclude Include="ThirdParty\lua\lua.hpp" />
     <ClInclude Include="ThirdParty\lua\luaconf.h" />
     <ClInclude Include="ThirdParty\lua\lualib.h" />
-    <ClInclude Include="Util\HttpConnect.h" />
     <ClInclude Include="Util\JsonLoader.h" />
     <ClInclude Include="Util\LogUtil.hpp" />
     <ClInclude Include="Util\LuaUtil.h" />

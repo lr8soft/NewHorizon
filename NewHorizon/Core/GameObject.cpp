@@ -29,6 +29,8 @@ void GameObject::onRenderInit()
 {
 	if (!haveRenderInit && objectModel != nullptr)
 	{
+		std::unique_lock<std::mutex> lock(gameObjectMutex);
+
 		objectModel->onModelInit();
 		haveRenderInit = true;
 	}
@@ -38,6 +40,8 @@ void GameObject::onRender()
 {
 	if (objectModel != nullptr)
 	{
+		std::unique_lock<std::mutex> lock(gameObjectMutex);
+
 		GLuint shader = ShaderHelper::getInstance()->bindProgram("object", shaderName);
 
 		glm::mat4 matrix;
@@ -57,9 +61,19 @@ void GameObject::onRender()
 
 		glm::vec3 viewPos = GameObjectManager::getInstance()->getCamera()->getPostion();
 		//light info
-		glUniform3fv(glGetUniformLocation(shader, "ambientColor"), 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
-		glUniform3fv(glGetUniformLocation(shader, "lightPos"), 1, glm::value_ptr(glm::vec3(3, 3, 3)));//a lightpot in (2, 2, 2)
-		glUniform3fv(glGetUniformLocation(shader, "lightColor"), 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));//
+		//glUniform3fv(glGetUniformLocation(shader, "material.ambient"), 1, glm::value_ptr(glm::vec3(1.0f, 0.5f, 0.31f)));
+		//glUniform3fv(glGetUniformLocation(shader, "material.diffuse"), 1, glm::value_ptr(glm::vec3(1.0f, 0.5f, 0.31f)));
+		//glUniform3fv(glGetUniformLocation(shader, "material.specular"), 1, glm::value_ptr(glm::vec3(0.5f, 0.5f, 0.5f)));
+		glUniform1f(glGetUniformLocation(shader, "material.shininess"), 32);
+
+		glUniform3fv(glGetUniformLocation(shader, "light.direction"), 1, glm::value_ptr(glm::vec3(-3, -3, -3)));
+		//glUniform3fv(glGetUniformLocation(shader, "light.position"), 1, glm::value_ptr(glm::vec3(3, 3, 3)));
+		glUniform3fv(glGetUniformLocation(shader, "light.ambient"), 1, glm::value_ptr(glm::vec3(0.2f, 0.2f, 0.2f)));
+		glUniform3fv(glGetUniformLocation(shader, "light.diffuse"), 1, glm::value_ptr(glm::vec3(0.5f, 0.5f, 0.5f)));
+		glUniform3fv(glGetUniformLocation(shader, "light.specular"), 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
+		//glUniform3fv(glGetUniformLocation(shader, "ambientColor"), 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
+		//glUniform3fv(glGetUniformLocation(shader, "lightPos"), 1, glm::value_ptr(glm::vec3(3, 3, 3)));//a lightpot in (2, 2, 2)
+		//glUniform3fv(glGetUniformLocation(shader, "lightColor"), 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));//
 
 		glUniform3fv(glGetUniformLocation(shader, "viewPos"), 1, glm::value_ptr(viewPos));
 
@@ -70,6 +84,8 @@ void GameObject::onRender()
 
 void GameObject::onUpdate(lua_State* luaState)
 {
+	std::unique_lock<std::mutex> lock(gameObjectMutex);
+
 	objectTimer.Tick();
 
 	lua_getglobal(luaState, assetName.c_str());//get the table of lua (assestName={})
@@ -83,7 +99,9 @@ void GameObject::onRenderRelease()
 {
 	if (objectModel != nullptr)
 	{
+		std::unique_lock<std::mutex> lock(gameObjectMutex);
 		objectModel->onModelRelease();
+		objectModel = nullptr;
 	}
 }
 

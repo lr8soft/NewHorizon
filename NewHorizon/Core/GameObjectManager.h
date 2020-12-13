@@ -4,7 +4,7 @@
 #include <map>
 #include <vector>
 #include <string>
-#include <mutex>
+
 #include "GameObject.h"
 #include "Camera.h"
 #include "../Util/Timer.h"
@@ -20,7 +20,7 @@ private:
 
 	Camera gameCamera;
 
-	std::mutex instanceMutex;
+	//std::mutex instanceMutex;
 	
 	void onLogicalInit();
 	void onLogicalFinish();

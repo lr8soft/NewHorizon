@@ -9,7 +9,7 @@ function onUpdateFunc()
     ry = -gameObject:getAccmulateTime()
     rz = math.sin(gameObject:getAccmulateTime())
 
-    gameObject:setRotation(rx, ry, rz)      
+    gameObject:setRotation(rx, ry, rz) 
 end
 
 --wrapper
