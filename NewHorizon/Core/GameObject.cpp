@@ -67,7 +67,7 @@ void GameObject::onRender()
 		glUniform1f(glGetUniformLocation(shader, "material.shininess"), 32);
 
 		glUniform3fv(glGetUniformLocation(shader, "light.direction"), 1, glm::value_ptr(glm::vec3(-3, -3, -3)));
-		//glUniform3fv(glGetUniformLocation(shader, "light.position"), 1, glm::value_ptr(glm::vec3(3, 3, 3)));
+		//glUniform3fv(glGetUniformLocation(shader, "light.position"), 1, glm::value_ptr(lightPos));
 		glUniform3fv(glGetUniformLocation(shader, "light.ambient"), 1, glm::value_ptr(glm::vec3(0.2f, 0.2f, 0.2f)));
 		glUniform3fv(glGetUniformLocation(shader, "light.diffuse"), 1, glm::value_ptr(glm::vec3(0.5f, 0.5f, 0.5f)));
 		glUniform3fv(glGetUniformLocation(shader, "light.specular"), 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));

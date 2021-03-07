@@ -1,5 +1,5 @@
 {
-  "model": "tcube.obj", // assets\Model\object\test.obj(fbx) ...
-  "shader": "tcube", //assets\Shader\object\cube.vert(frag)
-  "script": "cube.lua" //assets\Script\object\cube.lua
+  "model": "tcube.obj", 
+  "shader": "tcube", 
+  "script": "cube.lua"
 }
