@@ -37,6 +37,7 @@ void GameObject::onRenderInit()
 		haveRenderInit = true;
 	}
 }
+
 glm::vec3 GameObject::lightPos = glm::vec3(1.2f, 1.0f, 1.0f);
 void GameObject::onRender()
 {
