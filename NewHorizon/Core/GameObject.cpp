@@ -22,6 +22,8 @@ GameObject* GameObject::getInstanceClone()
 	clone->modelName = modelName;
 	clone->shaderName = shaderName;
 	clone->scriptName = scriptName;
+	clone->scriptNameSpace = scriptNameSpace;
+
 	return clone;
 }
 
@@ -40,7 +42,7 @@ void GameObject::onRender()
 {
 	if (objectModel != nullptr)
 	{
-		std::unique_lock<std::mutex> lock(gameObjectMutex);
+		//std::unique_lock<std::mutex> lock(gameObjectMutex);
 
 		GLuint shader = ShaderHelper::getInstance()->bindProgram("object", shaderName);
 
@@ -84,11 +86,11 @@ void GameObject::onRender()
 
 void GameObject::onUpdate(lua_State* luaState)
 {
-	std::unique_lock<std::mutex> lock(gameObjectMutex);
+	//std::unique_lock<std::mutex> lock(gameObjectMutex);
 
 	objectTimer.Tick();
 
-	lua_getglobal(luaState, assetName.c_str());//get the table of lua (assestName={})
+	lua_getglobal(luaState,	scriptNameSpace.c_str());//get the table of lua (assestName={})
 	lua_pushstring(luaState, "onFixedUpdate");//push string "onFixedUpdate" to the vstack
 	lua_gettable(luaState, -2);//get the object "onFixedUpdate" to the top of vstack
 	lua_call(luaState, 0, 0);//call the function, 0 parameter 0 return

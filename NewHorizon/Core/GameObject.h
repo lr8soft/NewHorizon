@@ -21,6 +21,7 @@ protected:
 	static glm::vec3 lightPos; //test
 
 	std::string assetName, shaderName, modelName, scriptName;
+	std::string scriptNameSpace;
 	std::string tagName;//unique name
 	GLuint shaderHandle;
 

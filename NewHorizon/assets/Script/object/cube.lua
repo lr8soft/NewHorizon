@@ -1,7 +1,7 @@
 function onUpdateFunc()
     local gameObject = NewHorizon.getObject()
     x, y, z = gameObject:getPosition()
-    y = math.sin(-gameObject:getAccmulateTime())
+    y = math.sin(-gameObject:getAccmulateTime()) * 0.1 + 1.5
     gameObject:setPosition(x, y, z)
 
  
