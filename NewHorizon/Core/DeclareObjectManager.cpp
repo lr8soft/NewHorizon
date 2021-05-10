@@ -14,9 +14,10 @@ DeclareObjectManager * DeclareObjectManager::getInstance()
 
 DeclareObject * DeclareObjectManager::LoadDeclareObject(const std::string& name, const std::string & path)
 {
-	if (declareObjectGroup.find(name) != declareObjectGroup.end())	//existed
+	DeclareObject* sameDeclareObject = GetDeclareObject(name);
+	if (sameDeclareObject)
 	{
-		return declareObjectGroup[name];
+		return sameDeclareObject;
 	}
 
 	auto json = JsonLoader::getJsonFromFile(path);
@@ -45,4 +46,14 @@ DeclareObject * DeclareObjectManager::LoadDeclareObject(const std::string& name,
 	declareObjectGroup[name] = declareObject;	//insert new declareObject
 
 	return declareObject;
+}
+
+DeclareObject * DeclareObjectManager::GetDeclareObject(const std::string & name)
+{
+	if (declareObjectGroup.find(name) != declareObjectGroup.end())	//existed
+	{
+		return declareObjectGroup[name];
+	}
+
+	return nullptr;
 }

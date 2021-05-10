@@ -2,7 +2,6 @@
 #ifndef _GAME_OBJECT_H_
 #define _GAME_OBJECT_H_
 #include <string>
-#include <GL/glcorearb.h>
 #include "../Util/Timer.h"
 #include "Component/IComponent.h"
 #include "Model/Model.h"
@@ -17,7 +16,7 @@ struct Transform {
 	glm::vec3 scale = glm::vec3(1.0);
 	glm::vec3 rotation = glm::vec3(0.0);
 };
-class GameObjectManager;
+class EngineManager;
 class GameObject {
 protected:
 	static glm::vec3 lightPos; //test
@@ -33,12 +32,10 @@ protected:
 	DeclareObject *classObject;
 	Model* objectModel;
 
-	GLuint shaderHandle;
-
 	bool haveRenderInit = false, isDead = false;
 
 public:
-	friend class GameObjectManager;
+	friend class EngineManager;
 
 	virtual GameObject* getInstanceClone();
 	virtual void onRenderInit();

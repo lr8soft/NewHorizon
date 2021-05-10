@@ -1,4 +1,4 @@
-#include "GameObjectManager.h"
+#include "EngineManager.h"
 #include "../Util/JsonLoader.h"
 #include "../Util/LogUtil.hpp"
 #include "../HorizonFrame.h"
@@ -10,22 +10,24 @@
 #include "GameObjectBinder.h"
 #include "DeclareObjectManager.h"
 
-using namespace std;
-GameObjectManager* GameObjectManager::pInstance = nullptr;
+#include "EngineDefine.h"
 
-GameObjectManager::GameObjectManager(){}
-GameObjectManager * GameObjectManager::getInstance()
+using namespace std;
+EngineManager* EngineManager::pInstance = nullptr;
+
+EngineManager::EngineManager(){}
+EngineManager * EngineManager::getInstance()
 {
 	if (pInstance == nullptr)
 	{
-		pInstance = new GameObjectManager;
+		pInstance = new EngineManager;
 	}
 	return pInstance;
 }
 
-void GameObjectManager::onLogicalInit()
+void EngineManager::onLogicalInit()
 {
-	auto configJson = JsonLoader::getJsonFromFile("assets/Config/Instance.json");
+	auto configJson = JsonLoader::getJsonFromFile(INSTANCE_CONFIG_FILE);
 	auto objectDeclareValue = (*configJson)["objectDeclare"]["object"];
 	auto objectInstanceValue = (*configJson)["objectInstance"];
 
@@ -38,17 +40,9 @@ void GameObjectManager::onLogicalInit()
 		declareObject.insert(std::make_pair(objectName, objectJson));
 	}
 
-	/*{
-		luaL_loadfile(luaState, "assets/Script/object/default.lua");	//load default script
-		lua_pcall(luaState, 0, LUA_MULTRET, 0);
-	}*/
-
-
 	DeclareObjectManager* declareManager = DeclareObjectManager::getInstance();
 	for (auto iter = declareObject.begin(); iter != declareObject.end(); iter++)	//load all declareobject from config json
 	{
-		//auto json = JsonLoader::getJsonFromFile(iter->second);
-
 		string originObjectName = iter->first;
 
 		GameObject* gameOriginObject = new GameObject;
@@ -59,9 +53,7 @@ void GameObjectManager::onLogicalInit()
 
 		string scriptName = gameOriginObject->classObject->scriptName;
 		if (scriptName.length() > 0) {//load lua script
-
-
-			int status = luaL_loadfile(luaState, ("assets/Script/object/" + scriptName).c_str());
+			int status = luaL_loadfile(luaState, (DECLARE_OBJECT_CONFIG_FOLDER + scriptName).c_str());
 			if (status == LUA_OK)
 			{
 				lua_pcall(luaState, 0, LUA_MULTRET, 0);//call default lua function
@@ -72,34 +64,6 @@ void GameObjectManager::onLogicalInit()
 				LogUtil::printError("Fail to load script " + scriptName);
 			}
 		}
-
-
-		/*gameOriginObject->shaderName = (*json)["shader"].asString();
-		gameOriginObject->modelName = (*json)["model"].asString();
-		gameOriginObject->typeName = (*json)["type"].asString();
-
-		string scriptName = (*json)["script"].asString();
-
-		if (scriptName.length() > 0) {//load lua script
-			gameOriginObject->scriptName = scriptName;
-			gameOriginObject->scriptNameSpace = originObjectName;
-
-			int status = luaL_loadfile(luaState, ("assets/Script/object/" + scriptName).c_str());
-			if (status == LUA_OK)
-			{
-				lua_pcall(luaState, 0, LUA_MULTRET, 0);//call default lua function
-				LogUtil::printInfo("Load script " + scriptName);
-			}
-			else
-			{
-				LogUtil::printError("Fail to load script " + scriptName);
-			}
-		}
-		else {
-			gameOriginObject->scriptName = "default.lua"; //have no define script
-			gameOriginObject->scriptNameSpace = "Default";
-		}*/
-
 		gameObjectGroup.insert(std::make_pair(originObjectName, gameOriginObject));
 	}
 
@@ -128,7 +92,7 @@ void GameObjectManager::onLogicalInit()
 				+ std::to_string(newInstance->transform.position.z));
 			if (newInstance->classObject->modelName.length() > 0)//add model object
 			{
-				newInstance->objectModel = new Model("assets/Model/object/" + newInstance->classObject->modelName);
+				newInstance->objectModel = new Model(GAME_OBJECT_MODEL_FOLDER + newInstance->classObject->modelName);
 			}
 			gameInstanceGroup.insert(std::make_pair(tagName, newInstance));
 		}
@@ -137,7 +101,7 @@ void GameObjectManager::onLogicalInit()
 }
 
 
-void GameObjectManager::onLogicalWork()
+void EngineManager::onLogicalWork()
 {
 	luaState = LuaUtil::getNewGameObjectEvon();
 	onLogicalInit();
@@ -177,7 +141,7 @@ void GameObjectManager::onLogicalWork()
 	LuaUtil::luaEnvironmentRelease(luaState);
 }
 
-void GameObjectManager::onRenderWork()
+void EngineManager::onRenderWork()
 {
 	for (auto iter = gameInstanceGroup.begin(); iter != gameInstanceGroup.end(); iter++)
 	{
@@ -207,22 +171,22 @@ void GameObjectManager::onRenderWork()
 	}
 }
 
-void GameObjectManager::onMouseUpdate(double x, double y)
+void EngineManager::onMouseUpdate(double x, double y)
 {
 	gameCamera.processMouse(x, y);
 }
 
-void GameObjectManager::onScrollUpdate(double x, double y)
+void EngineManager::onScrollUpdate(double x, double y)
 {
 	gameCamera.processScroll(y);
 }
 
-Camera * GameObjectManager::getCamera()
+Camera * EngineManager::getCamera()
 {
 	return &gameCamera;
 }
 
-GameObject * GameObjectManager::addGameObjectInstance(const std::string & originObjectName, const std::string & tagName)
+GameObject * EngineManager::addGameObjectInstance(const std::string & originObjectName, const std::string & tagName)
 {
 	auto originObjectIter = gameObjectGroup.find(originObjectName);
 	if(originObjectIter != gameObjectGroup.end())
@@ -235,7 +199,7 @@ GameObject * GameObjectManager::addGameObjectInstance(const std::string & origin
 			newInstance->tagName = tagName;
 			if (newInstance->classObject->modelName.length() > 0)//add model object
 			{
-				newInstance->objectModel = new Model("assets/Model/object/" + newInstance->classObject->modelName);
+				newInstance->objectModel = new Model(GAME_OBJECT_MODEL_FOLDER + newInstance->classObject->modelName);
 			}
 			gameInstanceGroup.insert(std::make_pair(tagName, newInstance));
 
@@ -249,7 +213,7 @@ GameObject * GameObjectManager::addGameObjectInstance(const std::string & origin
 	return nullptr;
 }
 
-void GameObjectManager::onLogicalFinish()
+void EngineManager::onLogicalFinish()
 {
 
 }

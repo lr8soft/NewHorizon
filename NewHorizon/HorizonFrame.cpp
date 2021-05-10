@@ -5,7 +5,7 @@
 #include "FrameInfo.h"
 
 #include "Util/LogUtil.hpp"
-#include "Core/GameObjectManager.h"
+#include "Core/EngineManager.h"
 HorizonFrame* HorizonFrame::pInstance = nullptr;
 
 HorizonFrame::HorizonFrame()
@@ -65,9 +65,9 @@ void HorizonFrame::FrameInit()
 
 void HorizonFrame::FrameLoop()
 {
-	GameObjectManager* instance = GameObjectManager::getInstance();
+	EngineManager* instance = EngineManager::getInstance();
 	
-	std::thread logicalThread(&GameObjectManager::onLogicalWork, instance);
+	std::thread logicalThread(&EngineManager::onLogicalWork, instance);
 	logicalThread.detach();
 
 
@@ -122,14 +122,14 @@ void HorizonFrame::FramePos(GLFWwindow * screen, int x, int y)
 
 void HorizonFrame::FrameCurseUpdate(GLFWwindow * screen, double x, double y)
 {
-	GameObjectManager* instance = GameObjectManager::getInstance();
+	EngineManager* instance = EngineManager::getInstance();
 	instance->onMouseUpdate(x, y);
 }
 
 
 void HorizonFrame::FrameScrollUpdate(GLFWwindow * screen, double x, double y)
 {
-	GameObjectManager* instance = GameObjectManager::getInstance();
+	EngineManager* instance = EngineManager::getInstance();
 	instance->onScrollUpdate(x, y);
 }
 

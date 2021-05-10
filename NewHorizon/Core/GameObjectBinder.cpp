@@ -1,5 +1,5 @@
 #include "GameObjectBinder.h"
-#include "GameObjectManager.h"
+#include "EngineManager.h"
 #include "../Util/LogUtil.hpp"
 #include <functional>
 #include <sstream>
@@ -45,7 +45,7 @@ int GameObjectBinder::luaAddNewInstance(lua_State * luaState)
 	LogUtil::printInfo(ss.str());
 
 	GameObject **s = (GameObject**)lua_newuserdata(luaState, sizeof(GameObject*));//lua_newuserdata(luaState, sizeof(GameObject*));
-	*s = GameObjectManager::getInstance()->addGameObjectInstance(originObjectName, instanceTagName);
+	*s = EngineManager::getInstance()->addGameObjectInstance(originObjectName, instanceTagName);
 	luaL_getmetatable(luaState, "NewHorizon.GameObject");
 	lua_setmetatable(luaState, -2);
 	return 1;

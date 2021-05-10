@@ -12,6 +12,7 @@ public:
 	static DeclareObjectManager* getInstance();
 
 	DeclareObject* LoadDeclareObject(const std::string& name, const std::string& path);
+	DeclareObject* GetDeclareObject(const std::string& name);
 
 };
 

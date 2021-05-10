@@ -10,7 +10,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "../Util/LogUtil.hpp"
-#include "GameObjectManager.h"
+#include "EngineManager.h"
 #include "GameObjectBinder.h"
 
 
@@ -53,11 +53,11 @@ void GameObject::onRender()
 			matrix = glm::rotate(matrix, transform.rotation.z, glm::vec3(0, 0, 1));
 
 		glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, false, glm::value_ptr(matrix));
-		glUniformMatrix4fv(glGetUniformLocation(shader, "view"), 1, false, glm::value_ptr(GameObjectManager::getInstance()->getCamera()->getViewMatrix()));
-		glUniformMatrix4fv(glGetUniformLocation(shader, "projection"), 1, false, glm::value_ptr(GameObjectManager::getInstance()->getCamera()->getProjectionMatrix()));
+		glUniformMatrix4fv(glGetUniformLocation(shader, "view"), 1, false, glm::value_ptr(EngineManager::getInstance()->getCamera()->getViewMatrix()));
+		glUniformMatrix4fv(glGetUniformLocation(shader, "projection"), 1, false, glm::value_ptr(EngineManager::getInstance()->getCamera()->getProjectionMatrix()));
 
 
-		glm::vec3 viewPos = GameObjectManager::getInstance()->getCamera()->getPostion();
+		glm::vec3 viewPos = EngineManager::getInstance()->getCamera()->getPostion();
 		//light info
 		//glUniform3fv(glGetUniformLocation(shader, "material.ambient"), 1, glm::value_ptr(glm::vec3(1.0f, 0.5f, 0.31f)));
 		//glUniform3fv(glGetUniformLocation(shader, "material.diffuse"), 1, glm::value_ptr(glm::vec3(1.0f, 0.5f, 0.31f)));

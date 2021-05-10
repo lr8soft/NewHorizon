@@ -58,9 +58,6 @@
     <ClCompile Include="Core\ShaderHelper.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Core\GameObjectManager.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="Util\LuaUtil.cpp">
       <Filter>Util</Filter>
     </ClCompile>
@@ -71,6 +68,15 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Core\DeclareObjectManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\RenderManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\EngineManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ModelManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
@@ -140,9 +146,6 @@
     <ClInclude Include="Core\Component\IComponent.h">
       <Filter>Core\Component</Filter>
     </ClInclude>
-    <ClInclude Include="Core\GameObjectManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="ThirdParty\lua\lauxlib.h">
       <Filter>ThirdParty\lua</Filter>
     </ClInclude>
@@ -171,6 +174,18 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Core\DeclareObject.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\RenderManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\EngineManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\EngineDefine.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ModelManager.h">
       <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>

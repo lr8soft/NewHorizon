@@ -10,9 +10,9 @@
 #include "Camera.h"
 #include "../Util/Timer.h"
 #include "../ThirdParty/lua/lua.hpp"
-class GameObjectManager {
+class EngineManager {
 private:
-	static GameObjectManager* pInstance;
+	static EngineManager* pInstance;
 
 	std::map<std::string, GameObject*> gameInstanceGroup;//tagName, instance
 	std::map<std::string, GameObject*> gameObjectGroup;//objectName, originInstance
@@ -31,9 +31,9 @@ private:
 
 	lua_State* luaState;
 	
-	GameObjectManager();
+	EngineManager();
 public:
-	static GameObjectManager* getInstance();
+	static EngineManager* getInstance();
 	void onLogicalWork();
 	void onRenderWork();
 
