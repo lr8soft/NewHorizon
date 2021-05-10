@@ -1,5 +1,6 @@
 {
   "model": "tcube.obj", 
+  "type": "object",
   "shader": "tcube", 
   "script": "cube.lua"
 }

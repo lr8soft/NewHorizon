@@ -11,18 +11,13 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "../Util/LogUtil.hpp"
 #include "GameObjectManager.h"
-GameObject::GameObject(const std::string & assetName) : assetName(assetName)
-{
-}
+#include "GameObjectBinder.h"
 
 
 GameObject* GameObject::getInstanceClone()
 {
-	GameObject* clone = new GameObject(assetName);
-	clone->modelName = modelName;
-	clone->shaderName = shaderName;
-	clone->scriptName = scriptName;
-	clone->scriptNameSpace = scriptNameSpace;
+	GameObject* clone = new GameObject;
+	clone->classObject = classObject;
 
 	return clone;
 }
@@ -45,7 +40,7 @@ void GameObject::onRender()
 	{
 		//std::unique_lock<std::mutex> lock(gameObjectMutex);
 
-		GLuint shader = ShaderHelper::getInstance()->bindProgram("object", shaderName);
+		GLuint shader = ShaderHelper::getInstance()->bindProgram("object", classObject->shaderName);
 
 		glm::mat4 matrix;
 		matrix = glm::translate(matrix, transform.position);
@@ -91,10 +86,7 @@ void GameObject::onUpdate(lua_State* luaState)
 
 	objectTimer.Tick();
 
-	lua_getglobal(luaState,	scriptNameSpace.c_str());//get the table of lua (assestName={})
-	lua_pushstring(luaState, "onFixedUpdate");//push string "onFixedUpdate" to the vstack
-	lua_gettable(luaState, -2);//get the object "onFixedUpdate" to the top of vstack
-	lua_call(luaState, 0, 0);//call the function, 0 parameter 0 return
+	GameObjectBinder::invokeFixedUpdate(luaState, classObject->scriptNameSpace.c_str());
 
 }
 

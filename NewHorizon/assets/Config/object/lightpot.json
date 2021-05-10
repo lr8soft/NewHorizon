@@ -1,5 +1,6 @@
 {
     "model": "ball.obj",
+    "type": "lightpot",
     "shader": "lightpot", 
     "script": "pot.lua"
   }

@@ -1,5 +1,6 @@
 {
   "model": "model.obj",
+  "type": "object",
   "shader": "cube", 
   "script": "test.lua"
 }

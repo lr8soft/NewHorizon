@@ -8,6 +8,17 @@ void GameObjectBinder::setCurrentInstance(GameObject * instance)
 {
 	GameObjectBinder::pInstance = instance;
 }
+
+void GameObjectBinder::invokeFixedUpdate(lua_State * luaState, const char* scriptNameSpace)
+{
+	lua_getglobal(luaState, scriptNameSpace);//get the table of lua (assestName={})
+	lua_pushstring(luaState, "onFixedUpdate");//push string "onFixedUpdate" to the vstack
+	lua_gettable(luaState, -2);//get the object "onFixedUpdate" to the top of vstack
+	lua_call(luaState, 0, 0);//call the function, 0 parameter 0 return
+}
+
+
+
 int GameObjectBinder::luaGetInstance(lua_State * luaState)
 {
 	GameObject **s = (GameObject**)lua_newuserdata(luaState, sizeof(GameObject*));

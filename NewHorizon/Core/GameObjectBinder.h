@@ -8,6 +8,7 @@ private:
 	static GameObject* pInstance;
 public:
 	static void setCurrentInstance(GameObject* pInstance);
+	static void invokeFixedUpdate(lua_State * luaState, const char* scriptNameSpace);
 
 	static int luaGetInstance(lua_State* luaState);
 

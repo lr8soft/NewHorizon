@@ -75,6 +75,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Core\Camera.cpp" />
+    <ClCompile Include="Core\DeclareObjectManager.cpp" />
     <ClCompile Include="Core\GameObject.cpp" />
     <ClCompile Include="Core\GameObjectBinder.cpp" />
     <ClCompile Include="Core\Model\Mesh.cpp" />
@@ -93,6 +94,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Camera.h" />
+    <ClInclude Include="Core\DeclareObject.h" />
+    <ClInclude Include="Core\DeclareObjectManager.h" />
     <ClInclude Include="Core\GameObject.h" />
     <ClInclude Include="Core\GameObjectBinder.h" />
     <ClInclude Include="Core\Model\Mesh.h" />

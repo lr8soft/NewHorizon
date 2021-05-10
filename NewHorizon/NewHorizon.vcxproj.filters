@@ -70,6 +70,9 @@
     <ClCompile Include="Core\Camera.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Core\DeclareObjectManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Util\ImageLoader.h">
@@ -162,6 +165,12 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Core\Camera.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\DeclareObjectManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\DeclareObject.h">
       <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>

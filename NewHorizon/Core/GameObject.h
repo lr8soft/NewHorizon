@@ -8,6 +8,8 @@
 #include "Model/Model.h"
 #include <mutex>
 #include <glm/glm.hpp>
+
+#include "DeclareObject.h"
 #include "../ThirdParty/lua/lua.hpp"
 struct Transform {
 	glm::vec3 position = glm::vec3(0.0);
@@ -20,21 +22,24 @@ class GameObject {
 protected:
 	static glm::vec3 lightPos; //test
 
-	std::string assetName, shaderName, modelName, scriptName;
-	std::string scriptNameSpace;
-	std::string tagName;//unique name
-	GLuint shaderHandle;
+	Transform transform, lastTransform;
 
 	std::mutex gameObjectMutex;
 
 	Timer objectTimer;//Tick by logical thread
+
+	std::string tagName;//unique name
+
+	DeclareObject *classObject;
 	Model* objectModel;
+
+	GLuint shaderHandle;
+
 	bool haveRenderInit = false, isDead = false;
-	Transform transform, lastTransform;
+
 public:
 	friend class GameObjectManager;
-	
-	GameObject(const std::string& assetName);
+
 	virtual GameObject* getInstanceClone();
 	virtual void onRenderInit();
 	//TODO call lua function and update GameObject information

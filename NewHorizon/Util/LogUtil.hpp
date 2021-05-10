@@ -20,6 +20,7 @@ public:
 		std::cout << LOG_WHITE << "[INFO]" << str << std::endl;
 #else
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+
 		std::cout << "[INFO]" << str << std::endl;
 #endif
 	}
