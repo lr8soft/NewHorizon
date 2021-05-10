@@ -1,18 +1,17 @@
-#include <fstream>
+
 #include <iostream>
 #include "GameObject.h"
-#include "ShaderHelper.h"
 #include "../Util/JsonLoader.h"
 #include "../FrameInfo.h"
 
-#include <GL3/gl3w.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "../Util/LogUtil.hpp"
-#include "EngineManager.h"
-#include "GameObjectBinder.h"
 
+#include "GameObjectBinder.h"
+#include "ModelManager.h"
+#include "RenderManager.h"
 
 GameObject* GameObject::getInstanceClone()
 {
@@ -24,80 +23,42 @@ GameObject* GameObject::getInstanceClone()
 
 void GameObject::onRenderInit()
 {
-	if (!haveRenderInit && objectModel != nullptr)
+	if (!haveRenderInit)
 	{
-		std::unique_lock<std::mutex> lock(gameObjectMutex);
+		ModelManager::getInstance()->InitModel(classObject->modelName);
 
-		objectModel->onModelInit();
 		haveRenderInit = true;
 	}
 }
 
-glm::vec3 GameObject::lightPos = glm::vec3(1.2f, 1.0f, 1.0f);
 void GameObject::onRender()
 {
-	if (objectModel != nullptr)
-	{
-		//std::unique_lock<std::mutex> lock(gameObjectMutex);
+	glm::mat4 matrix;
+	matrix = glm::translate(matrix, transform.position);
+	matrix = glm::scale(matrix, transform.scale);
+	if (transform.rotation.x != 0)
+		matrix = glm::rotate(matrix, transform.rotation.x, glm::vec3(1, 0, 0));
+	if (transform.rotation.y != 0)
+		matrix = glm::rotate(matrix, transform.rotation.y, glm::vec3(0, 1, 0));
+	if (transform.rotation.z != 0)
+		matrix = glm::rotate(matrix, transform.rotation.z, glm::vec3(0, 0, 1));
 
-		GLuint shader = ShaderHelper::getInstance()->bindProgram("object", classObject->shaderName);
+	RenderManager* renderManager = RenderManager::getInstance();
+	renderManager->setModelMatrix(&matrix);
+	renderManager->onRender(classObject);
 
-		glm::mat4 matrix;
-		matrix = glm::translate(matrix, transform.position);
-		matrix = glm::scale(matrix, transform.scale);
-		if(transform.rotation.x != 0)
-			matrix = glm::rotate(matrix, transform.rotation.x, glm::vec3(1, 0, 0));
-		if(transform.rotation.y != 0)
-			matrix = glm::rotate(matrix, transform.rotation.y, glm::vec3(0, 1, 0));
-		if (transform.rotation.z != 0)
-			matrix = glm::rotate(matrix, transform.rotation.z, glm::vec3(0, 0, 1));
-
-		glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, false, glm::value_ptr(matrix));
-		glUniformMatrix4fv(glGetUniformLocation(shader, "view"), 1, false, glm::value_ptr(EngineManager::getInstance()->getCamera()->getViewMatrix()));
-		glUniformMatrix4fv(glGetUniformLocation(shader, "projection"), 1, false, glm::value_ptr(EngineManager::getInstance()->getCamera()->getProjectionMatrix()));
-
-
-		glm::vec3 viewPos = EngineManager::getInstance()->getCamera()->getPostion();
-		//light info
-		//glUniform3fv(glGetUniformLocation(shader, "material.ambient"), 1, glm::value_ptr(glm::vec3(1.0f, 0.5f, 0.31f)));
-		//glUniform3fv(glGetUniformLocation(shader, "material.diffuse"), 1, glm::value_ptr(glm::vec3(1.0f, 0.5f, 0.31f)));
-		//glUniform3fv(glGetUniformLocation(shader, "material.specular"), 1, glm::value_ptr(glm::vec3(0.5f, 0.5f, 0.5f)));
-		glUniform1f(glGetUniformLocation(shader, "material.shininess"), 32);
-
-		glUniform3fv(glGetUniformLocation(shader, "light.direction"), 1, glm::value_ptr(glm::vec3(-3, -3, -3)));
-		//glUniform3fv(glGetUniformLocation(shader, "light.position"), 1, glm::value_ptr(lightPos));
-		glUniform3fv(glGetUniformLocation(shader, "light.ambient"), 1, glm::value_ptr(glm::vec3(0.2f, 0.2f, 0.2f)));
-		glUniform3fv(glGetUniformLocation(shader, "light.diffuse"), 1, glm::value_ptr(glm::vec3(0.5f, 0.5f, 0.5f)));
-		glUniform3fv(glGetUniformLocation(shader, "light.specular"), 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
-		//glUniform3fv(glGetUniformLocation(shader, "ambientColor"), 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
-		//glUniform3fv(glGetUniformLocation(shader, "lightPos"), 1, glm::value_ptr(glm::vec3(3, 3, 3)));//a lightpot in (2, 2, 2)
-		//glUniform3fv(glGetUniformLocation(shader, "lightColor"), 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));//
-
-		glUniform3fv(glGetUniformLocation(shader, "viewPos"), 1, glm::value_ptr(viewPos));
-
-		objectModel->onModelRender(shader);
-	}
-	
 }
 
 void GameObject::onUpdate(lua_State* luaState)
 {
-	//std::unique_lock<std::mutex> lock(gameObjectMutex);
-
 	objectTimer.Tick();
 
 	GameObjectBinder::invokeFixedUpdate(luaState, classObject->scriptNameSpace.c_str());
-
 }
 
 void GameObject::onRenderRelease()
 {
-	if (objectModel != nullptr)
-	{
-		std::unique_lock<std::mutex> lock(gameObjectMutex);
-		objectModel->onModelRelease();
-		objectModel = nullptr;
-	}
+
 }
 
 bool GameObject::getIsRenderInit()

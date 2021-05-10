@@ -9,6 +9,7 @@
 #include "../ThirdParty/lua/lua.hpp"
 #include "GameObjectBinder.h"
 #include "DeclareObjectManager.h"
+#include  "ModelManager.h"
 
 #include "EngineDefine.h"
 
@@ -67,6 +68,7 @@ void EngineManager::onLogicalInit()
 		gameObjectGroup.insert(std::make_pair(originObjectName, gameOriginObject));
 	}
 
+	ModelManager* modelManager = ModelManager::getInstance();
 	for (auto iter = gameObjectGroup.begin(); iter != gameObjectGroup.end(); iter++)
 	{
 		auto currentInstanceArray = objectInstanceValue[iter->first];//get array by origin object name
@@ -92,7 +94,7 @@ void EngineManager::onLogicalInit()
 				+ std::to_string(newInstance->transform.position.z));
 			if (newInstance->classObject->modelName.length() > 0)//add model object
 			{
-				newInstance->objectModel = new Model(GAME_OBJECT_MODEL_FOLDER + newInstance->classObject->modelName);
+				modelManager->LoadModel(newInstance->classObject->modelName);
 			}
 			gameInstanceGroup.insert(std::make_pair(tagName, newInstance));
 		}
@@ -199,7 +201,7 @@ GameObject * EngineManager::addGameObjectInstance(const std::string & originObje
 			newInstance->tagName = tagName;
 			if (newInstance->classObject->modelName.length() > 0)//add model object
 			{
-				newInstance->objectModel = new Model(GAME_OBJECT_MODEL_FOLDER + newInstance->classObject->modelName);
+				ModelManager::getInstance()->LoadModel(newInstance->classObject->modelName);
 			}
 			gameInstanceGroup.insert(std::make_pair(tagName, newInstance));
 

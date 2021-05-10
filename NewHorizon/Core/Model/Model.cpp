@@ -11,7 +11,11 @@ Model::Model(const std::string& path) : modelPath(path)
 
 void Model::onModelInit()
 {
-	loadModel(modelPath);
+	if (!isInit)
+	{
+		loadModel(modelPath);
+		isInit = true;
+	}
 }
 
 void Model::onModelRender(unsigned int shaderHandle)
@@ -30,6 +34,11 @@ void Model::onModelRelease()
 	{
 		meshes[i].onMeshRelease();
 	}
+}
+
+bool Model::isModelInit()
+{
+	return isInit;
 }
 
 void Model::loadModel(std::string path)

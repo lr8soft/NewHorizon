@@ -12,11 +12,15 @@ public:
 	void onModelInit();
 	void onModelRender(unsigned int shaderHandle);
 	void onModelRelease();
+
+	bool isModelInit();
 private:
-	bool gammaCorrection;
 	std::string modelPath;
-	std::vector<Mesh> meshes;
 	std::string directory;
+	std::vector<Mesh> meshes;
+
+	bool gammaCorrection;
+	bool isInit = false;
 
 
 	void loadModel(std::string path);

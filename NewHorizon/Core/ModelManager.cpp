@@ -13,23 +13,31 @@ ModelManager * ModelManager::getInstance()
 void ModelManager::LoadModel(const std::string & modelFileName)
 {
 	Model* model = GetModel(modelFileName);
-	if (model == nullptr)	//load and init
+	if (model == nullptr)
 	{
 		model = new Model(GAME_OBJECT_MODEL_FOLDER + modelFileName);
-		model->onModelInit();
 		globalModelGroup[modelFileName] = model;
 	}
 }
 
-void ModelManager::RenderModel(const std::string & modelFileName)
+void ModelManager::InitModel(const std::string & modelFileName)
 {
 	Model* model = GetModel(modelFileName);
-	if (model)
+	if (model && !model->isModelInit())
 	{
-
+		model->onModelInit();
 	}
-
 }
+
+void ModelManager::RenderModel(const std::string & modelFileName, unsigned int shader)
+{
+	Model* model = GetModel(modelFileName);
+	if (model && model->isModelInit())
+	{
+		model->onModelRender(shader);
+	}
+}
+
 
 Model * ModelManager::GetModel(const std::string & modelFileName)
 {

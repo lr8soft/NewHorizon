@@ -9,15 +9,16 @@ class ModelManager {
 private:
 	std::map<std::string, Model*> globalModelGroup;
 
-	static ModelManager* pInstance;
-
-
 	Model* GetModel(const std::string& modelFileName);
+
+	static ModelManager* pInstance;
 public:
 	static ModelManager* getInstance();
 
 	void LoadModel(const std::string& modelFileName);
-	void RenderModel(const std::string& modelFileName);
+	void InitModel(const std::string& modelFileName);
+	void RenderModel(const std::string& modelFileName, unsigned int shader);
+
 };
 
 #endif

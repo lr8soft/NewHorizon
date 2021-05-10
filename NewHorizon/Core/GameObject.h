@@ -5,7 +5,6 @@
 #include "../Util/Timer.h"
 #include "Component/IComponent.h"
 #include "Model/Model.h"
-#include <mutex>
 #include <glm/glm.hpp>
 
 #include "DeclareObject.h"
@@ -16,21 +15,20 @@ struct Transform {
 	glm::vec3 scale = glm::vec3(1.0);
 	glm::vec3 rotation = glm::vec3(0.0);
 };
+
 class EngineManager;
+
 class GameObject {
 protected:
 	static glm::vec3 lightPos; //test
 
 	Transform transform, lastTransform;
 
-	std::mutex gameObjectMutex;
-
 	Timer objectTimer;//Tick by logical thread
 
 	std::string tagName;//unique name
 
 	DeclareObject *classObject;
-	Model* objectModel;
 
 	bool haveRenderInit = false, isDead = false;
 
