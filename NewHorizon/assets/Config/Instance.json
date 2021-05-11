@@ -16,6 +16,10 @@
       {
         "objectName": "Scene",
         "objectJson": "assets/Config/object/scene.json"
+      },
+      {
+        "objectName": "DirLight",
+        "objectJson": "assets/Config/object/dirlight.json"
       }
     ]
   },
@@ -67,6 +71,18 @@
           "rotation": [ 0.0, 0.0, 0.0 ]
         }
       }
+    ],
+
+    "DirLight":[
+      {
+        "tagName": "dirLight0",
+        "transform": {
+          "position": [ -3.0, 3.0, -3.0 ],
+          "scale": [ 0.2, 0.2, 0.2 ],
+          "rotation": [ 0.0, 0.0, 0.0 ]
+        }
+      }
+      
     ]
   }
 }

@@ -49,6 +49,8 @@ DeclareObject * DeclareObjectManager::LoadDeclareObject(const std::string& name,
 	declareObject->typeName = typeName;
 
 	auto lightData = (*json)["lightData"];
+
+	LogUtil::printInfo(scriptNameSpace + " is " + typeName);
 	if (typeName == POINT_LIGHT_TYPE_NAME)
 	{
 		auto ambient = lightData["ambient"];
@@ -63,8 +65,6 @@ DeclareObject * DeclareObjectManager::LoadDeclareObject(const std::string& name,
 		declareObject->lightData["constant"] = lightData["constant"].asFloat();
 		declareObject->lightData["linear"] = lightData["linear"].asFloat();
 		declareObject->lightData["quadratic"] = lightData["quadratic"].asFloat();
-
-		LogUtil::printInfo(scriptNameSpace + " is point light");
 	}
 	else if (typeName == FLASH_LIGHT_TYPE_NAME)
 	{
@@ -86,8 +86,6 @@ DeclareObject * DeclareObjectManager::LoadDeclareObject(const std::string& name,
 
 		auto specular = lightData["specular"];
 		declareObject->lightVectorData["specular"] = glm::vec3(specular[0].asFloat(), specular[1].asFloat(), specular[2].asFloat());
-
-		LogUtil::printInfo(scriptNameSpace + " is spot light");
 	}
 	else if (typeName == DIRECTIONAL_LIGHT_TYPE_NAME)
 	{
@@ -102,8 +100,6 @@ DeclareObject * DeclareObjectManager::LoadDeclareObject(const std::string& name,
 
 		auto specular = lightData["specular"];
 		declareObject->lightVectorData["specular"] = glm::vec3(specular[0].asFloat(), specular[1].asFloat(), specular[2].asFloat());
-
-		LogUtil::printInfo(scriptNameSpace + " is directional light");
 	}
 	else {
 		declareObject->lightData["shininess"] = lightData["shininess"].asFloat();
