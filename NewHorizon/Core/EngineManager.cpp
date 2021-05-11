@@ -142,8 +142,14 @@ void EngineManager::onLogicalWork()
 	LuaUtil::luaEnvironmentRelease(luaState);
 }
 
+void EngineManager::applyRenderSettings()
+{
+	RenderManager::getInstance()->applyRenderSettings();
+}
+
 void EngineManager::onRenderWork()
 {
+	RenderManager::getInstance()->onStartRender();
 	for (auto iter = gameInstanceGroup.begin(); iter != gameInstanceGroup.end(); iter++)
 	{
 		GameObject* object = iter->second;
@@ -169,7 +175,6 @@ void EngineManager::onRenderWork()
 		}
 		
 	}
-	//RenderManager::getInstance()->onFinishRender();
 }
 
 void EngineManager::onMouseUpdate(double x, double y)

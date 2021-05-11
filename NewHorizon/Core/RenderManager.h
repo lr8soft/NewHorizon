@@ -3,16 +3,19 @@
 #define _RENDER_MANAGER_H_
 
 #include <glm/glm.hpp>
-#include <vector>
+#include <list>
 
+class Skybox;
 class GameObject;
 class RenderManager {
 private:
+	std::list<GameObject*> directionalLightGroup, pointLightGroup, flashLightGroup;
+
 	glm::mat4* modelMatrix;
 
-	std::vector<GameObject*> directionalLightGroup, pointLightGroup, flashLightGroup;
+	Skybox* skyboxObject;
 
-	static inline bool findObject(std::vector<GameObject*>& group, GameObject* object)
+	static inline bool findObject(std::list<GameObject*>& group, GameObject* object)
 	{
 		auto iterEnd = group.end();
 		return (std::find(group.begin(), iterEnd, object) == iterEnd);
@@ -27,6 +30,9 @@ public:
 
 	void setModelMatrix(glm::mat4*);
 	void onRender(GameObject*);
+
+	void applyRenderSettings();
+	void onStartRender();
 	void onFinishRender();
 
 };

@@ -2,4 +2,4 @@
 
 float FrameInfo::FrameBottom = -1.0f, FrameInfo::FrameTop = 1.0f;
 float FrameInfo::FrameRight = 1.0f, FrameInfo::FrameLeft = -1.0f;
-int  FrameInfo::ScreenWidth = 1280, FrameInfo::ScreenHeight = 720;
+int  FrameInfo::ScreenWidth = 1600, FrameInfo::ScreenHeight = 900;

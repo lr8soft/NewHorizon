@@ -5,6 +5,7 @@
 #include "FrameInfo.h"
 
 #include "Util/LogUtil.hpp"
+
 #include "Core/EngineManager.h"
 HorizonFrame* HorizonFrame::pInstance = nullptr;
 
@@ -70,14 +71,8 @@ void HorizonFrame::FrameLoop()
 	std::thread logicalThread(&EngineManager::onLogicalWork, instance);
 	logicalThread.detach();
 
-
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LEQUAL);
+	instance->applyRenderSettings();
 	while (!glfwWindowShouldClose(pScreen)) {
-		glClear(GL_COLOR_BUFFER_BIT);
-		glClear(GL_DEPTH_BUFFER_BIT);
-		glClearDepth(1.0);
-
 		instance->onRenderWork();
 
 		glfwSwapBuffers(pScreen);

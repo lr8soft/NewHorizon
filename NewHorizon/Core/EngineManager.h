@@ -35,6 +35,8 @@ private:
 public:
 	static EngineManager* getInstance();
 	void onLogicalWork();
+
+	void applyRenderSettings();
 	void onRenderWork();
 
 	void onMouseUpdate(double x, double y);

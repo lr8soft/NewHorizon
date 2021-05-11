@@ -66,6 +66,11 @@ bool GameObject::getIsRenderInit()
 	return haveRenderInit;
 }
 
+bool GameObject::getIsDead()
+{
+	return isDead;
+}
+
 
 void GameObject::setDead(bool isDead)
 {

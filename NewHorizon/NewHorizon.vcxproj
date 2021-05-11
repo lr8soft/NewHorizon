@@ -84,6 +84,7 @@
     <ClCompile Include="Core\RenderManager.cpp" />
     <ClCompile Include="Core\ShaderHelper.cpp" />
     <ClCompile Include="Core\EngineManager.cpp" />
+    <ClCompile Include="Core\Skybox.cpp" />
     <ClCompile Include="FrameInfo.cpp" />
     <ClCompile Include="HorizonFrame.cpp" />
     <ClCompile Include="NewHorizon.cpp" />
@@ -106,6 +107,7 @@
     <ClInclude Include="Core\Model\Model.h" />
     <ClInclude Include="Core\RenderManager.h" />
     <ClInclude Include="Core\ShaderHelper.h" />
+    <ClInclude Include="Core\Skybox.h" />
     <ClInclude Include="FrameInfo.h" />
     <ClInclude Include="HorizonFrame.h" />
     <ClInclude Include="Core\EngineManager.h" />

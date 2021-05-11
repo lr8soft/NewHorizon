@@ -44,6 +44,7 @@ public:
 	virtual void onRenderRelease();
 
 	bool getIsRenderInit();
+	bool getIsDead();
 
 	void setDead(bool isDead);
 	void setTransform(Transform transform);

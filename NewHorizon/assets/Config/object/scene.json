@@ -4,7 +4,8 @@
     "shader": "default", 
     "script": "",
 
-    "lightData":{
+    "lightData":
+    {
       "shininess": 2
     }
-  }
+}

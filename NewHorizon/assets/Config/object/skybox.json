@@ -1,0 +1,16 @@
+{
+    "model": "", 
+    "type": "skybox",
+    "shader": "skybox", 
+    "script": "",
+
+    "skyboxData":
+    {
+      "top":    "skybox/top.jpg",
+      "bottom": "skybox/bottom.jpg",
+      "left":   "skybox/left.jpg",
+      "right":  "skybox/right.jpg",
+      "front":  "skybox/front.jpg",
+      "back":   "skybox/back.jpg"
+    }
+}

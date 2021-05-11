@@ -20,10 +20,29 @@
       {
         "objectName": "DirLight",
         "objectJson": "assets/Config/object/dirlight.json"
+      },
+      {
+        "objectName": "Skybox",
+        "objectJson": "assets/Config/object/skybox.json"
+      },
+      {
+        "objectName": "ReflectCube",
+        "objectJson": "assets/Config/object/reflect.json"
       }
     ]
   },
   "objectInstance": {
+    "Skybox": [
+      {
+        "tagName": "skybox",
+        "transform": {
+          "position": [ 0.0, 0.0, 0.0 ],
+          "scale": [ 0.0, 0.0, 0.0 ],
+          "rotation": [ 0.0, 0.0, 0.0 ]
+        }
+      }
+    ],
+
     "Cube": [
       {
         "tagName": "1",
@@ -83,6 +102,17 @@
         }
       }
       
+    ],
+
+    "ReflectCube":[
+      {
+        "tagName": "reflectCube1",
+        "transform": {
+          "position": [ 0.0, 6.0, 0.0 ],
+          "scale": [ 0.02, 0.02, 0.02 ],
+          "rotation": [ 0.0, 0.0, 0.0 ]
+        }
+      }
     ]
   }
 }

@@ -1,0 +1,9 @@
+{
+    "model": "tcube.obj", 
+    "type": "object",
+    "shader": "reflect", 
+    "script": "",
+    "lightData":{
+      "shininess": 0
+    }
+}

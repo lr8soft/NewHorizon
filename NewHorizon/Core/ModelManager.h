@@ -17,7 +17,7 @@ public:
 
 	void LoadModel(const std::string& modelFileName);
 	void InitModel(const std::string& modelFileName);
-	void RenderModel(const std::string& modelFileName, unsigned int shader);
+	void RenderModel(const std::string& modelFileName, unsigned int shader, bool useInsideTexture = true);
 
 };
 
