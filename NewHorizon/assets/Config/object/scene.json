@@ -1,7 +1,7 @@
 {
     "model": "scene.obj", 
     "type": "object",
-    "shader": "scene", 
+    "shader": "default", 
     "script": "",
 
     "lightData":{

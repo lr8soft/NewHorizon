@@ -1,6 +1,7 @@
 #include "DeclareObjectManager.h"
 #include "../Util/JsonLoader.h"
 #include "../Util/LogUtil.hpp"
+
 #include "EngineDefine.h"
 
 using namespace std;
@@ -61,19 +62,51 @@ DeclareObject * DeclareObjectManager::LoadDeclareObject(const std::string& name,
 
 		declareObject->lightData["constant"] = lightData["constant"].asFloat();
 		declareObject->lightData["linear"] = lightData["linear"].asFloat();
-		declareObject->lightData["quadratic"] = lightData["quadratic"].asFloat();;
+		declareObject->lightData["quadratic"] = lightData["quadratic"].asFloat();
 
+		LogUtil::printInfo(scriptNameSpace + " is point light");
 	}
 	else if (typeName == FLASH_LIGHT_TYPE_NAME)
 	{
+		auto direction = lightData["direction"];
+		declareObject->lightVectorData["direction"] = glm::vec3(direction[0].asFloat(), direction[1].asFloat(), direction[2].asFloat());
 
+		declareObject->lightData["cutOff"] = lightData["cutOff"].asFloat();
+		declareObject->lightData["outerCutOff"] = lightData["outerCutOff"].asFloat();
+
+		declareObject->lightData["constant"] = lightData["constant"].asFloat();
+		declareObject->lightData["linear"] = lightData["linear"].asFloat();
+		declareObject->lightData["quadratic"] = lightData["quadratic"].asFloat();
+
+		auto ambient = lightData["ambient"];
+		declareObject->lightVectorData["ambient"] = glm::vec3(ambient[0].asFloat(), ambient[1].asFloat(), ambient[2].asFloat());
+
+		auto diffuse = lightData["diffuse"];
+		declareObject->lightVectorData["diffuse"] = glm::vec3(diffuse[0].asFloat(), diffuse[1].asFloat(), diffuse[2].asFloat());
+
+		auto specular = lightData["specular"];
+		declareObject->lightVectorData["specular"] = glm::vec3(specular[0].asFloat(), specular[1].asFloat(), specular[2].asFloat());
+
+		LogUtil::printInfo(scriptNameSpace + " is spot light");
 	}
 	else if (typeName == DIRECTIONAL_LIGHT_TYPE_NAME)
 	{
+		auto direction = lightData["direction"];
+		declareObject->lightVectorData["direction"] = glm::vec3(direction[0].asFloat(), direction[1].asFloat(), direction[2].asFloat());
 
+		auto ambient = lightData["ambient"];
+		declareObject->lightVectorData["ambient"] = glm::vec3(ambient[0].asFloat(), ambient[1].asFloat(), ambient[2].asFloat());
+
+		auto diffuse = lightData["diffuse"];
+		declareObject->lightVectorData["diffuse"] = glm::vec3(diffuse[0].asFloat(), diffuse[1].asFloat(), diffuse[2].asFloat());
+
+		auto specular = lightData["specular"];
+		declareObject->lightVectorData["specular"] = glm::vec3(specular[0].asFloat(), specular[1].asFloat(), specular[2].asFloat());
+
+		LogUtil::printInfo(scriptNameSpace + " is directional light");
 	}
 	else {
-	
+		declareObject->lightData["shininess"] = lightData["shininess"].asFloat();
 	}
 
 	declareObjectGroup[name] = declareObject;	//insert new declareObject

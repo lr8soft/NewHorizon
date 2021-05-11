@@ -169,7 +169,7 @@ void EngineManager::onRenderWork()
 		}
 		
 	}
-	RenderManager::getInstance()->onFinishRender();
+	//RenderManager::getInstance()->onFinishRender();
 }
 
 void EngineManager::onMouseUpdate(double x, double y)

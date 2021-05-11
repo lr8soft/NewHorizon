@@ -1,7 +1,7 @@
 {
   "model": "tcube.obj", 
   "type": "object",
-  "shader": "tcube", 
+  "shader": "default", 
   "script": "cube.lua",
   "lightData":{
     "shininess": 32
