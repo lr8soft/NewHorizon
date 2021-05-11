@@ -1,6 +1,15 @@
 {
     "model": "ball.obj",
-    "type": "lightpot",
+    "type": "point_light",
     "shader": "lightpot", 
-    "script": "pot.lua"
+    "script": "pot.lua",
+
+    "lightData":{
+      "ambient": [ 0.05, 0.05, 0.05],
+      "diffuse": [ 0.8, 0.8, 0.8],
+      "specular":[ 1.0, 1.0, 1.0],
+      "constant": 1.0,
+      "linear": 0.09,
+      "quadratic": 0.032
+    }
   }

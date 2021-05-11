@@ -9,7 +9,8 @@
 #include "../ThirdParty/lua/lua.hpp"
 #include "GameObjectBinder.h"
 #include "DeclareObjectManager.h"
-#include  "ModelManager.h"
+#include "ModelManager.h"
+#include "RenderManager.h"
 
 #include "EngineDefine.h"
 
@@ -115,7 +116,6 @@ void EngineManager::onLogicalWork()
 		{
 			for (auto iter = gameInstanceGroup.begin(); iter != gameInstanceGroup.end(); iter++)
 			{
-				//std::unique_lock<mutex> lock(instanceMutex);
 				GameObject* currentGameObject = iter->second;
 				if (!currentGameObject->isDead)
 				{
@@ -129,7 +129,6 @@ void EngineManager::onLogicalWork()
 			{
 				for (auto asyncIter = asyncInstanceGroup.begin(); asyncIter != asyncInstanceGroup.end(); asyncIter++)
 				{
-					//std::unique_lock<mutex> lock(instanceMutex);
 					gameInstanceGroup.insert(std::make_pair(asyncIter->first, asyncIter->second));
 				}
 				gameInstanceGroup.clear();
@@ -147,7 +146,6 @@ void EngineManager::onRenderWork()
 {
 	for (auto iter = gameInstanceGroup.begin(); iter != gameInstanceGroup.end(); iter++)
 	{
-		//std::unique_lock<mutex> lock(instanceMutex);
 		GameObject* object = iter->second;
 		if (!object->haveRenderInit) {
 			object->onRenderInit();
@@ -171,6 +169,7 @@ void EngineManager::onRenderWork()
 		}
 		
 	}
+	RenderManager::getInstance()->onFinishRender();
 }
 
 void EngineManager::onMouseUpdate(double x, double y)

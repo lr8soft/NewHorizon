@@ -2,5 +2,9 @@
   "model": "model.obj",
   "type": "object",
   "shader": "cube", 
-  "script": "test.lua"
+  "script": "test.lua",
+
+  "lightData":{
+    "shininess": 0
+  }
 }

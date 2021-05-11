@@ -1,6 +1,8 @@
 #include "DeclareObjectManager.h"
 #include "../Util/JsonLoader.h"
 #include "../Util/LogUtil.hpp"
+#include "EngineDefine.h"
+
 using namespace std;
 DeclareObjectManager* DeclareObjectManager::pInstance = nullptr;
 DeclareObjectManager * DeclareObjectManager::getInstance()
@@ -26,6 +28,8 @@ DeclareObject * DeclareObjectManager::LoadDeclareObject(const std::string& name,
 	string modelName = (*json)["model"].asString();
 	string typeName = (*json)["type"].asString();
 	string scriptName = (*json)["script"].asString();
+
+
 	string scriptNameSpace;
 	if (scriptName.length() > 0) {//load lua script
 		scriptNameSpace = name;
@@ -42,6 +46,35 @@ DeclareObject * DeclareObjectManager::LoadDeclareObject(const std::string& name,
 	declareObject->scriptNameSpace = scriptNameSpace;
 	declareObject->shaderName = shaderName;
 	declareObject->typeName = typeName;
+
+	auto lightData = (*json)["lightData"];
+	if (typeName == POINT_LIGHT_TYPE_NAME)
+	{
+		auto ambient = lightData["ambient"];
+		declareObject->lightVectorData["ambient"] = glm::vec3(ambient[0].asFloat(), ambient[1].asFloat(), ambient[2].asFloat());
+
+		auto diffuse = lightData["diffuse"];
+		declareObject->lightVectorData["diffuse"] = glm::vec3(diffuse[0].asFloat(), diffuse[1].asFloat(), diffuse[2].asFloat());
+
+		auto specular = lightData["specular"];
+		declareObject->lightVectorData["specular"] = glm::vec3(specular[0].asFloat(), specular[1].asFloat(), specular[2].asFloat());
+
+		declareObject->lightData["constant"] = lightData["constant"].asFloat();
+		declareObject->lightData["linear"] = lightData["linear"].asFloat();
+		declareObject->lightData["quadratic"] = lightData["quadratic"].asFloat();;
+
+	}
+	else if (typeName == FLASH_LIGHT_TYPE_NAME)
+	{
+
+	}
+	else if (typeName == DIRECTIONAL_LIGHT_TYPE_NAME)
+	{
+
+	}
+	else {
+	
+	}
 
 	declareObjectGroup[name] = declareObject;	//insert new declareObject
 

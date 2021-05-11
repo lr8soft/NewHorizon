@@ -33,19 +33,19 @@ void GameObject::onRenderInit()
 
 void GameObject::onRender()
 {
-	glm::mat4 matrix;
-	matrix = glm::translate(matrix, transform.position);
-	matrix = glm::scale(matrix, transform.scale);
+	glm::mat4 modelMatrix;
+	modelMatrix = glm::translate(modelMatrix, transform.position);
+	modelMatrix = glm::scale(modelMatrix, transform.scale);
 	if (transform.rotation.x != 0)
-		matrix = glm::rotate(matrix, transform.rotation.x, glm::vec3(1, 0, 0));
+		modelMatrix = glm::rotate(modelMatrix, transform.rotation.x, glm::vec3(1, 0, 0));
 	if (transform.rotation.y != 0)
-		matrix = glm::rotate(matrix, transform.rotation.y, glm::vec3(0, 1, 0));
+		modelMatrix = glm::rotate(modelMatrix, transform.rotation.y, glm::vec3(0, 1, 0));
 	if (transform.rotation.z != 0)
-		matrix = glm::rotate(matrix, transform.rotation.z, glm::vec3(0, 0, 1));
+		modelMatrix = glm::rotate(modelMatrix, transform.rotation.z, glm::vec3(0, 0, 1));
 
 	RenderManager* renderManager = RenderManager::getInstance();
-	renderManager->setModelMatrix(&matrix);
-	renderManager->onRender(classObject);
+	renderManager->setModelMatrix(&modelMatrix);
+	renderManager->onRender(this);
 
 }
 
@@ -82,6 +82,11 @@ void GameObject::setTransform(Transform transform)
 Transform GameObject::getTransform()
 {
 	return transform;
+}
+
+DeclareObject * GameObject::getClassObject()
+{
+	return classObject;
 }
 
 std::string GameObject::getTagName()

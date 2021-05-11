@@ -48,6 +48,7 @@ public:
 	void setDead(bool isDead);
 	void setTransform(Transform transform);
 	Transform getTransform();
+	DeclareObject* getClassObject();
 	std::string getTagName();
 	float getDeltaTime();
 	long double getAccmulateTime();

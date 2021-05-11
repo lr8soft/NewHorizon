@@ -2,5 +2,9 @@
     "model": "scene.obj", 
     "type": "object",
     "shader": "scene", 
-    "script": ""
+    "script": "",
+
+    "lightData":{
+      "shininess": 2
+    }
   }
