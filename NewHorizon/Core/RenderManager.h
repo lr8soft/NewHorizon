@@ -12,9 +12,15 @@ private:
 
 	std::vector<GameObject*> directionalLightGroup, pointLightGroup, flashLightGroup;
 
+	static inline bool findObject(std::vector<GameObject*>& group, GameObject* object)
+	{
+		auto iterEnd = group.end();
+		return (std::find(group.begin(), iterEnd, object) == iterEnd);
+	}
+
 	static RenderManager* pInstance;
 
-	void sendLightCount(unsigned int);
+	void sendLightInfo(unsigned int);
 
 public:
 	static RenderManager* getInstance();

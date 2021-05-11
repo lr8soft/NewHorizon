@@ -35,19 +35,16 @@ void RenderManager::onRender(GameObject* gameObject)
 	DeclareObject* classObject = gameObject->getClassObject();
 
 	//update light info
-	if (classObject->typeName == DIRECTIONAL_LIGHT_TYPE_NAME 
-		&& std::find(directionalLightGroup.begin(), directionalLightGroup.end(), gameObject) == directionalLightGroup.end())
+	if (classObject->typeName == DIRECTIONAL_LIGHT_TYPE_NAME && findObject(directionalLightGroup, gameObject))
 	{
 		directionalLightGroup.push_back(gameObject);
 
 	}
-	else if (classObject->typeName == POINT_LIGHT_TYPE_NAME
-		&& std::find(pointLightGroup.begin(), pointLightGroup.end(), gameObject) == pointLightGroup.end())
+	else if (classObject->typeName == POINT_LIGHT_TYPE_NAME && findObject(pointLightGroup, gameObject))
 	{
 		pointLightGroup.push_back(gameObject);
 	}
-	else if (classObject->typeName == FLASH_LIGHT_TYPE_NAME
-		&& std::find(flashLightGroup.begin(), flashLightGroup.end(), gameObject) == flashLightGroup.end())
+	else if (classObject->typeName == FLASH_LIGHT_TYPE_NAME && findObject(flashLightGroup, gameObject))
 	{
 		flashLightGroup.push_back(gameObject);
 	}
@@ -67,19 +64,13 @@ void RenderManager::onRender(GameObject* gameObject)
 
 	glUniform1f(glGetUniformLocation(shader, "material.shininess"), gameObject->getClassObject()->lightData["shininess"]);
 
-	/*glUniform3fv(glGetUniformLocation(shader, "light.direction"), 1, glm::value_ptr(glm::vec3(-3, -3, -3)));
-	glUniform3fv(glGetUniformLocation(shader, "light.ambient"), 1, glm::value_ptr(glm::vec3(0.2f, 0.2f, 0.2f)));
-	glUniform3fv(glGetUniformLocation(shader, "light.diffuse"), 1, glm::value_ptr(glm::vec3(0.5f, 0.5f, 0.5f)));
-	glUniform3fv(glGetUniformLocation(shader, "light.specular"), 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));*/
 
-
-
-	sendLightCount(shader);
+	sendLightInfo(shader);
 
 	ModelManager::getInstance()->RenderModel(classObject->modelName, shader);
 }
 
-void RenderManager::sendLightCount(unsigned int shader)
+void RenderManager::sendLightInfo(unsigned int shader)
 {
 	glm::vec3 lightInfo;
 	lightInfo.x = directionalLightGroup.size();
