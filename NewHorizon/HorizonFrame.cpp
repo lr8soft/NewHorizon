@@ -32,6 +32,7 @@ void HorizonFrame::FrameInit()
 
 #ifndef _DEBUG
 	glfwWindowHint(GLFW_SAMPLES, 4);//4x MSAA
+	//glEnable(GL_MULTISAMPLE);
 #endif
 
 	GLFWmonitor* primaryMonitor = isFullScreen ? glfwGetPrimaryMonitor() : nullptr;
@@ -139,6 +140,7 @@ HorizonFrame * HorizonFrame::getInstance()
 		pInstance = new HorizonFrame;
 	}
 	return pInstance;
+
 }
 
 GLFWwindow * HorizonFrame::getScreen()
