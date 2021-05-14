@@ -31,7 +31,7 @@ public:
 	std::vector<Texture> textures;
 	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
 	void onMeshInit();
-	void onMeshRender(unsigned int shaderHandle, bool useInsideTexture = true);
+	void onMeshRender(unsigned int shaderHandle, bool useInsideTexture = true, unsigned int textureStartedIndex = 0);
 	void onMeshRelease();
 };
 

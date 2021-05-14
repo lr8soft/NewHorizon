@@ -8,11 +8,13 @@
 #include "Skybox.h"
 
 #include "../Util/LogUtil.hpp"
+#include "../FrameInfo.h"
 
 #include <GL3/gl3w.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
 
 RenderManager* RenderManager::pInstance = nullptr;
 
@@ -30,7 +32,37 @@ RenderManager * RenderManager::getInstance()
 void RenderManager::applyRenderSettings()
 {
 	glEnable(GL_DEPTH_TEST);
+
+	onInitShadow();
 }
+
+
+void RenderManager::onInitShadow()
+{
+	glGenFramebuffers(1, &depthMapFBO);
+	//generate depth map fbo
+	
+	glGenTextures(1, &depthMap);
+	glBindTexture(GL_TEXTURE_2D, depthMap);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, FrameInfo::ScreenWidth, FrameInfo::ScreenHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+
+	GLfloat borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+	//set default color when render out of the border
+
+	// attach depth texture as FBO's depth buffer
+	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
+	glDrawBuffer(GL_NONE);
+	glReadBuffer(GL_NONE);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+
 
 
 void RenderManager::setModelMatrix(glm::mat4* matrix)
@@ -41,32 +73,21 @@ void RenderManager::setModelMatrix(glm::mat4* matrix)
 
 void RenderManager::onStartRender()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	//clear screen
 
 	if (skyboxObject != nullptr)
 	{
 		skyboxObject->onRenderSkyBox();
-		/*glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxObject->getSkyboxMapHandle());
-		GLuint shader = ShaderHelper::getInstance()->bindProgram("object", skyboxObject->getGameObject()->getClassObject()->shaderName);
-
-		Camera* camera = EngineManager::getInstance()->getCamera();
-
-		glm::mat4 viewMatrix = glm::mat4(glm::mat3(camera->getViewMatrix()));
-
-		glDepthMask(GL_FALSE);
-
-		glUniformMatrix4fv(glGetUniformLocation(shader, "view"), 1, false, glm::value_ptr(viewMatrix));
-		glUniformMatrix4fv(glGetUniformLocation(shader, "projection"), 1, false, glm::value_ptr(camera->getProjectionMatrix()));
-
-
-		ModelManager::getInstance()->RenderModel(skyboxObject->getGameObject()->getClassObject()->modelName, shader, false);
-		glDepthMask(GL_TRUE);*/
 	}
+
+
 }
 
 
 void RenderManager::onRender(GameObject* gameObject)
 {
+
 	DeclareObject* classObject = gameObject->getClassObject();
 
 	//update light info
@@ -89,7 +110,7 @@ void RenderManager::onRender(GameObject* gameObject)
 		return;
 	}
 
-
+	renderDepthGraph(gameObject);
 
 	GLuint shader = ShaderHelper::getInstance()->bindProgram("object", classObject->shaderName);
 
@@ -112,8 +133,74 @@ void RenderManager::onRender(GameObject* gameObject)
 	}
 
 	sendLightInfo(shader);
+	sendShadowInfo(shader, gameObject);
 
-	ModelManager::getInstance()->RenderModel(classObject->modelName, shader);
+	glActiveTexture(GL_TEXTURE0);
+	glUniform1i(glGetUniformLocation(shader, "material.shadow_map"), 0);
+	glBindTexture(GL_TEXTURE_2D, depthMap);
+
+	ModelManager::getInstance()->RenderModel(classObject->modelName, shader, true, 1);	//true, 1
+}
+
+void RenderManager::renderDepthGraph(GameObject* gameObject)
+{
+	DeclareObject *gameObjectClassObject = gameObject->getClassObject();
+
+	Transform transform = gameObject->getTransform();
+	
+	GLuint shader = ShaderHelper::getInstance()->bindProgram("object", "depth");
+	GLfloat near_panel = 1.0f, far_panel = 100.0f;
+
+	glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_panel, far_panel);
+	glCullFace(GL_FRONT);	//cull front face when render depth texture
+	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+	glClear(GL_DEPTH_BUFFER_BIT);
+	for (GameObject* dirLight : directionalLightGroup)
+	{
+		DeclareObject* lightClassObject = dirLight->getClassObject();
+
+		glm::vec3 Front = transform.position + lightClassObject->lightVectorData["direction"] * 2.5f;
+
+		glm::mat4 lightView = glm::lookAt(transform.position - lightClassObject->lightVectorData["direction"] * 2.5f , Front, glm::vec3(0.0, 1.0, 0.0)); // glm::lookAt(dirLight->getTransform().position, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
+		glm::mat4 lightSpaceMatrix = lightProjection * lightView;
+
+		glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, false, glm::value_ptr(*modelMatrix));
+		glUniformMatrix4fv(glGetUniformLocation(shader, "lightSpaceMatrix"), 1, false, glm::value_ptr(lightSpaceMatrix));
+
+		ModelManager::getInstance()->RenderModel(gameObjectClassObject->modelName, shader, false);
+	}
+
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glCullFace(GL_BACK);
+}
+
+
+void RenderManager::sendShadowInfo(unsigned int shader, GameObject* gameObject)
+{
+	int dirLightIndex = 0;
+
+	char segmentName[32];
+
+	GLfloat near_panel = 1.0f, far_panel = 100.0f;
+
+	Transform transform = gameObject->getTransform();
+
+	glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_panel, far_panel);
+
+	for (GameObject* dirLight : directionalLightGroup)
+	{
+		DeclareObject* classObject = dirLight->getClassObject();
+		
+		glm::vec3 Front = transform.position + classObject->lightVectorData["direction"] * 2.5f;
+
+		glm::mat4 lightView = glm::lookAt(transform.position - classObject->lightVectorData["direction"] * 2.5f, Front, glm::vec3(0.0, 1.0, 0.0));//glm::lookAt(dirLight->getTransform().position, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
+		glm::mat4 lightSpaceMatrix = lightProjection * lightView;
+
+		sprintf_s(segmentName, 32, "dirShadowMat[%d]", dirLightIndex++);
+		glUniformMatrix4fv(glGetUniformLocation(shader, segmentName), 1, false, glm::value_ptr(lightSpaceMatrix));
+	}
+
 }
 
 void RenderManager::sendLightInfo(unsigned int shader)

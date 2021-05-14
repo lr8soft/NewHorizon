@@ -11,9 +11,13 @@ class RenderManager {
 private:
 	std::list<GameObject*> directionalLightGroup, pointLightGroup, flashLightGroup;
 
+	unsigned int depthMapFBO, depthMap;
+
 	glm::mat4* modelMatrix;
 
 	Skybox* skyboxObject;
+
+	static RenderManager* pInstance;
 
 	static inline bool findObject(std::list<GameObject*>& group, GameObject* object)
 	{
@@ -21,8 +25,11 @@ private:
 		return (std::find(group.begin(), iterEnd, object) == iterEnd);
 	}
 
-	static RenderManager* pInstance;
+	void onInitShadow();
 
+	void renderDepthGraph(GameObject* gameObject);
+
+	void sendShadowInfo(unsigned int, GameObject*);
 	void sendLightInfo(unsigned int);
 
 public:

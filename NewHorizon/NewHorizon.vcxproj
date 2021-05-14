@@ -130,6 +130,7 @@
     <ClInclude Include="Util\JsonLoader.h" />
     <ClInclude Include="Util\LogUtil.hpp" />
     <ClInclude Include="Util\LuaUtil.h" />
+    <ClInclude Include="Util\MathUtil.h" />
     <ClInclude Include="Util\Timer.h" />
     <ClInclude Include="Util\ImageLoader.h" />
     <ClInclude Include="Util\ShaderReader.h" />

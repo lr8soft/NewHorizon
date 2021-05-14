@@ -47,7 +47,7 @@ void Mesh::onMeshInit()
 	glBindVertexArray(0);
 }
 
-void Mesh::onMeshRender(unsigned int shaderHandle, bool useInsideTexture)
+void Mesh::onMeshRender(unsigned int shaderHandle, bool useInsideTexture, unsigned int textureStartedIndex)
 {
 	if (useInsideTexture)
 	{
@@ -58,7 +58,7 @@ void Mesh::onMeshRender(unsigned int shaderHandle, bool useInsideTexture)
 		unsigned int heightNr = 1;
 		for (unsigned int i = 0; i < textures.size(); i++)
 		{
-			glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
+			glActiveTexture(GL_TEXTURE0 + textureStartedIndex +  i); // active proper texture unit before binding
 			// retrieve texture number (the N in diffuse_textureN)
 			std::string number;
 			std::string name = textures[i].type;
@@ -72,7 +72,7 @@ void Mesh::onMeshRender(unsigned int shaderHandle, bool useInsideTexture)
 				number = std::to_string(heightNr++); // transfer unsigned int to stream
 
 			auto loc = glGetUniformLocation(shaderHandle, ("material." + name + number).c_str());//("material." + name + number).c_str()
-			glUniform1i(loc, i);
+			glUniform1i(loc, textureStartedIndex + i);
 			// and finally bind the texture
 			glBindTexture(GL_TEXTURE_2D, textures[i].id);
 		}

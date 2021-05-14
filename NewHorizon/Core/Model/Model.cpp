@@ -18,12 +18,12 @@ void Model::onModelInit()
 	}
 }
 
-void Model::onModelRender(unsigned int shaderHandle, bool useInsideTexture)
+void Model::onModelRender(unsigned int shaderHandle, bool useInsideTexture, unsigned int textureStartIndex)
 {
 	size_t meshSize = meshes.size();
 	for (unsigned int i = 0; i < meshSize; i++)
 	{
-		meshes[i].onMeshRender(shaderHandle, useInsideTexture);
+		meshes[i].onMeshRender(shaderHandle, useInsideTexture, textureStartIndex);
 	}
 }
 

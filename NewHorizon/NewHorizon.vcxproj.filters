@@ -194,5 +194,8 @@
     <ClInclude Include="Core\Skybox.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="Util\MathUtil.h">
+      <Filter>Util</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

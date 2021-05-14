@@ -29,12 +29,12 @@ void ModelManager::InitModel(const std::string & modelFileName)
 	}
 }
 
-void ModelManager::RenderModel(const std::string & modelFileName, unsigned int shader, bool useInsideTexture)
+void ModelManager::RenderModel(const std::string & modelFileName, unsigned int shader, bool useInsideTexture, unsigned int textureStartIndex)
 {
 	Model* model = GetModel(modelFileName);
 	if (model && model->isModelInit())
 	{
-		model->onModelRender(shader, useInsideTexture);
+		model->onModelRender(shader, useInsideTexture, textureStartIndex);
 	}
 }
 
