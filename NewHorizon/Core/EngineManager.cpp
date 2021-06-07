@@ -13,8 +13,10 @@
 #include "DeclareObjectManager.h"
 #include "ModelManager.h"
 #include "RenderManager.h"
+#include "AudioManager.h"
 
 #include "EngineDefine.h"
+
 
 using namespace std;
 EngineManager* EngineManager::pInstance = nullptr;
@@ -108,7 +110,10 @@ void EngineManager::onLogicalInit()
 void EngineManager::onLogicalWork()
 {
 	luaState = LuaUtil::getNewGameObjectEvon();
+	AudioManager* audioManager = AudioManager::getInstance();
+	
 	onLogicalInit();
+	audioManager->LoadAllAudios();
 	while (!HorizonFrame::getInstance()->getFrameTerminate())
 	{
 		timer.Tick();

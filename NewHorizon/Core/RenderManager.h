@@ -11,7 +11,7 @@ class RenderManager {
 private:
 	std::list<GameObject*> directionalLightGroup, pointLightGroup, flashLightGroup;
 
-	unsigned int depthMapFBO, depthMap;
+	unsigned int depthMapFBO, depthMap, depthCubeMapFBO, depthCubeMap;
 
 	glm::mat4* modelMatrix;
 

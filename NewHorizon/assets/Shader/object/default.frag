@@ -87,13 +87,10 @@ void main()
         result += CalcDirLight(dirLight[i], norm, viewDir, shadow);
     }
 
-
-
-
     // phase 2: point lights
     for(int j = 0; j < lightCount.y; j++)
         result += CalcPointLight(pointLights[j], norm, FragPos, viewDir);  
-  
+
     // phase 3: spot light
     for(int k = 0; k < lightCount.z; k++)
         result += CalcSpotLight(spotLight[k], norm, FragPos, viewDir);   

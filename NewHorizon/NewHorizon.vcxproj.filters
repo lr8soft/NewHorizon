@@ -82,6 +82,12 @@
     <ClCompile Include="Core\Skybox.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Util\AudioHelper.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\AudioManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Util\ImageLoader.h">
@@ -196,6 +202,12 @@
     </ClInclude>
     <ClInclude Include="Util\MathUtil.h">
       <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\AudioHelper.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\AudioManager.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

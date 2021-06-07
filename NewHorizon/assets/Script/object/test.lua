@@ -1,4 +1,7 @@
-function onUpdateFunc()
+--wrapper
+Test = {}
+
+function Test.onFixedUpdate()
     local gameObject = NewHorizon.getObject()
     x, y, z = gameObject:getPosition()
     y = math.sin(gameObject:getAccmulateTime())
@@ -26,7 +29,3 @@ function onUpdateFunc()
     end        
 end
 
---wrapper
-Test = {
-    onFixedUpdate = onUpdateFunc
-}

@@ -1,4 +1,7 @@
-function onUpdateFunc()
+--wrapper
+Cube = {}
+
+function Cube.onFixedUpdate()
     local gameObject = NewHorizon.getObject()
     x, y, z = gameObject:getPosition()
     y = math.sin(-gameObject:getAccmulateTime()) * 0.1 + 1.5
@@ -13,7 +16,3 @@ function onUpdateFunc()
     gameObject:setRotation(rx, ry, rz) 
 end
 
---wrapper
-Cube = {
-    onFixedUpdate = onUpdateFunc
-}
