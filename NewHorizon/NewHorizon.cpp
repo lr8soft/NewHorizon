@@ -1,3 +1,4 @@
+#define GLM_FORCE_RADIANS 
 #include "HorizonFrame.h"
 
 int main()

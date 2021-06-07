@@ -1,11 +1,11 @@
 {
-    "model": "",
+    "model": "ball.obj",
     "type": "direction_light",
-    "shader": "lightpot", 
+    "shader": "dirlight", 
     "script": "",
 
     "lightData":{
-      "direction":[-3.0,-3.0,-3.0],
+      "direction":[ 1.0,-1.0, 1.0],
       "ambient":  [ 0.2, 0.2, 0.2],
       "diffuse":  [ 0.5, 0.5, 0.5],
       "specular": [ 1.0, 1.0, 1.0]

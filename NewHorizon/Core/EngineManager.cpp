@@ -5,14 +5,18 @@
 #include <thread>
 
 #include <ctime>
+
+#include "../Util/MathUtil.h"
 #include "../Util/LuaUtil.h"
 #include "../ThirdParty/lua/lua.hpp"
 #include "GameObjectBinder.h"
 #include "DeclareObjectManager.h"
 #include "ModelManager.h"
 #include "RenderManager.h"
+#include "AudioManager.h"
 
 #include "EngineDefine.h"
+
 
 using namespace std;
 EngineManager* EngineManager::pInstance = nullptr;
@@ -53,6 +57,8 @@ void EngineManager::onLogicalInit()
 		DeclareObject* classObject = declareManager->LoadDeclareObject(originObjectName, iter->second);
 		gameOriginObject->classObject = classObject;
 
+
+
 		string scriptName = gameOriginObject->classObject->scriptName;
 		if (scriptName.length() > 0) {//load lua script
 			int status = luaL_loadfile(luaState, (DECLARE_OBJECT_CONFIG_FOLDER + scriptName).c_str());
@@ -85,14 +91,11 @@ void EngineManager::onLogicalInit()
 			auto scaleValue = transformValue["scale"];
 			auto rotationValue = transformValue["rotation"];
 
-
 			newInstance->transform.position = glm::vec3(positionValue[0].asFloat(), positionValue[1].asFloat(), positionValue[2].asFloat());
 			newInstance->transform.rotation = glm::vec3(rotationValue[0].asFloat(), rotationValue[1].asFloat(), rotationValue[2].asFloat());
 			newInstance->transform.scale = glm::vec3(scaleValue[0].asFloat(), scaleValue[1].asFloat(), scaleValue[2].asFloat());
 			newInstance->tagName = tagName;
 
-			LogUtil::printInfo(std::to_string(newInstance->transform.position.x) + " " + std::to_string(newInstance->transform.position.y) + " "
-				+ std::to_string(newInstance->transform.position.z));
 			if (newInstance->classObject->modelName.length() > 0)//add model object
 			{
 				modelManager->LoadModel(newInstance->classObject->modelName);
@@ -107,7 +110,10 @@ void EngineManager::onLogicalInit()
 void EngineManager::onLogicalWork()
 {
 	luaState = LuaUtil::getNewGameObjectEvon();
+	AudioManager* audioManager = AudioManager::getInstance();
+	
 	onLogicalInit();
+	audioManager->LoadAllAudios();
 	while (!HorizonFrame::getInstance()->getFrameTerminate())
 	{
 		timer.Tick();
@@ -142,8 +148,14 @@ void EngineManager::onLogicalWork()
 	LuaUtil::luaEnvironmentRelease(luaState);
 }
 
+void EngineManager::applyRenderSettings()
+{
+	RenderManager::getInstance()->applyRenderSettings();
+}
+
 void EngineManager::onRenderWork()
 {
+	RenderManager::getInstance()->onStartRender();
 	for (auto iter = gameInstanceGroup.begin(); iter != gameInstanceGroup.end(); iter++)
 	{
 		GameObject* object = iter->second;
@@ -169,7 +181,6 @@ void EngineManager::onRenderWork()
 		}
 		
 	}
-	//RenderManager::getInstance()->onFinishRender();
 }
 
 void EngineManager::onMouseUpdate(double x, double y)

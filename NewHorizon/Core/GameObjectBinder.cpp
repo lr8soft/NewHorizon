@@ -1,6 +1,7 @@
 #include "GameObjectBinder.h"
 #include "EngineManager.h"
 #include "../Util/LogUtil.hpp"
+#include "AudioManager.h"
 #include <functional>
 #include <sstream>
 GameObject* GameObjectBinder::pInstance = nullptr;
@@ -191,6 +192,32 @@ int GameObjectBinder::luaGetAccmulateTime(lua_State * luaState)
 	return 1;
 }
 
+int GameObjectBinder::luaPlayAudio(lua_State * luaState)
+{
+	GameObject **object = (GameObject**)luaL_checkudata(luaState, 1, "NewHorizon.GameObject");
+	luaL_argcheck(luaState, object != NULL, 1, "invalid GameObject data");
+
+	luaL_checktype(luaState, -1, LUA_TSTRING);
+	const char* audioName = lua_tostring(luaState, -1);
+
+	AudioManager::getInstance()->PlayAudio(audioName);
+
+	return 0;
+}
+
+int GameObjectBinder::luaStopAudio(lua_State * luaState)
+{
+	GameObject **object = (GameObject**)luaL_checkudata(luaState, 1, "NewHorizon.GameObject");
+	luaL_argcheck(luaState, object != NULL, 1, "invalid GameObject data");
+
+	luaL_checktype(luaState, -1, LUA_TSTRING);
+	const char* audioName = lua_tostring(luaState, -1);
+
+	AudioManager::getInstance()->PlayAudio(audioName);
+
+	return 0;
+}
+
 int GameObjectBinder::luaSetDead(lua_State * luaState)
 {
 	GameObject **object = (GameObject**)luaL_checkudata(luaState, 1, "NewHorizon.GameObject");
@@ -223,6 +250,9 @@ int GameObjectBinder::luaOpenGameObject(lua_State * luaState)
 	{"getDeltaTime", GameObjectBinder::luaGetDeltaTime},
 	{"getAccmulateTime", GameObjectBinder::luaGetAccmulateTime},
 	{"getTagName", GameObjectBinder::luaGetTagName},
+
+	{"playAudio",GameObjectBinder::luaPlayAudio},
+	{"stopAudio",GameObjectBinder::luaStopAudio},
 	
 	{NULL, NULL}
 	};

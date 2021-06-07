@@ -2,9 +2,10 @@
     "model": "scene.obj", 
     "type": "object",
     "shader": "default", 
-    "script": "",
+    "script": "scene.lua",
 
-    "lightData":{
+    "lightData":
+    {
       "shininess": 2
     }
-  }
+}

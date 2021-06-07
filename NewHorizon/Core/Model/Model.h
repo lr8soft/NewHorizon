@@ -10,7 +10,7 @@ class Model
 public:
 	Model(const std::string& path);
 	void onModelInit();
-	void onModelRender(unsigned int shaderHandle);
+	void onModelRender(unsigned int shaderHandle, bool useInsideTexture = true, unsigned int textureStartIndex = 0);
 	void onModelRelease();
 
 	bool isModelInit();

@@ -8,6 +8,7 @@ private:
 	static DeclareObjectManager* pInstance;
 
 	std::map<std::string, DeclareObject*> declareObjectGroup;
+
 public:
 	static DeclareObjectManager* getInstance();
 

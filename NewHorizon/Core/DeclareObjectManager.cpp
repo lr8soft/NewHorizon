@@ -6,6 +6,7 @@
 
 using namespace std;
 DeclareObjectManager* DeclareObjectManager::pInstance = nullptr;
+
 DeclareObjectManager * DeclareObjectManager::getInstance()
 {
 	if (pInstance == nullptr)
@@ -48,61 +49,71 @@ DeclareObject * DeclareObjectManager::LoadDeclareObject(const std::string& name,
 	declareObject->shaderName = shaderName;
 	declareObject->typeName = typeName;
 
-	auto lightData = (*json)["lightData"];
+	auto lightFloatData = (*json)["lightData"];
 
 	LogUtil::printInfo(scriptNameSpace + " is " + typeName);
 	if (typeName == POINT_LIGHT_TYPE_NAME)
 	{
-		auto ambient = lightData["ambient"];
+		auto ambient = lightFloatData["ambient"];
 		declareObject->lightVectorData["ambient"] = glm::vec3(ambient[0].asFloat(), ambient[1].asFloat(), ambient[2].asFloat());
 
-		auto diffuse = lightData["diffuse"];
+		auto diffuse = lightFloatData["diffuse"];
 		declareObject->lightVectorData["diffuse"] = glm::vec3(diffuse[0].asFloat(), diffuse[1].asFloat(), diffuse[2].asFloat());
 
-		auto specular = lightData["specular"];
+		auto specular = lightFloatData["specular"];
 		declareObject->lightVectorData["specular"] = glm::vec3(specular[0].asFloat(), specular[1].asFloat(), specular[2].asFloat());
 
-		declareObject->lightData["constant"] = lightData["constant"].asFloat();
-		declareObject->lightData["linear"] = lightData["linear"].asFloat();
-		declareObject->lightData["quadratic"] = lightData["quadratic"].asFloat();
+		declareObject->lightFloatData["constant"] = lightFloatData["constant"].asFloat();
+		declareObject->lightFloatData["linear"] = lightFloatData["linear"].asFloat();
+		declareObject->lightFloatData["quadratic"] = lightFloatData["quadratic"].asFloat();
 	}
 	else if (typeName == FLASH_LIGHT_TYPE_NAME)
 	{
-		auto direction = lightData["direction"];
+		auto direction = lightFloatData["direction"];
 		declareObject->lightVectorData["direction"] = glm::vec3(direction[0].asFloat(), direction[1].asFloat(), direction[2].asFloat());
 
-		declareObject->lightData["cutOff"] = lightData["cutOff"].asFloat();
-		declareObject->lightData["outerCutOff"] = lightData["outerCutOff"].asFloat();
+		declareObject->lightFloatData["cutOff"] = lightFloatData["cutOff"].asFloat();
+		declareObject->lightFloatData["outerCutOff"] = lightFloatData["outerCutOff"].asFloat();
 
-		declareObject->lightData["constant"] = lightData["constant"].asFloat();
-		declareObject->lightData["linear"] = lightData["linear"].asFloat();
-		declareObject->lightData["quadratic"] = lightData["quadratic"].asFloat();
+		declareObject->lightFloatData["constant"] = lightFloatData["constant"].asFloat();
+		declareObject->lightFloatData["linear"] = lightFloatData["linear"].asFloat();
+		declareObject->lightFloatData["quadratic"] = lightFloatData["quadratic"].asFloat();
 
-		auto ambient = lightData["ambient"];
+		auto ambient = lightFloatData["ambient"];
 		declareObject->lightVectorData["ambient"] = glm::vec3(ambient[0].asFloat(), ambient[1].asFloat(), ambient[2].asFloat());
 
-		auto diffuse = lightData["diffuse"];
+		auto diffuse = lightFloatData["diffuse"];
 		declareObject->lightVectorData["diffuse"] = glm::vec3(diffuse[0].asFloat(), diffuse[1].asFloat(), diffuse[2].asFloat());
 
-		auto specular = lightData["specular"];
+		auto specular = lightFloatData["specular"];
 		declareObject->lightVectorData["specular"] = glm::vec3(specular[0].asFloat(), specular[1].asFloat(), specular[2].asFloat());
 	}
 	else if (typeName == DIRECTIONAL_LIGHT_TYPE_NAME)
 	{
-		auto direction = lightData["direction"];
+		auto direction = lightFloatData["direction"];
 		declareObject->lightVectorData["direction"] = glm::vec3(direction[0].asFloat(), direction[1].asFloat(), direction[2].asFloat());
 
-		auto ambient = lightData["ambient"];
+		auto ambient = lightFloatData["ambient"];
 		declareObject->lightVectorData["ambient"] = glm::vec3(ambient[0].asFloat(), ambient[1].asFloat(), ambient[2].asFloat());
 
-		auto diffuse = lightData["diffuse"];
+		auto diffuse = lightFloatData["diffuse"];
 		declareObject->lightVectorData["diffuse"] = glm::vec3(diffuse[0].asFloat(), diffuse[1].asFloat(), diffuse[2].asFloat());
 
-		auto specular = lightData["specular"];
+		auto specular = lightFloatData["specular"];
 		declareObject->lightVectorData["specular"] = glm::vec3(specular[0].asFloat(), specular[1].asFloat(), specular[2].asFloat());
 	}
+	else if (typeName == SKYBOX_TYPE_NAME)
+	{
+		auto skyboxData = (*json)["skyboxData"];
+		declareObject->declareStrData["top"] = TEXTURE_FOLDER + skyboxData["top"].asString();
+		declareObject->declareStrData["bottom"] = TEXTURE_FOLDER + skyboxData["bottom"].asString();
+		declareObject->declareStrData["left"] = TEXTURE_FOLDER + skyboxData["left"].asString();
+		declareObject->declareStrData["right"] = TEXTURE_FOLDER + skyboxData["right"].asString();
+		declareObject->declareStrData["front"] = TEXTURE_FOLDER + skyboxData["front"].asString();
+		declareObject->declareStrData["back"] = TEXTURE_FOLDER + skyboxData["back"].asString();
+	}
 	else {
-		declareObject->lightData["shininess"] = lightData["shininess"].asFloat();
+		declareObject->lightFloatData["shininess"] = lightFloatData["shininess"].asFloat();
 	}
 
 	declareObjectGroup[name] = declareObject;	//insert new declareObject

@@ -13,7 +13,8 @@ struct DeclareObject {
 	std::string typeName;
 	std::string scriptNameSpace;
 
-	std::map<std::string, float> lightData;
+	std::map<std::string, std::string> declareStrData;
+	std::map<std::string, float> lightFloatData;
 	std::map<std::string, glm::vec3> lightVectorData;
 	//sizeof(string)=28 or 40
 };

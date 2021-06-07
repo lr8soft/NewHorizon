@@ -20,17 +20,36 @@
       {
         "objectName": "DirLight",
         "objectJson": "assets/Config/object/dirlight.json"
+      },
+      {
+        "objectName": "Skybox",
+        "objectJson": "assets/Config/object/skybox.json"
+      },
+      {
+        "objectName": "ReflectCube",
+        "objectJson": "assets/Config/object/reflect.json"
       }
     ]
   },
   "objectInstance": {
+    "Skybox": [
+      {
+        "tagName": "skybox",
+        "transform": {
+          "position": [ 0.0, 0.0, 0.0 ],
+          "scale": [ 0.0, 0.0, 0.0 ],
+          "rotation": [ 0.0, 0.0, 0.0 ]
+        }
+      }
+    ],
+
     "Cube": [
       {
         "tagName": "1",
         "transform": {
           "position": [ 0.0, 0.0, 0.0 ],
           "scale": [ 0.01, 0.01, 0.01 ],
-          "rotation": [ 0.0, 0.0, 30.0 ]
+          "rotation": [ 0.0, 0.0, 0.0 ]
         }
       }
     ],
@@ -40,23 +59,7 @@
         "tagName": "lightPot",
         "transform": {
           "position": [ 3.0, 3.0, 3.0 ],
-          "scale": [ 0.2, 0.2, 0.2 ],
-          "rotation": [ 0.0, 0.0, 0.0 ]
-        }
-      },
-      {
-        "tagName": "lightPot2",
-        "transform": {
-          "position": [ -3.0, 3.0, 3.0 ],
-          "scale": [ 0.2, 0.2, 0.2 ],
-          "rotation": [ 0.0, 0.0, 0.0 ]
-        }
-      },
-      {
-        "tagName": "lightPot3",
-        "transform": {
-          "position": [ 3.0, 3.0, -3.0 ],
-          "scale": [ 0.2, 0.2, 0.2 ],
+          "scale": [ 0.1, 0.1, 0.1 ],
           "rotation": [ 0.0, 0.0, 0.0 ]
         }
       }
@@ -64,7 +67,7 @@
 
     "Scene":[
       {
-        "tagName": "0",
+        "tagName": "scene0",
         "transform": {
           "position": [ 0.0, 0.0, 0.0 ],
           "scale": [ 0.01, 0.01, 0.01 ],
@@ -77,12 +80,32 @@
       {
         "tagName": "dirLight0",
         "transform": {
-          "position": [ -3.0, 3.0, -3.0 ],
-          "scale": [ 0.2, 0.2, 0.2 ],
-          "rotation": [ 0.0, 0.0, 0.0 ]
+          "position": [-20.0, 20.0, -20.0 ],
+          "scale": [ 1.0, 1.0, 1.0 ],
+          "rotation": [ 135.0, 0.0, -135.0 ]
         }
       }
       
+    ],
+
+    "ReflectCube":[
+      {
+        "tagName": "reflectCube1",
+        "transform": {
+          "position": [ 0.0, 6.0, 0.0 ],
+          "scale": [ 0.02, 0.02, 0.02 ],
+          "rotation": [ 0.0, 0.0, 0.0 ]
+        }
+      },
+
+      {
+        "tagName": "target",
+        "transform": {
+          "position": [ 3.0, -3.0, 3.0 ],
+          "scale": [ 0.01, 0.01, 0.01 ],
+          "rotation": [ 0.0, 0.0, 0.0 ]
+        }
+      }
     ]
   }
 }

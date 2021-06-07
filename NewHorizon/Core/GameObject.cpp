@@ -36,12 +36,15 @@ void GameObject::onRender()
 	glm::mat4 modelMatrix;
 	modelMatrix = glm::translate(modelMatrix, transform.position);
 	modelMatrix = glm::scale(modelMatrix, transform.scale);
-	if (transform.rotation.x != 0)
-		modelMatrix = glm::rotate(modelMatrix, transform.rotation.x, glm::vec3(1, 0, 0));
-	if (transform.rotation.y != 0)
-		modelMatrix = glm::rotate(modelMatrix, transform.rotation.y, glm::vec3(0, 1, 0));
-	if (transform.rotation.z != 0)
-		modelMatrix = glm::rotate(modelMatrix, transform.rotation.z, glm::vec3(0, 0, 1));
+
+	glm::mat4 rotateMatrix;
+	
+	rotateMatrix = glm::rotate(rotateMatrix, glm::radians(transform.rotation.x), glm::vec3(1, 0, 0));
+	rotateMatrix = glm::rotate(rotateMatrix, glm::radians(transform.rotation.y), glm::vec3(0, 1, 0));
+	rotateMatrix = glm::rotate(rotateMatrix, glm::radians(transform.rotation.z), glm::vec3(0, 0, 1));
+
+	modelMatrix *= rotateMatrix;
+
 
 	RenderManager* renderManager = RenderManager::getInstance();
 	renderManager->setModelMatrix(&modelMatrix);
@@ -64,6 +67,11 @@ void GameObject::onRenderRelease()
 bool GameObject::getIsRenderInit()
 {
 	return haveRenderInit;
+}
+
+bool GameObject::getIsDead()
+{
+	return isDead;
 }
 
 

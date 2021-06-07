@@ -4,6 +4,7 @@
 #include "stb_image.h"
 #include <gl/glcorearb.h>
 #include <map>
+#include <vector>
 namespace xc_ogl {
 	struct ImageStruct {
 		GLuint tbo;
@@ -30,6 +31,8 @@ namespace xc_ogl {
 		int getTextureHeight();
 		static void* getTexturePointer(const char* imagePath,int &width,int &height,int &channels);
 		GLuint getTextureBufferObjectHandle();
+
+		static unsigned int loadCubeMap(std::vector<std::string> faces);
 	};
 }
 

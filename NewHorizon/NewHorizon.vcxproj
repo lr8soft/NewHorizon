@@ -42,7 +42,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LibraryPath>F:\NewHorizon\libs;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -74,6 +76,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Core\AudioManager.cpp" />
     <ClCompile Include="Core\Camera.cpp" />
     <ClCompile Include="Core\DeclareObjectManager.cpp" />
     <ClCompile Include="Core\GameObject.cpp" />
@@ -84,9 +87,11 @@
     <ClCompile Include="Core\RenderManager.cpp" />
     <ClCompile Include="Core\ShaderHelper.cpp" />
     <ClCompile Include="Core\EngineManager.cpp" />
+    <ClCompile Include="Core\Skybox.cpp" />
     <ClCompile Include="FrameInfo.cpp" />
     <ClCompile Include="HorizonFrame.cpp" />
     <ClCompile Include="NewHorizon.cpp" />
+    <ClCompile Include="Util\AudioHelper.cpp" />
     <ClCompile Include="Util\gl3w.c" />
     <ClCompile Include="Util\JsonLoader.cpp" />
     <ClCompile Include="Util\LuaUtil.cpp" />
@@ -95,6 +100,7 @@
     <ClCompile Include="Util\ShaderReader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\AudioManager.h" />
     <ClInclude Include="Core\Camera.h" />
     <ClInclude Include="Core\DeclareObject.h" />
     <ClInclude Include="Core\DeclareObjectManager.h" />
@@ -106,6 +112,7 @@
     <ClInclude Include="Core\Model\Model.h" />
     <ClInclude Include="Core\RenderManager.h" />
     <ClInclude Include="Core\ShaderHelper.h" />
+    <ClInclude Include="Core\Skybox.h" />
     <ClInclude Include="FrameInfo.h" />
     <ClInclude Include="HorizonFrame.h" />
     <ClInclude Include="Core\EngineManager.h" />
@@ -125,9 +132,11 @@
     <ClInclude Include="ThirdParty\lua\lua.hpp" />
     <ClInclude Include="ThirdParty\lua\luaconf.h" />
     <ClInclude Include="ThirdParty\lua\lualib.h" />
+    <ClInclude Include="Util\AudioHelper.h" />
     <ClInclude Include="Util\JsonLoader.h" />
     <ClInclude Include="Util\LogUtil.hpp" />
     <ClInclude Include="Util\LuaUtil.h" />
+    <ClInclude Include="Util\MathUtil.h" />
     <ClInclude Include="Util\Timer.h" />
     <ClInclude Include="Util\ImageLoader.h" />
     <ClInclude Include="Util\ShaderReader.h" />

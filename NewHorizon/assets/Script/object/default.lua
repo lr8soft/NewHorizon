@@ -1,8 +1,6 @@
-function onUpdateFunc()
+--wrapper
+Default = {}
+
+function Default.onFixedUpdate()
 
 end
-
---wrapper
-Default = {
-    onFixedUpdate = onUpdateFunc
-}

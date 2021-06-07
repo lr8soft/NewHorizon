@@ -27,6 +27,8 @@ public:
 	static int luaGetDeltaTime(lua_State* luaState);
 	static int luaGetAccmulateTime(lua_State* luaState);
 
+	static int luaPlayAudio(lua_State* luaState);
+	static int luaStopAudio(lua_State* luaState);
 	
 
 	static int luaOpenGameObject(lua_State* luaState);
