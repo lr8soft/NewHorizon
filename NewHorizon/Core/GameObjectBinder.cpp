@@ -218,6 +218,22 @@ int GameObjectBinder::luaStopAudio(lua_State * luaState)
 	return 0;
 }
 
+int GameObjectBinder::luaIsPlaying(lua_State * luaState)
+{
+	GameObject **object = (GameObject**)luaL_checkudata(luaState, 1, "NewHorizon.GameObject");
+	luaL_argcheck(luaState, object != NULL, 1, "invalid GameObject data");
+
+	luaL_checktype(luaState, -1, LUA_TSTRING);
+	const char* audioName = lua_tostring(luaState, -1);
+
+	bool isPlaying = AudioManager::getInstance()->IsPlaying(audioName);
+
+	lua_settop(luaState, 0);
+	lua_pushboolean(luaState, isPlaying);
+
+	return 1;
+}
+
 int GameObjectBinder::luaSetDead(lua_State * luaState)
 {
 	GameObject **object = (GameObject**)luaL_checkudata(luaState, 1, "NewHorizon.GameObject");
@@ -253,6 +269,7 @@ int GameObjectBinder::luaOpenGameObject(lua_State * luaState)
 
 	{"playAudio",GameObjectBinder::luaPlayAudio},
 	{"stopAudio",GameObjectBinder::luaStopAudio},
+	{"isPlaying", GameObjectBinder::luaIsPlaying},
 	
 	{NULL, NULL}
 	};

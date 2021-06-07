@@ -116,7 +116,6 @@
     <ClInclude Include="FrameInfo.h" />
     <ClInclude Include="HorizonFrame.h" />
     <ClInclude Include="Core\EngineManager.h" />
-    <ClInclude Include="Core\Component\IComponent.h" />
     <ClInclude Include="ThirdParty\json\allocator.h" />
     <ClInclude Include="ThirdParty\json\assertions.h" />
     <ClInclude Include="ThirdParty\json\config.h" />

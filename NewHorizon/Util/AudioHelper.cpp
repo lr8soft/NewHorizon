@@ -133,6 +133,21 @@ void AudioHelper::stopByBuffer(ALuint buffer)
 	}
 }
 
+bool AudioHelper::checkBufferIsPlaying(ALuint buffer)
+{
+	auto work = effectPlayingList.find(buffer);
+	if (work != effectPlayingList.end()) 
+	{
+		ALint state;
+		alGetSourcei(work->second, AL_SOURCE_STATE, &state);
+		if (state == AL_PLAYING)
+			return true;
+
+	}
+
+	return false;
+}
+
 void AudioHelper::releaseByBuffer(ALuint buffer)
 {
 	auto work = effectPlayingList.find(buffer);

@@ -58,6 +58,7 @@ public:
 
 	static void playFromBuffer(ALuint buffer);
 	static void stopByBuffer(ALuint buffer);
+	static bool checkBufferIsPlaying(ALuint buffer);
 	static void releaseByBuffer(ALuint buffer);
 };
 #endif

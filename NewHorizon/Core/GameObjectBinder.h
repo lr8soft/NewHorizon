@@ -29,6 +29,7 @@ public:
 
 	static int luaPlayAudio(lua_State* luaState);
 	static int luaStopAudio(lua_State* luaState);
+	static int luaIsPlaying(lua_State* luaState);
 	
 
 	static int luaOpenGameObject(lua_State* luaState);

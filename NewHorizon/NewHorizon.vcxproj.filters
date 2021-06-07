@@ -20,9 +20,6 @@
     <Filter Include="ThirdParty\json">
       <UniqueIdentifier>{42ffedfa-dff5-440d-9848-e35f1e8e2437}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Component">
-      <UniqueIdentifier>{f1972f65-2912-4592-a1a9-7dae26acd251}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ThirdParty\lua">
       <UniqueIdentifier>{0b809ff8-432b-45b4-b506-b7b247870c6a}</UniqueIdentifier>
     </Filter>
@@ -151,9 +148,6 @@
     </ClInclude>
     <ClInclude Include="Core\ShaderHelper.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Component\IComponent.h">
-      <Filter>Core\Component</Filter>
     </ClInclude>
     <ClInclude Include="ThirdParty\lua\lauxlib.h">
       <Filter>ThirdParty\lua</Filter>

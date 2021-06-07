@@ -57,6 +57,19 @@ void AudioManager::PlayAudio(const std::string & name)
 	AudioHelper::playFromBuffer(audioHandle);
 }
 
+bool AudioManager::IsPlaying(const std::string & name)
+{
+	auto audioIter = audioGroup.find(name);
+	if (audioIter == audioGroup.end())
+	{
+		return false;
+	}
+
+	ALuint audioHandle = (*audioIter).second;
+	return AudioHelper::checkBufferIsPlaying(audioHandle);
+
+}
+
 void AudioManager::StopAudio(const std::string & name)
 {
 	auto audioIter = audioGroup.find(name);

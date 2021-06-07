@@ -11,7 +11,6 @@ private:
 	static AudioManager *pInstance;
 
 	AudioManager();
-
 public:
 	static AudioManager* getInstance();
 
@@ -20,6 +19,7 @@ public:
 	void LoadAudio(const std::string& name, const std::string& path);
 
 	void PlayAudio(const std::string& name);
+	bool IsPlaying(const std::string& name);
 	void StopAudio(const std::string& name);
 
 };

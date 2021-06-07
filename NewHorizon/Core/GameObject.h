@@ -3,7 +3,6 @@
 #define _GAME_OBJECT_H_
 #include <string>
 #include "../Util/Timer.h"
-#include "Component/IComponent.h"
 #include "Model/Model.h"
 #include <glm/glm.hpp>
 
